@@ -13,5 +13,9 @@ public class UserRepoManager {
         userRepo.save(user);
     }
 
+    public User getUserByEmail(String email){
+        return userRepo.getUsersByEmail(email);
+    }
+
 
 }
