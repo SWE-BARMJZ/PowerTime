@@ -13,5 +13,6 @@ public class UserRepoManager {
         userRepo.save(user);
     }
 
+    public Iterable<User> findAll(){return userRepo.findAll();}
 
 }
