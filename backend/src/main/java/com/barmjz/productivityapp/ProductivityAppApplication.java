@@ -15,11 +15,11 @@ public class ProductivityAppApplication {
 		SpringApplication.run(ProductivityAppApplication.class, args);
 	}
 
-	@Bean
-	CommandLineRunner commandLineRunner(UserRepoService userRepoService, PasswordEncoder encoder){
-		return args -> {
-			userRepoService.saveUser(new User("user2", encoder.encode("password") ,"he","he", "ROLE_ADMIN"));
-		};
-	}
+//	@Bean
+//	CommandLineRunner commandLineRunner(UserRepoService userRepoService, PasswordEncoder encoder){
+//		return args -> {
+//			userRepoService.saveUser(new User("user2", encoder.encode("password") ,"he","he", "ROLE_ADMIN"));
+//		};
+//	}
 
 }
