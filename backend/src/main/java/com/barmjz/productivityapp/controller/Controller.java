@@ -1,7 +1,7 @@
 package com.barmjz.productivityapp.controller;
 
 import com.barmjz.productivityapp.User.User;
-import com.barmjz.productivityapp.User.UserRepoManager;
+import com.barmjz.productivityapp.User.UserRepoService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/user")
 @AllArgsConstructor
 public class Controller {
-    private final UserRepoManager userRepoManager;
+    private final UserRepoService userRepoService;
 
     @GetMapping
     public Iterable<User> findAll(){
-        return userRepoManager.findAll();
+        return userRepoService.findAll();
     }
 
     @GetMapping("/{id}")
