@@ -1,4 +1,4 @@
-package com.barmjz.productivityapp.registeration;
+package com.barmjz.productivityapp.registration;
 
 import org.springframework.stereotype.Service;
 
@@ -9,6 +9,7 @@ public class EmailValidator implements Predicate<String> {
 
     @Override
     public boolean test(String s) {
+        //TODO regex validator
         return true;
     }
 }

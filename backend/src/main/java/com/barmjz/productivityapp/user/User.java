@@ -1,4 +1,4 @@
-package com.barmjz.productivityapp.User;
+package com.barmjz.productivityapp.user;
 
 import jakarta.persistence.*;
 import lombok.*;

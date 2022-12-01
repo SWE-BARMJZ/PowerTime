@@ -1,6 +1,6 @@
 package com.barmjz.productivityapp.config;
 
-import com.barmjz.productivityapp.User.UserRepoService;
+import com.barmjz.productivityapp.user.UserRepoService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @AllArgsConstructor
 public class SecurityConfig {
 
-    private final UserRepoService jpauserDetailsService;
+    private final UserRepoService jpaUserDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -28,7 +28,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/api/user/register").permitAll()
                         .requestMatchers("/api/user").permitAll()
                         .anyRequest().authenticated())
-                .userDetailsService(jpauserDetailsService)
+                .userDetailsService(jpaUserDetailsService)
                 .headers(headers -> headers.frameOptions().sameOrigin())
                 .httpBasic(Customizer.withDefaults())
                 .csrf().disable()
