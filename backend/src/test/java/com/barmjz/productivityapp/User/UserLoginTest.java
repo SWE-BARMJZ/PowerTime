@@ -1,11 +1,11 @@
-package com.barmjz.productivityapp.user;
-
+package com.barmjz.productivityapp.User;
 
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest     // test but db affected
 //@DataJpaTest       // test only flush data after test so db not affected
@@ -51,12 +51,12 @@ class UserLoginTest {
                 "user2LastName"
         );
 
-        User retrievedUser2 = userRepo.getUserByEmail("user2@gmail.com").get();
+        User retrievedUser2 = userRepo.getUsersByEmail("user2@gmail.com");
         user2.setId(retrievedUser2.getId());
-        assert userRepo.getUserByEmail("user2@gmail.com").toString().equals(user2.toString());
-        User retrievedUser1 = userRepo.getUserByEmail("user1@gmail.com").get();
+        assert userRepo.getUsersByEmail("user2@gmail.com").toString().equals(user2.toString());
+        User retrievedUser1 = userRepo.getUsersByEmail("user1@gmail.com");
         user2.setId(retrievedUser1.getId());
-        assert !userRepo.getUserByEmail("user1@gmail.com").toString().equals(user2.toString());
+        assert !userRepo.getUsersByEmail("user1@gmail.com").toString().equals(user2.toString());
 
     }
 }
