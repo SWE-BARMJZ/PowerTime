@@ -53,11 +53,8 @@ public class User {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-<<<<<<< HEAD:backend/src/main/java/com/barmjz/productivityapp/user/User.java
         this.roles = roles;
-=======
-        this.emailVerified = false;
->>>>>>> bed59b7d84355e69ffbe5aeb0fd0ea0ec2bb167e:backend/src/main/java/com/barmjz/productivityapp/User/User.java
+
     }
 
 }

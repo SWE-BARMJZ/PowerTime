@@ -1,7 +1,9 @@
-package com.barmjz.productivityapp.User;
+package com.barmjz.productivityapp.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserRepoManager {
@@ -13,7 +15,7 @@ public class UserRepoManager {
         userRepo.save(user);
     }
 
-    public User getUserByEmail(String email){
+    public Optional<User> getUserByEmail(String email){
         return userRepo.getUsersByEmail(email);
     }
 

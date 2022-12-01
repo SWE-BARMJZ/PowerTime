@@ -1,8 +1,5 @@
 # macOS
 .DS_Store
-<<<<<<< HEAD
-.idea/
-=======
 
 HELP.md
 target/
@@ -37,4 +34,4 @@ build/
 
 ### VS Code ###
 .vscode/
->>>>>>> bed59b7d84355e69ffbe5aeb0fd0ea0ec2bb167e
+
