@@ -1,9 +1,11 @@
-package com.barmjz.productivityapp.User;
+package com.barmjz.productivityapp.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepo extends JpaRepository<User,Long> {
-    public User getUsersByEmail(String email);
+    public Optional<User> getUserByEmail(String email);
 }
