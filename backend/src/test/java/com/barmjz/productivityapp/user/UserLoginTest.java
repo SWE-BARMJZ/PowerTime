@@ -21,8 +21,7 @@ class UserLoginTest {
                 "user1@gmail.com",
                 "1234",
                 "user1Name",
-                "user1LastName",
-                "ROLE_USER"
+                "user1LastName"
         );
         try {
             userRepo.save(user);
@@ -33,8 +32,7 @@ class UserLoginTest {
                 "user2@gmail.com",
                 "4321",
                 "user2Name",
-                "user2LastName",
-                "ROLE_USER"
+                "user2LastName"
         );
         try {
             userRepo.save(user2);
@@ -50,16 +48,15 @@ class UserLoginTest {
                 "user2@gmail.com",
                 "4321",
                 "user2Name",
-                "user2LastName",
-                "ROLE_USER"
+                "user2LastName"
         );
 
-        User retrievedUser2 = userRepo.getUsersByEmail("user2@gmail.com").get();
+        User retrievedUser2 = userRepo.getUserByEmail("user2@gmail.com").get();
         user2.setId(retrievedUser2.getId());
-        assert userRepo.getUsersByEmail("user2@gmail.com").toString().equals(user2.toString());
-        User retrievedUser1 = userRepo.getUsersByEmail("user1@gmail.com").get();
+        assert userRepo.getUserByEmail("user2@gmail.com").toString().equals(user2.toString());
+        User retrievedUser1 = userRepo.getUserByEmail("user1@gmail.com").get();
         user2.setId(retrievedUser1.getId());
-        assert !userRepo.getUsersByEmail("user1@gmail.com").toString().equals(user2.toString());
+        assert !userRepo.getUserByEmail("user1@gmail.com").toString().equals(user2.toString());
 
     }
 }

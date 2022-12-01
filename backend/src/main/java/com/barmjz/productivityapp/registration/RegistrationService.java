@@ -22,8 +22,7 @@ public class RegistrationService {
                 registrationRequest.getEmail(),
                 registrationRequest.getPassword(),
                 "n",
-                "n",
-                "ROLE_USER"
+                "n"
                 ),
                 bCryptPasswordEncoder
         );

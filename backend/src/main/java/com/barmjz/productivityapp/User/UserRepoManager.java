@@ -16,7 +16,7 @@ public class UserRepoManager {
     }
 
     public Optional<User> getUserByEmail(String email){
-        return userRepo.getUsersByEmail(email);
+        return userRepo.getUserByEmail(email);
     }
 
 

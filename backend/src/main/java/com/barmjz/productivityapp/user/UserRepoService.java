@@ -16,7 +16,7 @@ public class UserRepoService implements UserDetailsService {
 
     public String saveUser(User user, PasswordEncoder encoder){
 
-        boolean userExists = userRepo.getUsersByEmail(user.getEmail()).isPresent();
+        boolean userExists = userRepo.getUserByEmail(user.getEmail()).isPresent();
         if (userExists)
             throw new IllegalStateException("email already exists");
         String encodedPass = encoder.encode(user.getPassword());
@@ -31,7 +31,7 @@ public class UserRepoService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepo
-                .getUsersByEmail(email)
+                .getUserByEmail(email)
                 .map(SecurityUser::new)
                 .orElseThrow(()->new UsernameNotFoundException("Username not found" + email));
     }
