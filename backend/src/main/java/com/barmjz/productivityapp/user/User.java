@@ -1,7 +1,9 @@
 package com.barmjz.productivityapp.user;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
@@ -13,9 +15,6 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Setter
-@Getter
 public class User {
     @Id
     @GeneratedValue(
@@ -46,13 +45,12 @@ public class User {
     private Boolean emailVerified;
 
 
-
     public User(String email, String password, String firstName, String lastName) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-
+        this.emailVerified = false;
     }
 
 }
