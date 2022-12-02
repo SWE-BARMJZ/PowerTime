@@ -13,20 +13,18 @@ public class UserRepoService implements UserDetailsService {
 
     private final UserRepo userRepo;
 
-
     public String saveUser(User user, PasswordEncoder encoder){
-
         boolean userExists = userRepo.getUserByEmail(user.getEmail()).isPresent();
         if (userExists)
             throw new IllegalStateException("email already exists");
+
         String encodedPass = encoder.encode(user.getPassword());
         user.setPassword(encodedPass);
         userRepo.save(user);
         // TODO: Send Confirmation Token
-        return "it works";
-    }
 
-    public Iterable<User> findAll(){return userRepo.findAll();}
+        return "User was added successfully";
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

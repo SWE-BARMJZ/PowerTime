@@ -1,17 +1,16 @@
 package com.barmjz.productivityapp.registration.token;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class ConfirmationToken {
-
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
@@ -32,13 +31,4 @@ public class ConfirmationToken {
     @Column(nullable = false)
     private LocalDateTime confirmedAt;
 
-    public ConfirmationToken(String token,
-                             LocalDateTime createdAt,
-                             LocalDateTime expiresAt,
-                             LocalDateTime confirmedAt) {
-        this.token = token;
-        this.createdAt = createdAt;
-        this.expiresAt = expiresAt;
-        this.confirmedAt = confirmedAt;
-    }
 }
