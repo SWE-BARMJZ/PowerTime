@@ -14,6 +14,7 @@ public class RegistrationService {
     private final EmailValidator emailValidator;
 
     private final PasswordEncoder bCryptPasswordEncoder;
+
     public String create(RegistrationRequest registrationRequest) {
         boolean isValid = emailValidator.test(registrationRequest.getEmail());
         if(!isValid)

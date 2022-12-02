@@ -26,13 +26,13 @@ public class UserRepoService implements UserDetailsService {
         return "it works";
     }
 
-    public Iterable<User> findAll(){return userRepo.findAll();}
+    public Iterable<User> getAllUsers(){return userRepo.findAll();}
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepo
                 .getUserByEmail(email)
                 .map(SecurityUser::new)
-                .orElseThrow(()->new UsernameNotFoundException("Username not found" + email));
+                .orElseThrow(()->new UsernameNotFoundException("Username not found:" + email));
     }
 }
