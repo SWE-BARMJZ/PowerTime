@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest     // test but db affected
 //@DataJpaTest       // test only flush data after test so db not affected
 
-class UserLoginTest {
+class UserRegisterLoginTest {
 
     @Autowired
     UserRepo userRepo;

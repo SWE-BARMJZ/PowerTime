@@ -21,8 +21,8 @@ public class RegistrationService {
         return userRepoService.saveUser(new User(
                 registrationRequest.getEmail(),
                 registrationRequest.getPassword(),
-                "n",
-                "n"
+                registrationRequest.getFirstName(),
+                registrationRequest.getLastName()
                 ),
                 bCryptPasswordEncoder
         );
