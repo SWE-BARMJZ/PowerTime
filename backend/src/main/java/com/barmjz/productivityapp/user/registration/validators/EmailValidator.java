@@ -21,8 +21,8 @@ public class EmailValidator implements Predicate<String> {
         - We allow both uppercase and lowercase letters from a to z.
         - Hyphen “-” and dot “.” aren't allowed at the start and end of the domain part.
         - No consecutive dots.
-    * */
-    Pattern VALID_EMAIL_ADDRESS_REGEX =
+    */
+    private final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
                     + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
 
