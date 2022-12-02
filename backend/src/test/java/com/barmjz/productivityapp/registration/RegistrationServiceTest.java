@@ -10,9 +10,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,6 +31,27 @@ public class RegistrationServiceTest {
     @BeforeEach
     void setUp() {
         registrationService = new RegistrationService(userService, emailValidator, passwordEncoder);
+    }
+
+    @Test
+    void ThrowsWhenEmailNotValid(){
+        // Given
+        String email = "dummy";
+        String password = "password";
+        String firstName = "Jack";
+        String lastName = "Grealish";
+        RegistrationRequest registrationRequest = new RegistrationRequest(email,
+                password,
+                firstName,
+                lastName);
+        given(emailValidator.test(email)).willReturn(false);
+
+        // Then
+        assertThatThrownBy( () ->  registrationService.create(registrationRequest))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("invalid email");
+        verify(userService, never()).saveUser(any(), any());
+
     }
 
     @Test
