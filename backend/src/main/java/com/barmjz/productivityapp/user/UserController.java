@@ -1,7 +1,7 @@
-package com.barmjz.productivityapp.controllers;
+package com.barmjz.productivityapp.user;
 
-import com.barmjz.productivityapp.registration.RegistrationRequest;
-import com.barmjz.productivityapp.registration.RegistrationService;
+import com.barmjz.productivityapp.user.registration.RegistrationRequest;
+import com.barmjz.productivityapp.user.registration.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/user")
 @AllArgsConstructor
-public class RegistrationController {
+public class UserController {
 
     private final RegistrationService registrationService;
 

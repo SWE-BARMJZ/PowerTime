@@ -1,4 +1,4 @@
-package com.barmjz.productivityapp.registration.token;
+package com.barmjz.productivityapp.user.registration.token;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.barmjz.productivityapp.config;
 
-import com.barmjz.productivityapp.user.UserRepoService;
+import com.barmjz.productivityapp.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @AllArgsConstructor
 public class SecurityConfig {
 
-    private final UserRepoService jpaUserDetailsService;
+    private final UserService jpaUserDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

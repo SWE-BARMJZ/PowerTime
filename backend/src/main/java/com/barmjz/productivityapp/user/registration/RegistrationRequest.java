@@ -1,4 +1,4 @@
-package com.barmjz.productivityapp.registration;
+package com.barmjz.productivityapp.user.registration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,9 @@
-package com.barmjz.productivityapp.registration;
+package com.barmjz.productivityapp.user.registration;
 
+import com.barmjz.productivityapp.user.registration.validators.EmailValidator;
+import com.barmjz.productivityapp.user.registration.validators.PasswordValidator;
 import com.barmjz.productivityapp.user.User;
-import com.barmjz.productivityapp.user.UserRepoService;
+import com.barmjz.productivityapp.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class RegistrationService {
-    private final UserRepoService userRepoService;
+    private final UserService userService;
     private final EmailValidator emailValidator;
     private final PasswordValidator passwordValidator;
     private final PasswordEncoder bCryptPasswordEncoder;
@@ -17,7 +19,7 @@ public class RegistrationService {
     public String register(RegistrationRequest registrationRequest) {
         validate(registrationRequest);
 
-        return userRepoService.saveUser(
+        return userService.saveUser(
                 new User(
                     registrationRequest.getEmail(),
                     registrationRequest.getPassword(),
