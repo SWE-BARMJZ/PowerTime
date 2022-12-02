@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(
+@Table( name = "`user`",
         uniqueConstraints = @UniqueConstraint(
                 name = "email_unique_const",
                 columnNames = "email"
