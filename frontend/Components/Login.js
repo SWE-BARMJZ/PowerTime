@@ -1,5 +1,4 @@
 import {
-    Button,
     Text,
     View,
     StyleSheet,
@@ -33,12 +32,6 @@ export const Login = ({ navigation}) => {
             >
                 <Text style={Styles.buttonText}>Log in</Text>
             </Pressable>
-            {/* <Button
-                title="Sign up"
-                onPress={() =>
-                    navigation.navigate('Sign Up')
-            }
-            /> */}
             <Pressable 
                 style={Styles.farLink}
                 onPress={() => forgotPassword(navigation)}>
@@ -182,5 +175,4 @@ function forgotPassword(navigation){
 
 function goToSignUp(navigation){
     navigation.navigate('Sign Up')
-
 }
