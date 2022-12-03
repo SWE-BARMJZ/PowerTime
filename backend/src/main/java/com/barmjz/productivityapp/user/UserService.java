@@ -31,6 +31,6 @@ public class UserService implements UserDetailsService {
         return userRepo
                 .getUserByEmail(email)
                 .map(SecurityUser::new)
-                .orElseThrow(()->new UsernameNotFoundException("Username not found" + email));
+                .orElseThrow(()->new UsernameNotFoundException("Username not found:" + email));
     }
 }

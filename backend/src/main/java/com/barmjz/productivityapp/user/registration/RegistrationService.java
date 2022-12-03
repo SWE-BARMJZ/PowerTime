@@ -33,6 +33,9 @@ public class RegistrationService {
     }
 
     private void validate(RegistrationRequest request) {
+        boolean namesNotNull = request.firstName() != null &&
+                request.lastName() != null;
+        if(!namesNotNull) throw new NullPointerException("first and last name can't be null");
         boolean emailIsValid = emailValidator.test(request.email());
         boolean passwordIsValid = passwordValidator.test(request.password());
         boolean namesAreValid = !request.firstName().isEmpty() &&
