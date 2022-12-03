@@ -3,28 +3,41 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
+import { StyleSheet } from 'react-native';
+
 
 import { Home } from './Components/Home';
 import { Login } from './Components/Login';
 import { SignUp } from './Components/SignUp';
+import { PasswordRecovery } from './Components/PasswordRecovery';
+
 
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={{flex: 1}}>
-      <StatusBar style="dark" />
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={Home}/>
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Sign Up" component={SignUp} />
-        </Stack.Navigator> 
-      </NavigationContainer>
+    <View style={{backgroundColor:'#dffaef',flex:1}}>
+      <View style={Styles.container}>
+        <StatusBar style="dark" />
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{headerShown: false}}>
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Sign Up" component={SignUp} />
+            <Stack.Screen name="Password Recovery" component={PasswordRecovery} />
+            <Stack.Screen name="Home" component={Home}/>
+          </Stack.Navigator> 
+        </NavigationContainer>
+      </View>
     </View>
+    
   );
 }
 
-
-
+const Styles = StyleSheet.create({
+  container: {
+      marginTop: 45,
+      flex: 1,
+      backgroundColor:'#dffaef'
+  }
+});
