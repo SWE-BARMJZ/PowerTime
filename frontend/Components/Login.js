@@ -1,14 +1,20 @@
-import { Button} from 'react-native';
+import { Button,Text,View } from 'react-native';
 
-function Login({navigation}) {
+export const Login = ({ navigation}) => {
     return (
-        <Button
-          title="Log in"
-          onPress={() =>
-            navigation.navigate('Home')
-          }
-        />
-      );
-}
-
-export default Login;
+        <View>
+            <Button
+            title="Confirm Log in"
+            onPress={() =>
+                navigation.navigate('Home')
+            }
+            />
+            <Button
+            title="Sign up"
+            onPress={() =>
+                navigation.navigate('SignUp')
+            }
+            />
+        </View>
+    );
+};

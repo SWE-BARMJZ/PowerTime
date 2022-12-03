@@ -1,11 +1,15 @@
-import { View, Text} from 'react-native';
+import { Button,Text,View } from 'react-native';
 
-function Home() {
+export const Home = ({ navigation }) => {
     return (
         <View>
             <Text>Welcome Home 😁</Text>
+            <Button
+            title="Log out"
+            onPress={() =>
+                navigation.navigate('Login')
+            }
+            />
         </View>
     );
-}
-
-export default Home;
+  };
