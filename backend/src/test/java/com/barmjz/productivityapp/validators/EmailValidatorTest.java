@@ -35,7 +35,7 @@ public class EmailValidatorTest {
         assertThat(result).isFalse();
     }
     @Test
-    void rejectsEmailWithoutDotAtStart(){
+    void rejectsEmailWithDotAtStart(){
         // Given
         String email = ".dummy@gmail.com";
         // When
