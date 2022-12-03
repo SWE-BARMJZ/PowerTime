@@ -12,7 +12,7 @@ export const Login = ({ navigation}) => {
             <Button
             title="Sign up"
             onPress={() =>
-                navigation.navigate('SignUp')
+                navigation.navigate('Sign Up')
             }
             />
         </View>
