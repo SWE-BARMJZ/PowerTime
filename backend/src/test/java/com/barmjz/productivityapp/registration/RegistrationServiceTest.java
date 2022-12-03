@@ -1,7 +1,11 @@
 package com.barmjz.productivityapp.registration;
 
 import com.barmjz.productivityapp.user.User;
-import com.barmjz.productivityapp.user.UserRepoService;
+import com.barmjz.productivityapp.user.UserService;
+import com.barmjz.productivityapp.user.registration.RegistrationRequest;
+import com.barmjz.productivityapp.user.registration.RegistrationService;
+import com.barmjz.productivityapp.user.registration.validators.EmailValidator;
+import com.barmjz.productivityapp.user.registration.validators.PasswordValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,17 +24,19 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class RegistrationServiceTest {
     @Mock
-    private UserRepoService userService;
+    private UserService userService;
     @Mock
     private EmailValidator emailValidator;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private PasswordValidator passwordValidator;
 
     private RegistrationService registrationService;
 
     @BeforeEach
     void setUp() {
-        registrationService = new RegistrationService(userService, emailValidator, passwordEncoder);
+        registrationService = new RegistrationService(userService, emailValidator, passwordValidator, passwordEncoder);
     }
 
     @Test
@@ -47,7 +53,7 @@ public class RegistrationServiceTest {
         given(emailValidator.test(email)).willReturn(false);
 
         // Then
-        assertThatThrownBy( () ->  registrationService.create(registrationRequest))
+        assertThatThrownBy( () ->  registrationService.register(registrationRequest))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("invalid email");
         verify(userService, never()).saveUser(any(), any());
@@ -71,7 +77,7 @@ public class RegistrationServiceTest {
                 firstName,
                 lastName);
         // When
-        registrationService.create(registrationRequest);
+        registrationService.register(registrationRequest);
         // Then
         ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
         verify(userService).saveUser(userArgumentCaptor.capture(), any());

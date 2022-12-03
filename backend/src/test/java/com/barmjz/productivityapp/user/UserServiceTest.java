@@ -26,20 +26,13 @@ public class UserServiceTest {
     private UserRepo userRepo;
     @Mock
     private PasswordEncoder passwordencoder;
-    private UserRepoService userService;
+    private UserService userService;
 
     @BeforeEach
     void setUp() {
-        userService = new UserRepoService(userRepo);
+        userService = new UserService(userRepo);
     }
 
-    @Test
-    void canGetAllUsers() {
-        // When
-        userService.getAllUsers();
-        // Then
-        verify(userRepo).findAll();
-    }
 
     @Test
     void canSaveUser() {
