@@ -14,9 +14,10 @@ public class PasswordValidator implements Predicate<String> {
         - at least one upper case letter
         - at least one lower case letter
         - at least one number
+        - at least one Special Character !@#$%^&*()\-__+.
     */
     private final Pattern VALID_PASSWORD_REGEX =
-            Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
+            Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()\\-__+.])[a-zA-Z\\d[!@#$%^&*()\\-__+.]]{8,}$");
 
     @Override
     public boolean test(String password) {

@@ -61,6 +61,111 @@ public class RegistrationServiceTest {
     }
 
     @Test
+    void ThrowsWhenPasswordNotValid(){
+        // Given
+        String email = "dummy@gmail.com";
+        String password = "123";
+        String firstName = "Jack";
+        String lastName = "Grealish";
+        RegistrationRequest registrationRequest = new RegistrationRequest(email,
+                password,
+                firstName,
+                lastName);
+        given(emailValidator.test(email)).willReturn(true);
+        given(passwordValidator.test(password)).willReturn(false);
+
+        // Then
+        assertThatThrownBy( () ->  registrationService.register(registrationRequest))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("weak password");
+        verify(userService, never()).saveUser(any(), any());
+
+    }
+    @Test
+    void ThrowsWhenFirstNameIsNull(){
+        // Given
+        String email = "dummy@gmail.com";
+        String password = "123";
+        String firstName = null;
+        String lastName = "Grealish";
+        RegistrationRequest registrationRequest = new RegistrationRequest(email,
+                password,
+                firstName,
+                lastName);
+
+        // Then
+        assertThatThrownBy( () ->  registrationService.register(registrationRequest))
+                .isInstanceOf(NullPointerException.class)
+                .hasMessageContaining("first and last name can't be null");
+        verify(userService, never()).saveUser(any(), any());
+
+    }
+
+    @Test
+    void ThrowsWhenLastNameIsNull(){
+        // Given
+        String email = "dummy@gmail.com";
+        String password = "123";
+        String firstName = "Jack";
+        String lastName = null;
+        RegistrationRequest registrationRequest = new RegistrationRequest(email,
+                password,
+                firstName,
+                lastName);
+
+        // Then
+        assertThatThrownBy( () ->  registrationService.register(registrationRequest))
+                .isInstanceOf(NullPointerException.class)
+                .hasMessageContaining("first and last name can't be null");
+        verify(userService, never()).saveUser(any(), any());
+
+    }
+
+    @Test
+    void ThrowsWhenFirstNameIsEmpty(){
+        // Given
+        String email = "dummy@gmail.com";
+        String password = "123";
+        String firstName = "";
+        String lastName = "Grealish";
+        RegistrationRequest registrationRequest = new RegistrationRequest(email,
+                password,
+                firstName,
+                lastName);
+        given(emailValidator.test(email)).willReturn(true);
+        given(passwordValidator.test(password)).willReturn(true);
+
+        // Then
+        assertThatThrownBy( () ->  registrationService.register(registrationRequest))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("first and last name can't be empty");
+        verify(userService, never()).saveUser(any(), any());
+
+    }
+
+    @Test
+    void ThrowsWhenLastNameIsEmpty(){
+        // Given
+        String email = "dummy@gmail.com";
+        String password = "123";
+        String firstName = "Jack";
+        String lastName = "";
+        RegistrationRequest registrationRequest = new RegistrationRequest(email,
+                password,
+                firstName,
+                lastName);
+        given(emailValidator.test(email)).willReturn(true);
+        given(passwordValidator.test(password)).willReturn(true);
+
+        // Then
+        assertThatThrownBy( () ->  registrationService.register(registrationRequest))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("first and last name can't be empty");
+        verify(userService, never()).saveUser(any(), any());
+
+    }
+
+    @Test
     void canRegisterUser(){
         // Given
         String email = "dummy@gmail.com";
@@ -72,6 +177,7 @@ public class RegistrationServiceTest {
                 firstName,
                 lastName);
         given(emailValidator.test(email)).willReturn(true);
+        given(passwordValidator.test(password)).willReturn(true);
         User user = new User(email,
                 password,
                 firstName,

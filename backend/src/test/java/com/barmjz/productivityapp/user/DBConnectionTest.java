@@ -49,7 +49,7 @@ public class DBConnectionTest {
     }
 
     @Test
-    void itChecksIfDeletionFunctionality(){
+    void itChecksDeletionFunctionality(){
 
         // Given
         String email = "dummy@gmail.com";
