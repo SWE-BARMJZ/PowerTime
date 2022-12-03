@@ -11,45 +11,47 @@ import React from 'react';
 
 export const Login = ({ navigation}) => {
     return (
-        <View style={Styles.container}>
-            <Image 
-                source={logoPath}
-                style={Styles.logo}
-            /> 
-            <View style={Styles.titleContainer}>
-                <Text 
-                    style={Styles.title}
-                    adjustsFontSizeToFit
+        <View style={{backgroundColor:'#dffaef',flex:1}}>
+            <View style={Styles.container}>
+                <Image 
+                    source={logoPath}
+                    style={Styles.logo}
+                /> 
+                <View style={Styles.titleContainer}>
+                    <Text 
+                        style={Styles.title}
+                        adjustsFontSizeToFit
+                    >
+                        Log in
+                    </Text>
+                </View>
+                <MakeTextInput type={"Email"}/>
+                <MakeTextInput type={"Password"}/>
+                <Pressable
+                    style={Styles.button}
+                    onPress={() => checkCredentials(navigation)}
                 >
-                    Log in
-                </Text>
-            </View>
-            <MakeTextInput type={"Email"}/>
-            <MakeTextInput type={"Password"}/>
-            <Pressable
-                style={Styles.button}
-                onPress={() => checkCredentials(navigation)}
-            >
-                <Text style={Styles.buttonText}>Log in</Text>
-            </Pressable>
-            <Pressable 
-                style={Styles.farLink}
-                onPress={() => forgotPassword(navigation)}>
-                <Text style={Styles.smallLink}>Forgot your password?</Text>
-            </Pressable>
-            <View style={Styles.lastLine}>
-                <Text style={{fontSize: 16}}>
-                    Don't have an account? 
-                    <View style={Styles.inLineLink}>
-                    <Pressable
-                        onPress={() => goToSignUp(navigation)}
-                        >
-                        <Text style={Styles.mediumLink}>
-                            Sign Up
-                        </Text>
-                    </Pressable>
-                    </View>
-                </Text>
+                    <Text style={Styles.buttonText}>Log in</Text>
+                </Pressable>
+                <Pressable 
+                    style={Styles.farLink}
+                    onPress={() => forgotPassword(navigation)}>
+                    <Text style={Styles.smallLink}>Forgot your password?</Text>
+                </Pressable>
+                <View style={Styles.lastLine}>
+                    <Text style={{fontSize: 16}}>
+                        Don't have an account? 
+                        <View style={Styles.inLineLink}>
+                        <Pressable
+                            onPress={() => goToSignUp(navigation)}
+                            >
+                            <Text style={Styles.mediumLink}>
+                                Sign Up
+                            </Text>
+                        </Pressable>
+                        </View>
+                    </Text>
+                </View>
             </View>
         </View>
     );

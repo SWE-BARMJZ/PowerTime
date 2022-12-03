@@ -11,42 +11,44 @@ import React from 'react';
 
 export const SignUp = ({ navigation}) => {
     return (
-        <View style={Styles.container}>
-            <Image 
-                source={logoPath}
-                style={Styles.logo}
-            /> 
-            <View style={Styles.titleContainer}>
-                <Text 
-                    style={Styles.title}
-                    adjustsFontSizeToFit
+        <View style={{backgroundColor:'#dffaef',flex:1}}>
+            <View style={Styles.container}>
+                <Image 
+                    source={logoPath}
+                    style={Styles.logo}
+                /> 
+                <View style={Styles.titleContainer}>
+                    <Text 
+                        style={Styles.title}
+                        adjustsFontSizeToFit
+                    >
+                        Sign Up
+                    </Text>
+                </View>
+                <MakeTextInput type={"Email"}/>
+                <MakeTextInput type={"First Name"}/>
+                <MakeTextInput type={"Last Name"}/>
+                <MakeTextInput type={"Password"}/>
+                <Pressable
+                    style={Styles.button}
+                    onPress={() => submitCredentials(navigation)}
                 >
-                    Sign Up
-                </Text>
-            </View>
-            <MakeTextInput type={"Email"}/>
-            <MakeTextInput type={"First Name"}/>
-            <MakeTextInput type={"Last Name"}/>
-            <MakeTextInput type={"Password"}/>
-            <Pressable
-                style={Styles.button}
-                onPress={() => submitCredentials(navigation)}
-            >
-                <Text style={Styles.buttonText}>Sign Up</Text>
-            </Pressable>
-            <View style={Styles.lastLine}>
-                <Text style={{fontSize: 16}}>
-                    Already have an account? 
-                    <View style={Styles.inLineLink}>
-                    <Pressable
-                        onPress={() => goToLogin(navigation)}
-                        >
-                        <Text style={Styles.mediumLink}>
-                            Log in
-                        </Text>
-                    </Pressable>
-                    </View>
-                </Text>
+                    <Text style={Styles.buttonText}>Sign Up</Text>
+                </Pressable>
+                <View style={Styles.lastLine}>
+                    <Text style={{fontSize: 16}}>
+                        Already have an account? 
+                        <View style={Styles.inLineLink}>
+                        <Pressable
+                            onPress={() => goToLogin(navigation)}
+                            >
+                            <Text style={Styles.mediumLink}>
+                                Log in
+                            </Text>
+                        </Pressable>
+                        </View>
+                    </Text>
+                </View>
             </View>
         </View>
     );
