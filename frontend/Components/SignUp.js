@@ -4,14 +4,14 @@ import {
     StyleSheet,
     Image,
     TextInput,
-    Pressable
+    Pressable,
+    Platform
 } from 'react-native';
 import React from 'react';
 
-
 export const SignUp = ({ navigation}) => {
     return (
-        <View style={{backgroundColor:'#dffaef',flex:1}}>
+        <View style={Styles.device}>
             <View style={Styles.container}>
                 <Image 
                     source={logoPath}
@@ -50,22 +50,51 @@ export const SignUp = ({ navigation}) => {
                     </Text>
                 </View>
             </View>
+            {Platform.OS == 'web' &&
+            <View  style={Styles.imgContainer}>
+            <Image
+                source={require('../assets/images/themeImage.png')}
+                style={Styles.themeImage}
+            />
+            </View>}
         </View>
     );
 };
 
 const Styles = StyleSheet.create({
+    device: {
+        flexDirection: 'row',
+        backgroundColor: '#dffaef',
+        alignItems: 'flex-start'
+    },
+
     container: {
-        marginHorizontal: 20,
-        flex: 1,
+        marginHorizontal: '5%',
+        flex: 2,
         justifyContent: 'flex-start',
-        backgroundColor: "#dffaef"
+        backgroundColor: "#dffaef",
+        height: '100%'
     },
 
     logo: {
-        width: '50%',
-        height: '6%',
-        resizeMode: 'cover'
+        height: '15%',
+        width: '54%',
+        resizeMode: 'contain'
+    },
+
+    imgContainer: {
+        marginTop: "5%",
+        marginHorizontal: '5%',
+        flex: 4,
+        justifyContent: 'center',
+        backgroundColor: "#dffaef",
+        height: '100%'
+    },
+
+    themeImage: {
+        resizeMode: 'contain',
+        height: '100%',
+        borderRadius: 38,
     },
 
     title: {
@@ -75,31 +104,31 @@ const Styles = StyleSheet.create({
 
     titleContainer: {
         width: '100%',
-        height: '18%',
+        height: '17%',
         justifyContent: 'center',
-        paddingHorizontal: '10%',
+        paddingLeft: Platform.OS !== 'web' ? '10%' : '40%',
     },
 
     textBoxContainer: {
         backgroundColor: 'white',
-        height: '8%',
-        marginVertical: 15,
+        height: Platform.OS === 'web' ? '12%' : '8%',
+        marginVertical: '4%',
         borderRadius: 10,
-        padding: 5,
+        padding: '2%',
     },
 
     textBox: {
-        paddingHorizontal: 15,
+        paddingHorizontal: '3%',
         fontSize: 16,
     },
 
     button: {
-        marginVertical: 20,
+        marginVertical: '4%',
         backgroundColor: '#0066F9',
         borderRadius: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        height : '8%'
+        height: Platform.OS === 'web' ? '12%' : '8%',
     },
 
     buttonText: {
@@ -109,13 +138,13 @@ const Styles = StyleSheet.create({
     },
 
     farLink: {
-        marginVertical: 20,
-        marginLeft: 20,
+        marginVertical: '4%',
+        marginLeft: '5%',
         width: '50%'
     },
 
     lastLine: {
-        marginVertical: 20,
+        marginVertical: '4%',
         justifyContent: 'center',
         alignItems: 'center',
     },
