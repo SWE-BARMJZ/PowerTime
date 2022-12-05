@@ -5,12 +5,10 @@ import { StatusBar } from 'expo-status-bar';
 import { View, StyleSheet } from 'react-native';
 
 
-import { Home } from './Components/Home';
-import { Login } from './Components/Login';
-import { SignUp } from './Components/SignUp';
-import { PasswordRecovery } from './Components/PasswordRecovery';
-import { Imager} from './Components/ImageTheme'
-
+import { Home } from './components/Home';
+import { Login } from './components/Login';
+import { SignUp } from './components/SignUp';
+import { PasswordRecovery } from './components/PasswordRecovery';
 
 
 const Stack = createNativeStackNavigator();
