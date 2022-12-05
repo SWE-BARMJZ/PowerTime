@@ -3,13 +3,13 @@ import {
   View,
   StyleSheet,
   Image,
-  TextInput,
   Pressable,
   Platform,
 } from "react-native";
-import Field from "../UI/Field";
 import React, { useState } from "react";
+import Field from "../UI/Field";
 import Title from "../UI/Title";
+import { requestToken } from "../api/auth.api";
 
 const logoPath = require("../assets/images/LOGO.png");
 
@@ -20,17 +20,24 @@ export const Login = ({ navigation }) => {
   const emailChangeHandler = (email) => setEmail(email);
   const passwordChangeHandler = (password) => setPassword(password);
 
-  const loginHandler = () => {
-    console.log("login");
+  const loginHandler = async () => {
+    try {
+      const response = await requestToken({ email, password });
+      const token = await response.text();
+      console.log(token);
+      navigation.navigate("Home");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  function forgotPassword() {
+  const forgotPassword = () => {
     navigation.navigate("Password Recovery");
-  }
+  };
 
-  function goToSignUp() {
+  const goToSignUp = () => {
     navigation.navigate("Sign Up");
-  }
+  };
 
   return (
     <View style={Styles.device}>

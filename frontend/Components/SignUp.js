@@ -7,20 +7,39 @@ import {
   Pressable,
   Platform,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Field from "../UI/Field";
 import Title from "../UI/Title";
+import { registerUser } from "../api/user.api";
 
 const logoPath = require("../assets/images/LOGO.png");
 
 export const SignUp = ({ navigation }) => {
-  function submitCredentials() {
-    //TODO
-    //SEND CRED TO BACKEND
-    goToLogin(navigation);
-  }
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
-  function goToLogin() {
+  const emailChangeHandler = (str) => setEmail(str);
+  const passwordChangeHandler = (str) => setPassword(str);
+  const firstNameChangeHandler = (str) => setFirstName(str);
+  const lastNameChangeHandler = (str) => setLastName(str);
+
+  const signupHandler = async () => {
+    validate();
+    try {
+      const response = await registerUser({ email, password, firstName, lastName });
+      const msg = await response.text();
+      console.log(msg)
+      goToLogin();
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  const validate = () => {};
+
+  const goToLogin = () => {
     navigation.navigate("Login");
   }
 
@@ -28,17 +47,18 @@ export const SignUp = ({ navigation }) => {
     <View style={Styles.device}>
       <View style={Styles.container}>
         <Image source={logoPath} style={Styles.logo} />
+        
         <Title>Sign Up</Title>
+        <Field name={"Email"} onChangeText={emailChangeHandler} />
+        <Field name={"First Name"} onChangeText={firstNameChangeHandler} />
+        <Field name={"Last Name"} onChangeText={lastNameChangeHandler} />
+        <Field
+          name={"Password"}
+          onChangeText={passwordChangeHandler}
+          secureTextEntry={true}
+        />
 
-        <Field name={"Email"} />
-        <Field name={"First Name"} />
-        <Field name={"Last Name"} />
-        <Field name={"Password"} secureTextEntry={true} />
-
-        <Pressable
-          style={Styles.button}
-          onPress={() => submitCredentials(navigation)}
-        >
+        <Pressable style={Styles.button} onPress={signupHandler}>
           <Text style={Styles.buttonText}>Sign Up</Text>
         </Pressable>
         <View style={Styles.lastLine}>
