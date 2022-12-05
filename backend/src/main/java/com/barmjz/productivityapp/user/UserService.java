@@ -26,6 +26,10 @@ public class UserService implements UserDetailsService {
         return "User was added successfully";
     }
 
+    public User getUserByEmail(String email) {
+        return userRepo.getUserByEmail(email).orElseThrow();
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepo

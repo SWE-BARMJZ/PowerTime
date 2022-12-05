@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin
 @RequestMapping("/api/user")
 public class UserController {
 
@@ -21,11 +22,11 @@ public class UserController {
         return registrationService.register(registrationRequest);
     }
 
-    @GetMapping("/test")
-    public String register(@RequestParam String email){
+    @GetMapping
+    public User getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication.getName());
-        return (authentication.getName().equals(email))? userService.loadUserByUsername(email).getUsername(): "you stoopid";
+        String email = authentication.getName();
+        return userService.getUserByEmail(email);
     }
 
 }
