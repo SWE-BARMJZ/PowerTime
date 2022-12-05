@@ -22,11 +22,14 @@ public class UserController {
         return registrationService.register(registrationRequest);
     }
 
-    @GetMapping("/test")
-    public String register(@RequestParam String email){
+    @GetMapping("/{email}")
+    public User getUser(@PathVariable String email) throws IllegalAccessException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication.getName());
-        return (authentication.getName().equals(email))? userService.loadUserByUsername(email).getUsername(): "you stoopid";
+
+        if (authentication.getName().equals(email))
+            return userService.getUserByEmail(email);
+        else
+            throw new IllegalAccessException("Non authorized");
     }
 
 }

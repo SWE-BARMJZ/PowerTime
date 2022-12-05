@@ -6,25 +6,28 @@ import {
   Pressable,
   Platform,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Field from "../UI/Field";
 import Title from "../UI/Title";
 import { requestToken } from "../api/auth.api";
+import AuthContext from '../store/auth-context'
 
 const logoPath = require("../assets/images/LOGO.png");
 
 export const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const emailChangeHandler = (email) => setEmail(email);
   const passwordChangeHandler = (password) => setPassword(password);
+
+  const auth = useContext(AuthContext);
 
   const loginHandler = async () => {
     try {
       const response = await requestToken({ email, password });
       const token = await response.text();
       console.log(token);
+      auth.login(token);
       navigation.navigate("Home");
     } catch (error) {
       console.log(error);
