@@ -10,7 +10,10 @@ export const registerUser = async (user) => {
   });
 
   if (response.status !== 200) {
+    const message = await response.text();
+    alert(message);
     throw new Error(response.status);
+
   } 
   return response;
 };
