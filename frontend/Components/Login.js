@@ -91,6 +91,7 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#dffaef",
     alignItems: "flex-start",
+    flex: 1
   },
 
   container: {
@@ -108,7 +109,6 @@ const Styles = StyleSheet.create({
   },
 
   imgContainer: {
-    marginTop: "5%",
     marginHorizontal: "5%",
     flex: 4,
     justifyContent: "center",
@@ -122,26 +122,13 @@ const Styles = StyleSheet.create({
     borderRadius: 38,
   },
 
-  title: {
-    fontSize: 36,
-    fontWeight: "bold",
-  },
-
-  titleContainer: {
-    width: "100%",
-    height: "20%",
-    justifyContent: "center",
-    paddingLeft: Platform.OS !== "web" ? "10%" : "40%",
-    marginTop: "3%",
-  },
-
   button: {
     marginVertical: "5%",
     backgroundColor: "#0066F9",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    height: Platform.OS === "web" ? "13%" : "8%",
+    height: "8%",
   },
 
   buttonText: {

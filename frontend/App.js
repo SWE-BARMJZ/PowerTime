@@ -16,7 +16,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <AuthContextProvider>
-      <View style={{ backgroundColor: "#dffaef", flex: 1 }}>
+      <View style={Styles.outer}>
         <View style={Styles.container}>
           <StatusBar style="dark" />
           <NavigationContainer>
@@ -37,9 +37,13 @@ export default function App() {
 }
 
 const Styles = StyleSheet.create({
+  outer: {
+    flex: 1,
+    backgroundColor: "#dffaef",
+  },
+
   container: {
     marginTop: 25,
     flex: 1,
-    backgroundColor: "#dffaef",
   },
 });
