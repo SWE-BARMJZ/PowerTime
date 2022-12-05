@@ -10,8 +10,21 @@ export const registerUser = async (user) => {
   });
 
   if (response.status !== 200) {
-    console.log("error")
     throw new Error(response.status);
   } 
   return response;
 };
+
+export const getUser = async (token) => {
+  const url = `${BACKEND_URL}/api/user`;
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { "Authorization": `Bearer ${token}` },
+  });
+
+  if (response.status !== 200) {
+    throw new Error(response.status);
+  } 
+  return response;
+}
