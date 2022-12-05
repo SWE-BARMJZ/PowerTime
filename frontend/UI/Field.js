@@ -29,7 +29,7 @@ const Styles = StyleSheet.create({
 
   textBoxContainer: {
     backgroundColor: "white",
-    height: Platform.OS === "web" ? "15%" : "8%",
+    height: Platform.OS === "8%",
     marginVertical: "5%",
     borderRadius: 10,
     padding: "2%",

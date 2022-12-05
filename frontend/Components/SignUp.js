@@ -57,7 +57,6 @@ export const SignUp = ({ navigation }) => {
           onChangeText={passwordChangeHandler}
           secureTextEntry={true}
         />
-
         <Pressable style={Styles.button} onPress={signupHandler}>
           <Text style={Styles.buttonText}>Sign Up</Text>
         </Pressable>
@@ -84,80 +83,82 @@ export const SignUp = ({ navigation }) => {
   );
 };
 
+
 const Styles = StyleSheet.create({
-  device: {
-    flexDirection: "row",
-    backgroundColor: "#dffaef",
-    alignItems: "flex-start",
-  },
+    device: {
+      flexDirection: "row",
+      backgroundColor: "#dffaef",
+      alignItems: "flex-start",
+      flex: 1
+    },
+  
+    container: {
+      marginHorizontal: "5%",
+      flex: 2,
+      justifyContent: "flex-start",
+      backgroundColor: "#dffaef",
+      height: "100%",
+    },
+  
+    logo: {
+      height: "15%",
+      width: "54%",
+      resizeMode: "contain",
+    },
+  
+    imgContainer: {
+      marginHorizontal: "5%",
+      flex: 4,
+      justifyContent: "center",
+      backgroundColor: "#dffaef",
+      height: "100%",
+    },
+  
+    themeImage: {
+      resizeMode: "contain",
+      height: "100%",
+      borderRadius: 38,
+    },
+  
+    button: {
+      marginVertical: "5%",
+      backgroundColor: "#0066F9",
+      borderRadius: 20,
+      alignItems: "center",
+      justifyContent: "center",
+      height: "8%",
+    },
+  
+    buttonText: {
+      color: "white",
+      fontSize: 20,
+      fontWeight: "bold",
+    },
+  
+    farLink: {
+      marginVertical: "4%",
+      marginLeft: "5%",
+      width: "50%",
+    },
+  
+    lastLine: {
+      marginVertical: "4%",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+  
+    smallLink: {
+      fontWeight: "bold",
+      textDecorationLine: "underline",
+      fontSize: 14,
+    },
+  
+    inLineLink: {},
+  
+    mediumLink: {
+      fontWeight: "bold",
+      textDecorationLine: "underline",
+      fontSize: 16,
+    },
+  });
 
-  container: {
-    marginHorizontal: "5%",
-    flex: 2,
-    justifyContent: "flex-start",
-    backgroundColor: "#dffaef",
-    height: "100%",
-  },
-
-  logo: {
-    height: "15%",
-    width: "54%",
-    resizeMode: "contain",
-  },
-
-  imgContainer: {
-    marginTop: "5%",
-    marginHorizontal: "5%",
-    flex: 4,
-    justifyContent: "center",
-    backgroundColor: "#dffaef",
-    height: "100%",
-  },
-
-  themeImage: {
-    resizeMode: "contain",
-    height: "100%",
-    borderRadius: 38,
-  },
-
-  button: {
-    marginVertical: "4%",
-    backgroundColor: "#0066F9",
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    height: Platform.OS === "web" ? "12%" : "8%",
-  },
-
-  buttonText: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-
-  farLink: {
-    marginVertical: "4%",
-    marginLeft: "5%",
-    width: "50%",
-  },
-
-  lastLine: {
-    marginVertical: "4%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  smallLink: {
-    fontWeight: "bold",
-    textDecorationLine: "underline",
-    fontSize: 14,
-  },
-
-  inLineLink: {},
-
-  mediumLink: {
-    fontWeight: "bold",
-    textDecorationLine: "underline",
-    fontSize: 16,
-  },
-});
