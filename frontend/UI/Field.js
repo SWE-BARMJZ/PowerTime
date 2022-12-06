@@ -3,21 +3,27 @@ import {
   View,
   StyleSheet,
   TextInput,
-  Platform,
+  Pressable,
+  
 } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 
 function Field(props) {
+  const textboxRef=useRef()
+
   return (
-    <View style={Styles.textBoxContainer}>
-      <Text style={Styles.text}>{props.name}</Text>
-      <TextInput
-        style={Styles.textBox}
-        placeholder={`Enter your ${props.name}`}
-        placeholderTextColor={"gray"}
-        {...props}
-      />
-    </View>
+    <Pressable onPress={()=>  textboxRef.current.focus()}>
+      <View style={Styles.textBoxContainer}>
+        <Text style={Styles.text}>{props.name}</Text>
+        <TextInput
+          ref={textboxRef}
+          style={Styles.textBox}
+          placeholder={`Enter your ${props.name}`}
+          placeholderTextColor={"gray"}
+          {...props}
+        />
+      </View>
+    </Pressable>
   );
 }
 
@@ -29,8 +35,7 @@ const Styles = StyleSheet.create({
 
   textBoxContainer: {
     backgroundColor: "white",
-    height: Platform.OS === "8%",
-    marginVertical: "5%",
+    marginVertical: "4%",
     borderRadius: 10,
     padding: "2%",
   },
@@ -39,6 +44,8 @@ const Styles = StyleSheet.create({
     paddingHorizontal: "3%",
     fontSize: 16,
   },
+
+
 });
 
 export default Field;

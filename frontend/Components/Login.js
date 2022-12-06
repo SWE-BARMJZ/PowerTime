@@ -53,7 +53,6 @@ export const Login = ({ navigation }) => {
           onChangeText={passwordChangeHandler}
           secureTextEntry={true}
         />
-
         <Pressable style={Styles.button} onPress={loginHandler}>
           <Text style={Styles.buttonText}>Log in</Text>
         </Pressable>
