@@ -3,7 +3,7 @@ import {
   View,
   StyleSheet,
   TextInput,
-  Platform,
+  
 } from "react-native";
 import React from "react";
 
@@ -29,8 +29,7 @@ const Styles = StyleSheet.create({
 
   textBoxContainer: {
     backgroundColor: "white",
-    height: Platform.OS === "8%",
-    marginVertical: "5%",
+    marginVertical: "4%",
     borderRadius: 10,
     padding: "2%",
   },
@@ -38,6 +37,7 @@ const Styles = StyleSheet.create({
   textBox: {
     paddingHorizontal: "3%",
     fontSize: 16,
+    borderWidth: 0,
   },
 });
 
