@@ -39,6 +39,7 @@ const Styles = StyleSheet.create({
     fontSize: 16,
     borderWidth: 0,
   },
+
 });
 
 export default Field;
