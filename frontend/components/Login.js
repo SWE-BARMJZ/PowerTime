@@ -30,6 +30,7 @@ export const Login = ({ navigation }) => {
       auth.login(token);
       navigation.navigate("Home");
     } catch (error) {
+      alert(error);
       console.log(error);
     }
   };

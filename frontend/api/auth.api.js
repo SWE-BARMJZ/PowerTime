@@ -11,7 +11,10 @@ export const requestToken = async ({ email, password }) => {
     headers: new Headers({ Authorization: auth }),
   });
 
-  if (response.status !== 200) {
+  if (response.status == 401) {
+    throw new Error("Invalid credentials");
+  }
+  else if (response.status !== 200) {
     throw new Error(response.status);
   } 
   return response;
