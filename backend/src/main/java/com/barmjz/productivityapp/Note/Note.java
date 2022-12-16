@@ -1,28 +1,29 @@
-package com.barmjz.productivityapp.Folder;
+package com.barmjz.productivityapp.Note;
 
-import com.barmjz.productivityapp.user.User;
+import com.barmjz.productivityapp.Folder.Folder;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.Date;
 
 @Entity
 @Table(
-        name = "folder",
+        name = "note",
         uniqueConstraints = @UniqueConstraint(
-                name = "folder_unique_const",
-                columnNames = {"name","user_id"}
+                name = "note_unique_const",
+                columnNames = {"title","folder_id"}
         )
-
 )
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Folder {
+public class Note {
     /*
         one to many relation
-        one folder -> one user
-        one user -> many folder
+        one folder -> many notes
+        one note -> one folder
+        there are built in folders(starred, trashed,...)
     */
     @Id
     @GeneratedValue(
@@ -37,19 +38,23 @@ public class Folder {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
-
+    private String title;
+    private String content;
     private Date CreatedDate;
     private Date modifiedDate;
+    private boolean isStarred = false;
+    private int fontSize = 5;
+    private int color = 5;
 
     @ManyToOne(
             optional = false,
             cascade = CascadeType.ALL
     )
     @JoinColumn(
-            name = "user_id",
+            name = "folder_id",
             referencedColumnName = "id",
             nullable = false
     )
-    private User user;
+    private Folder folder;
+
 }
