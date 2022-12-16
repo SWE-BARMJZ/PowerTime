@@ -1,7 +1,4 @@
-import { StyleSheet } from "react-native";
 import React, { useContext, useState } from "react";
-import Field from "../UI/Field";
-import Title from "../UI/Title";
 import { requestToken } from "../api/auth.api";
 import AuthContext from "../store/auth-context";
 import FormInput from "../UI/FormInput";
@@ -9,16 +6,13 @@ import {
   Button,
   Text,
   Image,
-  Center,
   Heading,
   HStack,
   Link,
   Box,
   VStack,
-  ScrollView,
   Hidden,
   useToast,
-  View,
 } from "native-base";
 
 const logoPath = require("../assets/images/LOGO.png");
@@ -55,7 +49,7 @@ export const Login = ({ navigation }) => {
   };
 
   return (
-    <Box flex="1" safeArea bgColor={"#DFFAF0"}>
+    <Box flex="1" safeArea bgColor={"primary.bg"}>
       <HStack justifyContent="center" flex="1" w="full">
         <VStack
           flex={1}
@@ -115,46 +109,3 @@ export const Login = ({ navigation }) => {
     </Box>
   );
 };
-
-const Styles = StyleSheet.create({
-  container: {
-    marginHorizontal: "5%",
-    flex: 2,
-    justifyContent: "flex-start",
-    backgroundColor: "#dffaef",
-    height: "100%",
-  },
-
-  logo: {
-    height: "15%",
-    width: "54%",
-    resizeMode: "contain",
-  },
-
-  button: {
-    marginVertical: "5%",
-    backgroundColor: "#0066F9",
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    height: "8%",
-  },
-
-  buttonText: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-
-  smallLink: {
-    fontWeight: "bold",
-    textDecorationLine: "underline",
-    fontSize: 14,
-  },
-
-  mediumLink: {
-    fontWeight: "bold",
-    textDecorationLine: "underline",
-    fontSize: 16,
-  },
-});

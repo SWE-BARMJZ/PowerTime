@@ -21,7 +21,7 @@ const FormInput = ({
 
   return (
     <FormControl isInvalid={!isValid}>
-      <FormControl.Label>{label}</FormControl.Label>
+      <FormControl.Label >{label}</FormControl.Label>
       <Input
         placeholder={placeholder}
         value={inputValue}
