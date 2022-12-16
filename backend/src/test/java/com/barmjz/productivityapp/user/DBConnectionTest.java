@@ -68,4 +68,25 @@ public class DBConnectionTest {
         assertThat(userExists2).isFalse();
 
     }
+
+    @Test
+    void itChecksIfUserIsValidated(){
+
+        // Given
+        String email = "dummy@gmail.com";
+        User user = new User(email,
+                "password",
+                "Jack",
+                "Grealish");
+        // When
+        userRepo.save(user);
+        Optional<User> userDB = userRepo.getUserByEmail(email);
+        boolean userExists = userDB.isPresent();
+        userRepo.deleteById(userDB.get().getId());
+        boolean userExists2 = userRepo.getUserByEmail(email).isPresent();
+        // Then
+        assertThat(userExists).isTrue();
+        assertThat(userExists2).isFalse();
+
+    }
 }
