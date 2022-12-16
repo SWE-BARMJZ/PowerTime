@@ -1,38 +1,48 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  Pressable,
-  Platform,
-} from "react-native";
+import { StyleSheet } from "react-native";
 import React, { useContext, useState } from "react";
 import Field from "../UI/Field";
 import Title from "../UI/Title";
 import { requestToken } from "../api/auth.api";
 import AuthContext from "../store/auth-context";
 import FormInput from "../UI/FormInput";
-import { Button, Heading, HStack, Link } from "native-base";
+import {
+  Button,
+  Text,
+  Image,
+  Center,
+  Heading,
+  HStack,
+  Link,
+  Box,
+  VStack,
+  ScrollView,
+  Hidden,
+  useToast,
+  View,
+} from "native-base";
 
 const logoPath = require("../assets/images/LOGO.png");
 
 export const Login = ({ navigation }) => {
+  const toast = useToast();
+  const auth = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const emailChangeHandler = (email) => setEmail(email);
   const passwordChangeHandler = (password) => setPassword(password);
 
-  const auth = useContext(AuthContext);
-
   const loginHandler = async () => {
     try {
       const response = await requestToken({ email, password });
       const token = await response.text();
-      console.log(token);
       auth.login(token);
       navigation.navigate("Home");
     } catch (error) {
-      console.log(error);
+      toast.show({
+        title: error.message,
+        placement: "top",
+      });
     }
   };
 
@@ -45,58 +55,68 @@ export const Login = ({ navigation }) => {
   };
 
   return (
-    <View style={Styles.device}>
-      <View style={Styles.container}>
-        <Image source={logoPath} style={Styles.logo} />
-        <Heading>Login</Heading>
+    <Box flex="1" safeArea bgColor={"#DFFAF0"}>
+      <HStack justifyContent="center" flex="1" w="full">
+        <VStack
+          flex={1}
+          space={10}
+          mt={-10}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Box h={16} w="full">
+            <Image source={logoPath} resizeMode="contain" h="full" />
+          </Box>
+          <VStack w="85%" maxW={400} space={3}>
+            <Heading alignSelf="center">Login</Heading>
 
-        <FormInput 
-          label="Email" 
-          onChange={emailChangeHandler} 
-        />
-        <FormInput
-          label="Password"
-          type="password"
-          onChange={passwordChangeHandler}
-        />
+            <FormInput label="Email" onChange={emailChangeHandler} />
+            <FormInput
+              label="Password"
+              inputType="password"
+              onChange={passwordChangeHandler}
+            />
 
-        <Link onPress={forgotPassword}>
-          Forgot your password?
-        </Link>
+            <Link onPress={forgotPassword} alignSelf={"start"}>
+              Forgot your password?
+            </Link>
 
-        <Button style={Styles.button} onPress={loginHandler}>
-          <Text style={Styles.buttonText}>Log in</Text>
-        </Button>
+            <Button onPress={loginHandler} my={4} size={"lg"}>
+              Log in
+            </Button>
 
-        <HStack alignItems="center" justifyContent="center" flexWrap="wrap" space="1">
-          <Text>Don't have an account?</Text>
-          <Link onPress={goToSignUp} _text={{fontWeight:'bold'}}>
-            Sign up
-          </Link>
-        </HStack>
+            <HStack
+              alignItems="center"
+              justifyContent="center"
+              flexWrap="wrap"
+              space="1"
+            >
+              <Text>Don't have an account?</Text>
+              <Link
+                onPress={goToSignUp}
+                _text={{ fontWeight: "bold", color: "primary.main" }}
+              >
+                Sign up
+              </Link>
+            </HStack>
+          </VStack>
+        </VStack>
 
-      </View>
-
-      {Platform.OS == "web" && (
-        <View style={Styles.imgContainer}>
-          <Image
-            source={require("../assets/images/themeImage.png")}
-            style={Styles.themeImage}
-          />
-        </View>
-      )}
-    </View>
+        <Hidden from="base" till="lg">
+          <Box flex="1" h="full">
+            <Image
+              source={require("../assets/images/themeImage.png")}
+              resizeMode="contain"
+              h="full"
+            />
+          </Box>
+        </Hidden>
+      </HStack>
+    </Box>
   );
 };
 
 const Styles = StyleSheet.create({
-  device: {
-    flexDirection: "row",
-    backgroundColor: "#dffaef",
-    alignItems: "flex-start",
-    flex: 1,
-  },
-
   container: {
     marginHorizontal: "5%",
     flex: 2,
@@ -109,20 +129,6 @@ const Styles = StyleSheet.create({
     height: "15%",
     width: "54%",
     resizeMode: "contain",
-  },
-
-  imgContainer: {
-    marginHorizontal: "5%",
-    flex: 4,
-    justifyContent: "center",
-    backgroundColor: "#dffaef",
-    height: "100%",
-  },
-
-  themeImage: {
-    resizeMode: "contain",
-    height: "100%",
-    borderRadius: 38,
   },
 
   button: {
@@ -140,25 +146,11 @@ const Styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  farLink: {
-    marginVertical: "4%",
-    marginLeft: "5%",
-    width: "50%",
-  },
-
-  lastLine: {
-    marginVertical: "4%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
   smallLink: {
     fontWeight: "bold",
     textDecorationLine: "underline",
     fontSize: 14,
   },
-
-  inLineLink: {},
 
   mediumLink: {
     fontWeight: "bold",
