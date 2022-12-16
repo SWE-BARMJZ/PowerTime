@@ -10,7 +10,9 @@ import React, { useContext, useState } from "react";
 import Field from "../UI/Field";
 import Title from "../UI/Title";
 import { requestToken } from "../api/auth.api";
-import AuthContext from '../store/auth-context'
+import AuthContext from "../store/auth-context";
+import FormInput from "../UI/FormInput";
+import { Button, Heading, HStack, Link } from "native-base";
 
 const logoPath = require("../assets/images/LOGO.png");
 
@@ -46,31 +48,33 @@ export const Login = ({ navigation }) => {
     <View style={Styles.device}>
       <View style={Styles.container}>
         <Image source={logoPath} style={Styles.logo} />
-        <Title>Login</Title>
-        <Field name={"Email"} onChangeText={emailChangeHandler} />
-        <Field
-          name={"Password"}
-          onChangeText={passwordChangeHandler}
-          secureTextEntry={true}
+        <Heading>Login</Heading>
+
+        <FormInput 
+          label="Email" 
+          onChange={emailChangeHandler} 
         />
-        <Pressable style={Styles.button} onPress={loginHandler}>
+        <FormInput
+          label="Password"
+          type="password"
+          onChange={passwordChangeHandler}
+        />
+
+        <Link onPress={forgotPassword}>
+          Forgot your password?
+        </Link>
+
+        <Button style={Styles.button} onPress={loginHandler}>
           <Text style={Styles.buttonText}>Log in</Text>
-        </Pressable>
+        </Button>
 
-        <Pressable style={Styles.farLink} onPress={forgotPassword}>
-          <Text style={Styles.smallLink}>Forgot your password?</Text>
-        </Pressable>
+        <HStack alignItems="center" justifyContent="center" flexWrap="wrap" space="1">
+          <Text>Don't have an account?</Text>
+          <Link onPress={goToSignUp} _text={{fontWeight:'bold'}}>
+            Sign up
+          </Link>
+        </HStack>
 
-        <View style={Styles.lastLine}>
-          <Text style={{ fontSize: 16 }}>
-            Don't have an account?
-            <View style={Styles.inLineLink}>
-              <Pressable onPress={goToSignUp}>
-                <Text style={Styles.mediumLink}>Sign Up</Text>
-              </Pressable>
-            </View>
-          </Text>
-        </View>
       </View>
 
       {Platform.OS == "web" && (
@@ -90,7 +94,7 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#dffaef",
     alignItems: "flex-start",
-    flex: 1
+    flex: 1,
   },
 
   container: {
