@@ -1,19 +1,14 @@
 package com.barmjz.productivityapp.Note;
 
-import com.barmjz.productivityapp.Folder.Folder;
-import com.barmjz.productivityapp.Folder.FolderRepo;
-import com.barmjz.productivityapp.user.User;
-import com.barmjz.productivityapp.user.UserRepo;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.barmjz.productivityapp.Folder.*;
+import com.barmjz.productivityapp.user.*;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.dao.DataIntegrityViolationException;
+import java.util.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.not;
 
 @DataJpaTest
 class NoteDBTest {
@@ -103,18 +98,13 @@ class NoteDBTest {
     }
 
     @Test
-    void addTwoNotesWithSameTitle(){
+    void addNoteToNotExistedFolder(){
         Note note1 = Note.builder()
                 .title("note")
-                .folder(folder1)
+                .folder(null)
                 .build();
-        Note note2 = Note.builder()
-                .title("note")
-                .folder(folder1)
-                .build();
-        noteRepo.save(note1);
-        noteRepo.save(note2);
 
+        assertThatThrownBy(() -> noteRepo.save(note1)).isInstanceOf(DataIntegrityViolationException.class);
     }
 
 
