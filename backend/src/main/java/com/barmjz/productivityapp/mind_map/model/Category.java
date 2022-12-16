@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "category")
@@ -14,11 +14,17 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String categoryName;
 
     @OneToMany(mappedBy = "category")
-    private Set<OneTimeTask> oneTimeTasks;
+    private List<OneTimeTask> oneTimeTasks;
 
     @OneToMany(mappedBy = "category")
-    private Set<RepeatedTask> repeatedTasks;
+    private List<RepeatedTask> repeatedTasks;
+
+    public Category(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
 }
