@@ -10,6 +10,7 @@ const FormInput = ({
   inputValue,
   validationFn = (text) => true ,
   onChange: outerOnChange,
+  ...props
 }) => {
   const [isValid, setIsValid] = useState(true);
 
@@ -27,6 +28,7 @@ const FormInput = ({
         value={inputValue}
         onChangeText={onChange}
         type={inputType}
+        {...props}
       />
 
       {helperText && (
