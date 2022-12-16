@@ -1,9 +1,14 @@
 package com.barmjz.productivityapp.user;
 
+import com.barmjz.productivityapp.mind_map.model.OneTimeTask;
+import com.barmjz.productivityapp.mind_map.model.RepeatedTask;
+import com.barmjz.productivityapp.mind_map.model.Task;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Entity
 @Table( name = "user",
@@ -44,6 +49,11 @@ public class User {
 
     private Boolean emailVerified;
 
+    @OneToMany(mappedBy = "user")
+    private Set<OneTimeTask> oneTimeTasks;
+
+    @OneToMany(mappedBy = "user")
+    private Set<RepeatedTask> repeatedTasks;
 
     public User(String email, String password, String firstName, String lastName) {
         this.email = email;

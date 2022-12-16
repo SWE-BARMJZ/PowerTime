@@ -1,7 +1,5 @@
 package com.barmjz.productivityapp.mind_map.model;
-
-import com.barmjz.productivityapp.mind_map.model.AbstractTask;
-import com.barmjz.productivityapp.mind_map.model.Category;
+import com.barmjz.productivityapp.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -18,8 +16,12 @@ public class Task extends AbstractTask {
     private Long id;
     @Column(nullable = false)
     private Date creationDate;
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne()
     @JoinColumn(name = "categoryId", referencedColumnName = "id")
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    private User user;
 }

@@ -17,5 +17,8 @@ public class Category {
     private String categoryName;
 
     @OneToMany(mappedBy = "category")
-    private Set<Task> tasks;
+    private Set<OneTimeTask> oneTimeTasks;
+
+    @OneToMany(mappedBy = "category")
+    private Set<RepeatedTask> repeatedTasks;
 }
