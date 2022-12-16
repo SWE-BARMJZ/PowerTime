@@ -12,9 +12,6 @@ public class TodoController {
     public ResponseEntity<String> addOnetimeTask(){
         return null;
     }
-    public ResponseEntity<String> addRepeatedTask(){
-        return null;
-    }
 
     public ResponseEntity<String> removeTodo(long id){
         return null;

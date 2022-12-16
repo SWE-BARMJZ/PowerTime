@@ -2,6 +2,7 @@ package com.barmjz.productivityapp.mind_map.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "category")
+@Getter
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

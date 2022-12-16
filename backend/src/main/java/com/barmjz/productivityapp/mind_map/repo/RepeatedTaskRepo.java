@@ -1,5 +1,6 @@
 package com.barmjz.productivityapp.mind_map.repo;
 
+import com.barmjz.productivityapp.mind_map.model.Category;
 import com.barmjz.productivityapp.mind_map.model.RepeatedTask;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,6 +14,8 @@ import java.util.Optional;
 @Repository
 public interface RepeatedTaskRepo extends JpaRepository<RepeatedTask, Long> {
     Optional<List<RepeatedTask>> getAllByUserId(Long userId);
+
+    RepeatedTask getById(Long taskId);
     Optional<List<RepeatedTask>> getAllByUserIdAndSundayEqualsAndLastRemovalDateNot(Long user_id, boolean sunday, Date date);
     Optional<List<RepeatedTask>> getAllByUserIdAndMondayEqualsAndLastRemovalDateNot(Long user_id, boolean monday, Date date);
     Optional<List<RepeatedTask>> getAllByUserIdAndTuesdayEqualsAndLastRemovalDateNot(Long user_id, boolean tuesday, Date date);
@@ -24,5 +27,7 @@ public interface RepeatedTaskRepo extends JpaRepository<RepeatedTask, Long> {
     @Modifying
     @Query("UPDATE RepeatedTask r SET r.lastRemovalDate = ?2 WHERE r.id = ?1")
     void changeRemovalDate(Long taskId, Date date);
+
+   Optional<List<RepeatedTask>> getAllByCategory(Category category);
 
 }

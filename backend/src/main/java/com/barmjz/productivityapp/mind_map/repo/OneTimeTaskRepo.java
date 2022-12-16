@@ -1,5 +1,6 @@
 package com.barmjz.productivityapp.mind_map.repo;
 
+import com.barmjz.productivityapp.mind_map.model.Category;
 import com.barmjz.productivityapp.mind_map.model.OneTimeTask;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface OneTimeTaskRepo extends JpaRepository<OneTimeTask, Long> {
     Optional<List<OneTimeTask>> getAllByUserId(Long userId);
-    Optional<List<OneTimeTask>> getAllByUserIdAndToDoEquals(Long userId, boolean toDo);
+    Optional<List<OneTimeTask>> getAllByUserIdAndIsToDoEquals(Long userId, boolean toDo);
 
     Optional<List<OneTimeTask>> getTop10ByUserIdAndCompletionDateNotNullOrderByCompletionDateDesc(Long userId);
 
@@ -24,5 +25,7 @@ public interface OneTimeTaskRepo extends JpaRepository<OneTimeTask, Long> {
     @Modifying
     @Query("UPDATE OneTimeTask t SET t.completionDate = null WHERE t.id = ?1")
     void unMarkTaskAsDone(Long taskId);
+
+    Optional<List<OneTimeTask>> getAllByCategory(Category category);
 
 }
