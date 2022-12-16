@@ -9,7 +9,10 @@ public class TodoController {
         return null;
     }
 
-    public ResponseEntity<String> addTodo(){
+    public ResponseEntity<String> addOnetimeTask(){
+        return null;
+    }
+    public ResponseEntity<String> addRepeatedTask(){
         return null;
     }
 
