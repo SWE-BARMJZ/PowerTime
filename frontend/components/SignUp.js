@@ -21,6 +21,8 @@ import { registerUser } from "../api/user.api";
 const logoPath = require("../assets/images/LOGO.png");
 
 export const SignUp = ({ navigation }) => {
+  const toast = useToast();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -44,11 +46,17 @@ export const SignUp = ({ navigation }) => {
         firstName,
         lastName,
       });
-      const msg = await response.text();
-      console.log(msg);
+      const message = await response.text();
+      toast.show({
+        title: message, 
+        placement: "top",
+      });
       goToLogin();
     } catch (error) {
-      console.log(error);
+      toast.show({
+        title: error.message,
+        placement: "top",
+      });
     }
   };
 

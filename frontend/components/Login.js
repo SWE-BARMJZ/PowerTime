@@ -59,7 +59,7 @@ export const Login = ({ navigation }) => {
           alignItems="center"
         >
           <Box h={16} w="full">
-            <Image source={logoPath} resizeMode="contain" h="full" />
+            <Image source={logoPath} resizeMode="contain" h="full" alt="logo" />
           </Box>
           <VStack w="85%" maxW={400} space={3}>
             <Heading alignSelf="center">Login</Heading>
@@ -102,6 +102,7 @@ export const Login = ({ navigation }) => {
               source={require("../assets/images/themeImage.png")}
               resizeMode="contain"
               h="full"
+              alt="hero"
             />
           </Box>
         </Hidden>
