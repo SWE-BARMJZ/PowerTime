@@ -1,31 +1,43 @@
 package com.barmjz.productivityapp.mind_map.model;
 
+import com.barmjz.productivityapp.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.Date;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+@SuperBuilder
 @Entity
 @Table(name = "repeated_task")
 public class RepeatedTask extends Task {
-    @Column(nullable = false, columnDefinition = "default 0")
-    private Boolean sunday;
-    @Column(nullable = false, columnDefinition = "default 0")
-    private Boolean monday;
-    @Column(nullable = false, columnDefinition = "default 0")
-    private Boolean tuesday;
-    @Column(nullable = false, columnDefinition = "default 0")
-    private Boolean wednesday;
-    @Column(nullable = false, columnDefinition = "default 0")
-    private Boolean thursday;
-    @Column(nullable = false, columnDefinition = "default 0")
-    private Boolean friday;
-    @Column(nullable = false, columnDefinition = "default 0")
-    private Boolean saturday;
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean sunday;
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean monday;
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean tuesday;
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean wednesday;
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean thursday;
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean friday;
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean saturday;
     private Date lastRemovalDate;
+
 }

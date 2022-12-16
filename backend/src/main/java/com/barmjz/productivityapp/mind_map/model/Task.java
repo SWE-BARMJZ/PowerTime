@@ -1,14 +1,16 @@
 package com.barmjz.productivityapp.mind_map.model;
 import com.barmjz.productivityapp.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.sql.Date;
 
 
-@AllArgsConstructor
+@Setter
+@Getter
 @NoArgsConstructor
+@SuperBuilder
 @MappedSuperclass
 public class Task extends AbstractTask {
     @Id
@@ -24,4 +26,5 @@ public class Task extends AbstractTask {
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
+
 }
