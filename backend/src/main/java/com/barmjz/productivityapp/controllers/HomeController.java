@@ -1,8 +1,8 @@
 package com.barmjz.productivityapp.controllers;
 
-import com.barmjz.productivityapp.category.Category;
-import com.barmjz.productivityapp.task.OneTimeTask;
-import com.barmjz.productivityapp.task.Task;
+import com.barmjz.productivityapp.todomindmap.category.Category;
+import com.barmjz.productivityapp.todomindmap.task.OneTimeTask;
+import com.barmjz.productivityapp.todomindmap.task.Task;
 import com.barmjz.productivityapp.user.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

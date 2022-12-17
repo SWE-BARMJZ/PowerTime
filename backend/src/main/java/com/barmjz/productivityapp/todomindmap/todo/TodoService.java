@@ -1,8 +1,11 @@
-package com.barmjz.productivityapp.todo;
+package com.barmjz.productivityapp.todomindmap.todo;
 
-import com.barmjz.productivityapp.category.Category;
-import com.barmjz.productivityapp.category.CategoryRepo;
-import com.barmjz.productivityapp.task.*;
+import com.barmjz.productivityapp.todomindmap.category.CategoryRepo;
+import com.barmjz.productivityapp.todomindmap.task.OneTimeTask;
+import com.barmjz.productivityapp.todomindmap.task.RepeatedTask;
+import com.barmjz.productivityapp.todomindmap.task.Task;
+import com.barmjz.productivityapp.todomindmap.repos.OneTimeTaskRepo;
+import com.barmjz.productivityapp.todomindmap.repos.RepeatedTaskRepo;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import lombok.AllArgsConstructor;
@@ -79,9 +82,15 @@ public class TodoService {
 //        repeatedTaskRepo.save(repeatedTask);
 //    }
 
-    public void addTask(long id){
+    public void addTodoTask(long id){
         oneTimeTaskRepo.addOnetimeTask(id);
     }
+
+
+    public void createNewTodoTask(long id){
+        oneTimeTaskRepo.addOnetimeTask(id);
+    }
+
 
     public void markOnetimeTask(Long id){
         Calendar calendar = Calendar.getInstance();
@@ -107,25 +116,25 @@ public class TodoService {
         repeatedTaskRepo.changeRemovalDate(id, Date.from(yesterday));
     }
 
-    public Map<String, List<OneTimeTask>> categorizeOnetimeTasks(){
-        Map<String, List<OneTimeTask>> stringListMap = new HashMap<>();
-        List<Category> categories = categoryRepo.findAll();
-        for (Category category: categories){
-            List<OneTimeTask> categoryTasks = oneTimeTaskRepo.getAllByCategory(category).get();
-            stringListMap.put(category.getCategoryName(), categoryTasks);
-        }
-        return stringListMap;
-    }
-
-    public Map<String, List<RepeatedTask>> categorizeRepeatedTasks(){
-        Map<String, List<RepeatedTask>> stringListMap = new HashMap<>();
-        List<Category> categories = categoryRepo.findAll();
-        for (Category category: categories){
-            List<RepeatedTask> categoryTasks = repeatedTaskRepo.getAllByCategory(category).get();
-            stringListMap.put(category.getCategoryName(), categoryTasks);
-        }
-        return stringListMap;
-    }
+//    public Map<String, List<OneTimeTask>> categorizeOnetimeTasks(){
+//        Map<String, List<OneTimeTask>> stringListMap = new HashMap<>();
+//        List<Category> categories = categoryRepo.findAll();
+//        for (Category category: categories){
+//            List<OneTimeTask> categoryTasks = oneTimeTaskRepo.getAllByCategory(category).get();
+//            stringListMap.put(category.getCategoryName(), categoryTasks);
+//        }
+//        return stringListMap;
+//    }
+//
+//    public Map<String, List<RepeatedTask>> categorizeRepeatedTasks(){
+//        Map<String, List<RepeatedTask>> stringListMap = new HashMap<>();
+//        List<Category> categories = categoryRepo.findAll();
+//        for (Category category: categories){
+//            List<RepeatedTask> categoryTasks = repeatedTaskRepo.getAllByCategory(category).get();
+//            stringListMap.put(category.getCategoryName(), categoryTasks);
+//        }
+//        return stringListMap;
+//    }
 
 
 }

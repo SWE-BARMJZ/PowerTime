@@ -1,5 +1,5 @@
-package com.barmjz.productivityapp.task;
-import com.barmjz.productivityapp.category.Category;
+package com.barmjz.productivityapp.todomindmap.task;
+import com.barmjz.productivityapp.todomindmap.category.Category;
 import com.barmjz.productivityapp.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

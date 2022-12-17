@@ -1,6 +1,6 @@
-package com.barmjz.productivityapp.todo;
+package com.barmjz.productivityapp.todomindmap.todo;
 
-import com.barmjz.productivityapp.task.Task;
+import com.barmjz.productivityapp.todomindmap.task.Task;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,19 +26,20 @@ public class TodoController {
     }
 
     @PutMapping("/{taskId}")
-    public ResponseEntity<String> addToTodo(@PathVariable Long taskId){
-       todoService.addTask(taskId);
+    public ResponseEntity<Task> addToTodo(@PathVariable Long taskId){
+       todoService.addTodoTask(taskId);
        return ResponseEntity.status(HttpStatus.OK).build();
     }
-    @PostMapping("/")
-    public ResponseEntity<String> createNewTodoTask(@RequestBody Task task, @RequestParam String type) {
-        return null;
-    }
+//    @PostMapping("/")
+//    public ResponseEntity<String> createNewTodoTask(@RequestBody Task task, @RequestParam String type) {
+//        return null;
+//    }
 
     @DeleteMapping("/{taskId}")
-    public ResponseEntity<String> removeFromTodo(@PathVariable Long taskId){
+    public ResponseEntity<Task> removeFromTodo(@PathVariable Long taskId){
         // if task is one time task, we only update the isToDo flag to false
         // if task is repeated task, we update the value of lastRemovalDate to today.
+
         return null;
     }
 }

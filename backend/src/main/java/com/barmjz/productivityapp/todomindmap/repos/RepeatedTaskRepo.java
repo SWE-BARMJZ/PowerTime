@@ -1,13 +1,13 @@
-package com.barmjz.productivityapp.task;
+package com.barmjz.productivityapp.todomindmap.repos;
 
-import com.barmjz.productivityapp.category.Category;
+import com.barmjz.productivityapp.todomindmap.category.Category;
+import com.barmjz.productivityapp.todomindmap.task.RepeatedTask;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 
@@ -27,5 +27,7 @@ public interface RepeatedTaskRepo extends JpaRepository<RepeatedTask, Long> {
     @Modifying
     @Query("UPDATE RepeatedTask r SET r.lastRemovalDate = ?2 WHERE r.id = ?1")
     void changeRemovalDate(Long taskId, Date date);
+
+    Optional<RepeatedTask> getByCreationDate(java.sql.Date creationDate);
 
 }

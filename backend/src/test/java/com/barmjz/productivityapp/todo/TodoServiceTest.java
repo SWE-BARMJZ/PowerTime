@@ -1,13 +1,11 @@
 package com.barmjz.productivityapp.todo;
-import com.barmjz.productivityapp.category.CategoryRepo;
-import com.barmjz.productivityapp.task.OneTimeTaskRepo;
-import com.barmjz.productivityapp.task.RepeatedTaskRepo;
+import com.barmjz.productivityapp.todomindmap.category.CategoryRepo;
+import com.barmjz.productivityapp.todomindmap.repos.OneTimeTaskRepo;
+import com.barmjz.productivityapp.todomindmap.repos.RepeatedTaskRepo;
+import com.barmjz.productivityapp.todomindmap.todo.TodoService;
 import com.barmjz.productivityapp.user.UserRepo;
-import com.barmjz.productivityapp.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 

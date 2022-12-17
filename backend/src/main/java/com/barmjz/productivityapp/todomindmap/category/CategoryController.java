@@ -1,4 +1,4 @@
-package com.barmjz.productivityapp.category;
+package com.barmjz.productivityapp.todomindmap.category;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
