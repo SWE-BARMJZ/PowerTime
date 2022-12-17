@@ -1,19 +1,28 @@
 package com.barmjz.productivityapp.todo;
 
 import com.barmjz.productivityapp.task.Task;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/api/todo")
+@RestController
+@RequestMapping("/api/todo")
+@AllArgsConstructor
 public class TodoController {
 
+    private final TodoService todoService;
     @GetMapping("/")
-    public ResponseEntity<List<Task>> getTodo(){
+    public ResponseEntity<List<Task>> getTodo() {
         // tasks will be returned as sorted by due data ascendingly.
         // tasks having due date with null value will be returned first.
-        return null;
+        try {
+            return ResponseEntity.ok(todoService.getTasks());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @PutMapping("/{taskId}")

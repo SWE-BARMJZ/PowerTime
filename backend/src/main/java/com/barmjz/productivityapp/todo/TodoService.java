@@ -2,10 +2,7 @@ package com.barmjz.productivityapp.todo;
 
 import com.barmjz.productivityapp.category.Category;
 import com.barmjz.productivityapp.category.CategoryRepo;
-import com.barmjz.productivityapp.task.OneTimeTask;
-import com.barmjz.productivityapp.task.OneTimeTaskRepo;
-import com.barmjz.productivityapp.task.RepeatedTask;
-import com.barmjz.productivityapp.task.RepeatedTaskRepo;
+import com.barmjz.productivityapp.task.*;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import lombok.AllArgsConstructor;
@@ -31,13 +28,25 @@ public class TodoService {
 
     private final RepeatedTaskRepo repeatedTaskRepo;
 
-    private final User user = userRepo.getUserByEmail(userAuthentication.getName()).get();
 
-    public List<OneTimeTask> getOnetimeTasks(){
-        return oneTimeTaskRepo.getAllByUserIdAndIsToDoEquals(user.getId(), true).orElseThrow();
+
+
+
+    public List<Task> getTasks(){
+        List<Task> tasks = new ArrayList<>();
+        List<RepeatedTask> repeatedTasks = getRepeatedTasks();
+        List<OneTimeTask> oneTimeTasks = getOnetimeTasks();
+        tasks.addAll(repeatedTasks);
+        tasks.addAll(oneTimeTasks);
+        return tasks;
+    }
+    private List<OneTimeTask> getOnetimeTasks(){
+        User user = userRepo.getUserByEmail(userAuthentication.getName()).get();
+        return oneTimeTaskRepo.getAllByUserIdAndIsToDoEqualsOrderByDueDateAsc(user.getId(), true).orElseThrow();
     }
 
-    public List<RepeatedTask> getRepeatedTasks(){
+    private List<RepeatedTask> getRepeatedTasks(){
+        User user = userRepo.getUserByEmail(userAuthentication.getName()).get();
         Calendar calendar = Calendar.getInstance();
         Date date = calendar.getTime();
         String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());

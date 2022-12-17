@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface OneTimeTaskRepo extends JpaRepository<OneTimeTask, Long> {
     Optional<List<OneTimeTask>> getAllByUserId(Long userId);
     Optional<List<OneTimeTask>> getAllByCategory(Category category);
-    Optional<List<OneTimeTask>> getAllByUserIdAndIsToDoEquals(Long userId, boolean toDo);
+    Optional<List<OneTimeTask>> getAllByUserIdAndIsToDoEqualsOrderByDueDateAsc(Long userId, boolean toDo);
 
     Optional<List<OneTimeTask>> getTop10ByUserIdAndCompletionDateNotNullOrderByCompletionDateDesc(Long userId);
 
