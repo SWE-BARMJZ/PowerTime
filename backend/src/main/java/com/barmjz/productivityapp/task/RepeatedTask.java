@@ -1,6 +1,6 @@
-package com.barmjz.productivityapp.mind_map.model;
+package com.barmjz.productivityapp.task;
 
-import com.barmjz.productivityapp.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -38,6 +38,7 @@ public class RepeatedTask extends Task {
     @Column(nullable = false)
     @ColumnDefault("false")
     private boolean saturday;
+    @JsonIgnore
     private Date lastRemovalDate;
 
 }

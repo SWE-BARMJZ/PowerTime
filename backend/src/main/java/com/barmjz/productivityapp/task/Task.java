@@ -1,5 +1,7 @@
-package com.barmjz.productivityapp.mind_map.model;
+package com.barmjz.productivityapp.task;
+import com.barmjz.productivityapp.category.Category;
 import com.barmjz.productivityapp.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -17,14 +19,16 @@ public class Task extends AbstractTask {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
+    @JsonIgnore
     private Date creationDate;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "categoryId", referencedColumnName = "id")
     private Category category;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JsonIgnore
     private User user;
 
 }

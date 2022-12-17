@@ -1,16 +1,31 @@
 package com.barmjz.productivityapp.controllers;
 
+import com.barmjz.productivityapp.category.Category;
+import com.barmjz.productivityapp.task.OneTimeTask;
+import com.barmjz.productivityapp.task.Task;
+import com.barmjz.productivityapp.user.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Date;
+
 @RestController
-@RequestMapping("/")
+@RequestMapping()
 public class HomeController {
 
-    @GetMapping
-    public String home(){
-        return "";
+    @GetMapping("/home")
+    public Task home(){
+        Category category = new Category("Assignments");
+        User user = new User("basel20ahmed@gmail.com", "Abdeebde_1023", "Basel", "Ahmed");
+        OneTimeTask oneTimeTask = OneTimeTask.builder()
+                .taskName("Assignment 1 Database")
+                .category(category)
+                .creationDate(Date.valueOf("2020-12-16"))
+                .dueDate(Date.valueOf("2022-12-30"))
+                .user(user)
+                .build();
+        return oneTimeTask;
     }
 
 }

@@ -1,8 +1,7 @@
 package com.barmjz.productivityapp.user;
 
-import com.barmjz.productivityapp.mind_map.model.OneTimeTask;
-import com.barmjz.productivityapp.mind_map.model.RepeatedTask;
-import com.barmjz.productivityapp.mind_map.model.Task;
+import com.barmjz.productivityapp.task.OneTimeTask;
+import com.barmjz.productivityapp.task.RepeatedTask;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.Set;
 
 @Entity
-@Table( name = "user",
+@Table( name = "`user`",
         uniqueConstraints = @UniqueConstraint(
                 name = "email_unique_const",
                 columnNames = "email"

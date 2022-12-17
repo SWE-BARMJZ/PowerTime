@@ -1,6 +1,5 @@
-package com.barmjz.productivityapp.mind_map.model;
+package com.barmjz.productivityapp.task;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;

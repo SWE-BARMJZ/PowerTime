@@ -1,6 +1,5 @@
-package com.barmjz.productivityapp.mind_map.repo;
+package com.barmjz.productivityapp.task;
 
-import com.barmjz.productivityapp.mind_map.model.RepeatedTask;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,5 +23,4 @@ public interface RepeatedTaskRepo extends JpaRepository<RepeatedTask, Long> {
     @Modifying
     @Query("UPDATE RepeatedTask r SET r.lastRemovalDate = ?2 WHERE r.id = ?1")
     void changeRemovalDate(Long taskId, Date date);
-
 }

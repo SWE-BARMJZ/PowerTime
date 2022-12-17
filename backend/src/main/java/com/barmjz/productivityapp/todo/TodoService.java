@@ -1,7 +1,6 @@
 package com.barmjz.productivityapp.todo;
 
-import com.barmjz.productivityapp.mind_map.model.Task;
-import lombok.AllArgsConstructor;
+import com.barmjz.productivityapp.task.Task;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

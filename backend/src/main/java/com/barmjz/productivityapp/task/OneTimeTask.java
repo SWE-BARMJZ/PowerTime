@@ -1,7 +1,8 @@
-package com.barmjz.productivityapp.mind_map.model;
+package com.barmjz.productivityapp.task;
 
 
-import com.barmjz.productivityapp.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -21,9 +22,10 @@ import java.sql.Date;
 public class OneTimeTask extends Task {
     private Date dueDate;
     @ColumnDefault("null")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Date completionDate;
     @Column(nullable = false)
     @ColumnDefault("false")
+    @JsonIgnore
     private boolean isToDo;
-
 }
