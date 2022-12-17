@@ -1,5 +1,4 @@
 package com.barmjz.productivityapp.todo_task_category.task;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;

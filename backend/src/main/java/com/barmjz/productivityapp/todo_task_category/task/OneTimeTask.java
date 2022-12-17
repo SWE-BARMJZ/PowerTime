@@ -1,6 +1,4 @@
 package com.barmjz.productivityapp.todo_task_category.task;
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Column;
@@ -9,9 +7,9 @@ import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.scheduling.config.Task;
 
 import java.sql.Date;
-
 
 @NoArgsConstructor
 @Setter

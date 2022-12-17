@@ -1,5 +1,4 @@
 package com.barmjz.productivityapp.todo_task_category.category;
-
 import com.barmjz.productivityapp.todo_task_category.task.OneTimeTask;
 import com.barmjz.productivityapp.todo_task_category.task.RepeatedTask;
 import com.fasterxml.jackson.annotation.JsonIgnore;

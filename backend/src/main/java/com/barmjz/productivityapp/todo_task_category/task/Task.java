@@ -9,9 +9,10 @@ import lombok.experimental.SuperBuilder;
 import java.sql.Date;
 
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
-@NoArgsConstructor
 @SuperBuilder
 @MappedSuperclass
 public class Task extends AbstractTask {

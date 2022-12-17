@@ -1,5 +1,4 @@
 package com.barmjz.productivityapp.user;
-
 import com.barmjz.productivityapp.todo_task_category.task.OneTimeTask;
 import com.barmjz.productivityapp.todo_task_category.task.RepeatedTask;
 import jakarta.persistence.*;

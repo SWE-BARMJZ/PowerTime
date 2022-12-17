@@ -1,10 +1,6 @@
 package com.barmjz.productivityapp.todo_task_category.task;
-
-
 import com.barmjz.productivityapp.todo_task_category.category.Category;
 import com.barmjz.productivityapp.todo_task_category.category.CategoryRepo;
-import com.barmjz.productivityapp.todo_task_category.task.OneTimeTaskRepo;
-import com.barmjz.productivityapp.todo_task_category.task.OneTimeTask;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import org.junit.jupiter.api.AfterEach;
@@ -182,6 +178,4 @@ class OneTimeTaskRepoTest {
         // then
         assertThat(List.of(task1, task4, task2)).isEqualTo(tasks);
     }
-
-
 }

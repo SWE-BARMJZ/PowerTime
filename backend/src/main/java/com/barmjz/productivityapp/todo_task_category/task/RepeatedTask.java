@@ -1,5 +1,4 @@
 package com.barmjz.productivityapp.todo_task_category.task;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,9 +9,11 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.util.Date;
 
-@NoArgsConstructor
+
+
 @Getter
 @Setter
+@NoArgsConstructor
 @SuperBuilder
 @Entity
 @Table(name = "repeated_task")

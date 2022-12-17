@@ -1,5 +1,4 @@
 package com.barmjz.productivityapp.todo_task_category.task;
-
 import com.barmjz.productivityapp.todo_task_category.category.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

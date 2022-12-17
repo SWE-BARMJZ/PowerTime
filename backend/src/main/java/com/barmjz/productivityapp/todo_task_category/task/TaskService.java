@@ -1,12 +1,13 @@
 package com.barmjz.productivityapp.todo_task_category.task;
-
 import com.barmjz.productivityapp.todo_task_category.category.CategoryRepo;
+import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 @Service
 @AllArgsConstructor
 public class TaskService {
@@ -65,7 +66,29 @@ public class TaskService {
         return newTask;
     }
 
-    
+    public Task tickTask(Long taskId, Long date, String taskType){
+        Task newTask;
+        Date currentDate = new Date(date);
+        User user = userRepo.getUserByEmail(userAuthentication.getName()).get();
+        if (taskType.equals("onetime")) {
+            oneTimeTaskRepo.markTaskAsDone(taskId, currentDate);
+            newTask = oneTimeTaskRepo.findById(taskId).get();
+        }else {
+            RepeatedTask repeatedTask = repeatedTaskRepo.findById(taskId).get();
+            OneTimeTask parsedRepeatedTask = OneTimeTask.builder()
+                    .taskName(repeatedTask.getTaskName())
+                    .creationDate(repeatedTask.getCreationDate())
+                    .user(user)
+                    .taskDesc(repeatedTask.getTaskDesc())
+                    .todo(false)
+                    .completionDate(currentDate)
+                    .build();
+            oneTimeTaskRepo.save(parsedRepeatedTask);
+            repeatedTaskRepo.changeRemovalDate(taskId, currentDate);
+            newTask = repeatedTaskRepo.findById(taskId).get();
+        }
+        return newTask;
+    }
 
 
 }
