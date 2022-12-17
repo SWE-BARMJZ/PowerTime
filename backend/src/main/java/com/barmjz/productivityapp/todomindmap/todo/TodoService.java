@@ -33,8 +33,6 @@ public class TodoService {
 
 
 
-
-
     public List<Task> getTasks(long date){
         List<Task> tasks = new ArrayList<>();
         List<RepeatedTask> repeatedTasks = getRepeatedTasks(date);
