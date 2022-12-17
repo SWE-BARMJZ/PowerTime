@@ -4,7 +4,7 @@ import { Home } from "./components/Home";
 import { Login } from "./components/Login";
 import { PasswordRecovery } from "./components/PasswordRecovery";
 import { SignUp } from "./components/SignUp";
-import { Notes } from "./components/Notes";
+import { Notes } from "./components/notes-component/Notes";
 import { StatusBar } from 'expo-status-bar';
 
 
@@ -15,6 +15,7 @@ import { AuthContextProvider } from "./store/auth-context";
 import { theme } from './UI/theme'
 
 const Stack = createNativeStackNavigator();
+
 
 export default function App() {
   return (
