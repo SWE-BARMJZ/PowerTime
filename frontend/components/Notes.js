@@ -10,16 +10,54 @@ import {
     VStack,
     Hidden,
     useToast,
+    Center
   } from "native-base";
+
+  import { AntDesign } from '@expo/vector-icons'; 
 
   export const Notes = ({ navigation }) => {
     return (
-      <Box>
-        <Text>Notes Component 😭</Text>
-        <Button my={4} size={"lg"} onPress={() => navigation.navigate("Login")}>
-            Back to login
-        </Button>
-      </Box>
+      <HStack m={4} safeArea h="full" justifyContent="center" bg="primary.bg">
+        <Hidden from="base" till="lg">
+          <VStack flex={5}>
+            <HStack 
+              p={'1%'} 
+              w="full" 
+              justifyContent="space-around"
+              borderColor="black.100"
+              borderBottomWidth="2"
+              borderLeftWidth="2"
+              borderTopWidth="2">
+                <Heading size={"lg"}> 
+                    Folders 
+                </Heading>
+              <Box>
+                <AntDesign name="addfolder" size={35} color="#5BBA59" />
+              </Box>
+            </HStack>
+          </VStack>
+        </Hidden>
+        <VStack flex={5}>
+          <HStack 
+            p={'1%'} 
+            w="full" 
+            justifyContent="space-around"
+            borderColor="black.100"
+            borderBottomWidth="2"
+            borderLeftWidth="2"
+            borderTopWidth="2">
+              <Heading size={"lg"}> 
+                  Notes 
+              </Heading>  
+            <Box>
+              <AntDesign name="addfolder" size={35} color="#5BBA59" />
+            </Box>
+          </HStack>
+        </VStack>
+        <VStack flex={18} bg="primary.700">
+
+        </VStack>
+      </HStack>
     );
   };
   

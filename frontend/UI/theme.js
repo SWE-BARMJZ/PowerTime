@@ -6,6 +6,7 @@ const theme = extendTheme({
       main: "#0068F9",
       bg: "#dffaef"
     },
+    secondary: "#5BBA59",
   },
   components: {
     Link: {
