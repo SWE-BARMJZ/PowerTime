@@ -116,4 +116,15 @@ class RepeatedTaskRepoTest {
 
     }
 
+    @Test
+    void getAllByCategory() {
+    }
+
+    @Test
+    void changeRemovalDate() {
+    }
+
+    @Test
+    void getByCreationDate() {
+    }
 }
