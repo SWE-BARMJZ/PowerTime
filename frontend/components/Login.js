@@ -97,7 +97,7 @@ export const Login = ({ navigation }) => {
         </VStack>
 
         <Hidden from="base" till="lg">
-          <Box flex="1" h="full">
+          <Box flex="1" h="full" pr="10">
             <Image
               source={require("../assets/images/themeImage.png")}
               resizeMode="contain"
