@@ -31,10 +31,6 @@ public class TodoService {
 
     private final RepeatedTaskRepo repeatedTaskRepo;
 
-
-
-
-
     public List<Task> getTasks(long date){
         List<Task> tasks = new ArrayList<>();
         List<RepeatedTask> repeatedTasks = getRepeatedTasks(date);
