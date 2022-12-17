@@ -7,7 +7,6 @@ import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.scheduling.config.Task;
 
 import java.sql.Date;
 
