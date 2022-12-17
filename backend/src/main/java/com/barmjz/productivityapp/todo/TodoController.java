@@ -14,12 +14,12 @@ import java.util.List;
 public class TodoController {
 
     private final TodoService todoService;
-    @GetMapping("/")
-    public ResponseEntity<List<Task>> getTodo() {
+    @GetMapping("/{date}")
+    public ResponseEntity<List<Task>> getTodo(@PathVariable long date) {
         // tasks will be returned as sorted by due data ascendingly.
         // tasks having due date with null value will be returned first.
         try {
-            return ResponseEntity.ok(todoService.getTasks());
+            return ResponseEntity.ok(todoService.getTasks(date));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -27,10 +27,11 @@ public class TodoController {
 
     @PutMapping("/{taskId}")
     public ResponseEntity<String> addToTodo(@PathVariable Long taskId){
-        return null;
+       todoService.addTask(taskId);
+       return ResponseEntity.status(HttpStatus.OK).build();
     }
     @PostMapping("/")
-    public ResponseEntity<String> createNewTodoTask(@RequestBody Task task) {
+    public ResponseEntity<String> createNewTodoTask(@RequestBody Task task, @RequestParam String type) {
         return null;
     }
 

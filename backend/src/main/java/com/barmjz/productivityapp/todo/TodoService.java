@@ -32,9 +32,9 @@ public class TodoService {
 
 
 
-    public List<Task> getTasks(){
+    public List<Task> getTasks(long date){
         List<Task> tasks = new ArrayList<>();
-        List<RepeatedTask> repeatedTasks = getRepeatedTasks();
+        List<RepeatedTask> repeatedTasks = getRepeatedTasks(date);
         List<OneTimeTask> oneTimeTasks = getOnetimeTasks();
         tasks.addAll(repeatedTasks);
         tasks.addAll(oneTimeTasks);
@@ -45,39 +45,42 @@ public class TodoService {
         return oneTimeTaskRepo.getAllByUserIdAndIsToDoEqualsOrderByDueDateAsc(user.getId(), true).orElseThrow();
     }
 
-    private List<RepeatedTask> getRepeatedTasks(){
+    private List<RepeatedTask> getRepeatedTasks(long date){
         User user = userRepo.getUserByEmail(userAuthentication.getName()).get();
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
-        String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(date.getTime());
+        Date currentDate = new Date(date);
+        String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(currentDate.getTime());
         Optional<List<RepeatedTask>> repeatedTasks;
         switch (currentDay){
             case "Saturday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndSaturdayEqualsAndLastRemovalDateNot(user.getId(), true, date);
+                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndSaturdayEqualsAndLastRemovalDateNot(user.getId(), true, currentDate);
             case "Sunday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndSundayEqualsAndLastRemovalDateNot(user.getId(), true, date);
+                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndSundayEqualsAndLastRemovalDateNot(user.getId(), true, currentDate);
             case "Monday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndMondayEqualsAndLastRemovalDateNot(user.getId(), true, date);
+                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndMondayEqualsAndLastRemovalDateNot(user.getId(), true, currentDate);
             case "Tuesday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndTuesdayEqualsAndLastRemovalDateNot(user.getId(), true, date);
+                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndTuesdayEqualsAndLastRemovalDateNot(user.getId(), true, currentDate);
             case "Wednesday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndWednesdayEqualsAndLastRemovalDateNot(user.getId(), true, date);
+                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndWednesdayEqualsAndLastRemovalDateNot(user.getId(), true, currentDate);
             case "Thursday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndThursdayEqualsAndLastRemovalDateNot(user.getId(), true, date);
+                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndThursdayEqualsAndLastRemovalDateNot(user.getId(), true, currentDate);
             case "Friday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndFridayEqualsAndLastRemovalDateNot(user.getId(), true, date);
+                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndFridayEqualsAndLastRemovalDateNot(user.getId(), true, currentDate);
             default:
                 repeatedTasks = null;
         }
         return repeatedTasks.get();
     }
 
-    public void addOnetimeTask(OneTimeTask oneTimeTask){
-        oneTimeTaskRepo.save(oneTimeTask);
-    }
+//    public void addOnetimeTask(OneTimeTask oneTimeTask){
+//        oneTimeTaskRepo.save(oneTimeTask);
+//    }
+//
+//    public void addRepeatedTask(RepeatedTask repeatedTask){
+//        repeatedTaskRepo.save(repeatedTask);
+//    }
 
-    public void addRepeatedTask(RepeatedTask repeatedTask){
-        repeatedTaskRepo.save(repeatedTask);
+    public void addTask(long id){
+        oneTimeTaskRepo.addOnetimeTask(id);
     }
 
     public void markOnetimeTask(Long id){

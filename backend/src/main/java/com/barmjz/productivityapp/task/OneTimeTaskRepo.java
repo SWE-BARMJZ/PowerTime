@@ -26,4 +26,7 @@ public interface OneTimeTaskRepo extends JpaRepository<OneTimeTask, Long> {
     @Query("UPDATE OneTimeTask t SET t.completionDate = null WHERE t.id = ?1")
     void unMarkTaskAsDone(Long taskId);
 
+    @Modifying
+    @Query("UPDATE OneTimeTask t SET t.isToDo = true WHERE t.id = ?1")
+    void addOnetimeTask(Long taskId);
 }
