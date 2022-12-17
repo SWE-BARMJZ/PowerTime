@@ -77,7 +77,7 @@ class OneTimeTaskRepoTest {
     }
 
     @Test
-    void gettingOneTimeTasksWithIsToDoFlagEqualTrue() {
+    void gettingOneTimeTasksWithToDoFlagEqualTrueInTheRightOrder() {
         Category category1 = categoryRepo.getCategoryByCategoryName("Assignments").get();
         Category category2 = categoryRepo.getCategoryByCategoryName("Hobbies").get();
 
@@ -88,6 +88,7 @@ class OneTimeTaskRepoTest {
                 .creationDate(Date.valueOf("2020-12-16"))
                 .dueDate(Date.valueOf("2022-12-30"))
                 .user(user)
+                .todo(true)
                 .build();
 
         OneTimeTask oneTimeTask2 = OneTimeTask.builder()
@@ -95,9 +96,9 @@ class OneTimeTaskRepoTest {
                 .taskDesc("Use Huffman algorithm to compress files efficiently")
                 .category(category1)
                 .creationDate(Date.valueOf("2020-12-16"))
-                .dueDate(Date.valueOf("2022-12-30"))
+                .dueDate(Date.valueOf("2022-12-19"))
                 .user(user)
-                .isToDo(true)
+                .todo(true)
                 .build();
 
         OneTimeTask oneTimeTask3 = OneTimeTask.builder()
@@ -105,14 +106,14 @@ class OneTimeTaskRepoTest {
                 .category(category2)
                 .creationDate(Date.valueOf("2020-12-16"))
                 .user(user)
-                .isToDo(true)
+                .todo(true)
                 .build();
         OneTimeTask oneTimeTask4 = OneTimeTask.builder()
                 .taskName("Preparing food")
                 .category(category2)
                 .creationDate(Date.valueOf("2020-12-15"))
                 .user(user)
-                .isToDo(true)
+                .todo(true)
                 .build();
         OneTimeTask oneTimeTask5 = OneTimeTask.builder()
                 .taskName("Assignment 3 AI")
@@ -125,10 +126,11 @@ class OneTimeTaskRepoTest {
 
         // when
         oneTimeTaskRepo.saveAll(List.of(oneTimeTask1, oneTimeTask2, oneTimeTask3, oneTimeTask4, oneTimeTask5));
-        List<OneTimeTask> oneTimeTasks = oneTimeTaskRepo.getAllByUserIdAndIsToDoEquals(user.getId(), true).get();
+        List<OneTimeTask> oneTimeTasks = oneTimeTaskRepo.getAllByUserIdAndTodoEqualsOrderByDueDate(user.getId(), true).get();
 
         // then
-        assertThat(List.of(oneTimeTask2, oneTimeTask3, oneTimeTask4)).isEqualTo(oneTimeTasks);
+        assertThat(oneTimeTask2).isEqualTo(oneTimeTasks.get(2));
+        assertThat(oneTimeTask1).isEqualTo(oneTimeTasks.get(3));
 
     }
 

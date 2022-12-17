@@ -27,5 +27,5 @@ public class OneTimeTask extends Task {
     @Column(nullable = false)
     @ColumnDefault("false")
     @JsonIgnore
-    private boolean isToDo;
+    private boolean todo;
 }

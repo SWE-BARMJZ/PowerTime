@@ -42,7 +42,7 @@ public class TodoService {
     }
     private List<OneTimeTask> getOnetimeTasks(){
         User user = userRepo.getUserByEmail(userAuthentication.getName()).get();
-        return oneTimeTaskRepo.getAllByUserIdAndIsToDoEqualsOrderByDueDateAsc(user.getId(), true).orElseThrow();
+        return oneTimeTaskRepo.getAllByUserIdAndTodoEqualsOrderByDueDate(user.getId(), true).orElseThrow();
     }
 
     private List<RepeatedTask> getRepeatedTasks(){
