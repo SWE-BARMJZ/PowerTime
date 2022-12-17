@@ -1,11 +1,10 @@
-package com.barmjz.productivityapp.todo_mindmap.todo;
-
-import com.barmjz.productivityapp.todo_mindmap.category.CategoryRepo;
-import com.barmjz.productivityapp.todo_mindmap.task.OneTimeTask;
-import com.barmjz.productivityapp.todo_mindmap.task.RepeatedTask;
-import com.barmjz.productivityapp.todo_mindmap.task.Task;
-import com.barmjz.productivityapp.todo_mindmap.task.OneTimeTaskRepo;
-import com.barmjz.productivityapp.todo_mindmap.task.RepeatedTaskRepo;
+package com.barmjz.productivityapp.todo_task_category.todo;
+import com.barmjz.productivityapp.todo_task_category.category.CategoryRepo;
+import com.barmjz.productivityapp.todo_task_category.task.OneTimeTask;
+import com.barmjz.productivityapp.todo_task_category.task.RepeatedTask;
+import com.barmjz.productivityapp.todo_task_category.task.Task;
+import com.barmjz.productivityapp.todo_task_category.task.OneTimeTaskRepo;
+import com.barmjz.productivityapp.todo_task_category.task.RepeatedTaskRepo;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import lombok.AllArgsConstructor;
@@ -30,8 +29,6 @@ public class TodoService {
     private final OneTimeTaskRepo oneTimeTaskRepo;
 
     private final RepeatedTaskRepo repeatedTaskRepo;
-
-
 
     public List<Task> getTasks(long date){
         List<Task> tasks = new ArrayList<>();
@@ -72,22 +69,11 @@ public class TodoService {
         return repeatedTasks.get();
     }
 
-//    public void addOnetimeTask(OneTimeTask oneTimeTask){
-//        oneTimeTaskRepo.save(oneTimeTask);
-//    }
-//
-//    public void addRepeatedTask(RepeatedTask repeatedTask){
-//        repeatedTaskRepo.save(repeatedTask);
-//    }
 
     public void addTodoTask(long id){
-        oneTimeTaskRepo.addOnetimeTask(id);
+        oneTimeTaskRepo.changeTodoFlagToTrue(id);
     }
 
-
-    public void createNewTodoTask(long id){
-        oneTimeTaskRepo.addOnetimeTask(id);
-    }
 
 
     public void markOnetimeTask(Long id){

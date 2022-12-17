@@ -1,8 +1,5 @@
-package com.barmjz.productivityapp.todo_mindmap.task;
-
-import com.barmjz.productivityapp.todo_mindmap.category.CategoryRepo;
-import com.barmjz.productivityapp.todo_mindmap.task.OneTimeTaskRepo;
-import com.barmjz.productivityapp.todo_mindmap.task.RepeatedTaskRepo;
+package com.barmjz.productivityapp.todo_task_category.task;
+import com.barmjz.productivityapp.todo_task_category.category.CategoryRepo;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import lombok.AllArgsConstructor;
@@ -13,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -99,17 +98,28 @@ public class TaskService {
     public Task untickTask(Long taskId, Long date){
         Task newTask;
         Date currentDate = new Date(date);
-        User user = userRepo.getUserByEmail(userAuthentication.getName()).get();
+        Instant time = currentDate.toInstant();
+        Date yesterday = (Date) Date.from(time.minus(1, ChronoUnit.DAYS));
         OneTimeTask oneTimeTask = oneTimeTaskRepo.findById(taskId).get();
-        if (repeatedTaskRepo.existsByCreationDate(oneTimeTask.getCreationDate()))
-        {
-
+        if (repeatedTaskRepo.existsByCreationDate(oneTimeTask.getCreationDate())){
+            RepeatedTask repeatedTask = repeatedTaskRepo.getByCreationDate(oneTimeTask.getCreationDate()).get();
+            repeatedTaskRepo.changeRemovalDate(repeatedTask.getId(), yesterday);
+            newTask = repeatedTaskRepo.findById(repeatedTask.getId()).get();
+            oneTimeTaskRepo.deleteById(taskId);
         }
         else {
-
+            oneTimeTaskRepo.unMarkTaskAsDone(taskId);
+            newTask = oneTimeTaskRepo.findById(taskId).get();
         }
         return newTask;
     }
 
+    public List<Task> getCompletedTask(){
+        User user = userRepo.getUserByEmail(userAuthentication.getName()).get();
+        List<OneTimeTask> completedOneTimeTasks =  oneTimeTaskRepo.getCompletedTasks(user).get();
+        List<Task> completedTasks = new ArrayList<>();
+        completedTasks.addAll(completedOneTimeTasks);
+        return completedTasks;
+    }
 
 }

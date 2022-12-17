@@ -1,6 +1,5 @@
-package com.barmjz.productivityapp.todo_mindmap.todo;
-
-import com.barmjz.productivityapp.todo_mindmap.task.Task;
+package com.barmjz.productivityapp.todo_task_category.todo;
+import com.barmjz.productivityapp.todo_task_category.task.Task;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +29,7 @@ public class TodoController {
        todoService.addTodoTask(taskId);
        return ResponseEntity.status(HttpStatus.OK).build();
     }
-//    @PostMapping("/")
-//    public ResponseEntity<String> createNewTodoTask(@RequestBody Task task, @RequestParam String type) {
-//        return null;
-//    }
+
 
     @DeleteMapping("/{taskId}")
     public ResponseEntity<Task> removeFromTodo(@PathVariable Long taskId){

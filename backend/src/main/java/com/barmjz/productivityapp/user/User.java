@@ -1,7 +1,6 @@
 package com.barmjz.productivityapp.user;
-
-import com.barmjz.productivityapp.todo_mindmap.task.OneTimeTask;
-import com.barmjz.productivityapp.todo_mindmap.task.RepeatedTask;
+import com.barmjz.productivityapp.todo_task_category.task.OneTimeTask;
+import com.barmjz.productivityapp.todo_task_category.task.RepeatedTask;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

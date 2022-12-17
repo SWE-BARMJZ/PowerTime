@@ -1,6 +1,4 @@
-package com.barmjz.productivityapp.todo_mindmap.task;
-
-
+package com.barmjz.productivityapp.todo_task_category.task;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Column;
@@ -11,7 +9,6 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.sql.Date;
-
 
 @NoArgsConstructor
 @Setter

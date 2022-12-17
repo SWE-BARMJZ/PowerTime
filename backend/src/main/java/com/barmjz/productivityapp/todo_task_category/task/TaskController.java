@@ -1,4 +1,4 @@
-package com.barmjz.productivityapp.todo_mindmap.task;
+package com.barmjz.productivityapp.todo_task_category.task;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -53,13 +53,21 @@ public class TaskController {
         }
     }
     @PutMapping("/{taskId}/untick")
-    public ResponseEntity<Task> untickTask(@PathVariable Long taskId, @RequestParam Long date){
-        return null;
+    public ResponseEntity<Task> untickTask(@PathVariable Long taskId, @RequestParam Long date, @RequestParam String taskType){
+        try {
+            return ResponseEntity.ok(taskService.untickTask(taskId, date));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @GetMapping("/completed")
     public ResponseEntity<List<Task>> getCompletedTasks(){
-        return null;
+        try {
+            return ResponseEntity.ok(taskService.getCompletedTask());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
 

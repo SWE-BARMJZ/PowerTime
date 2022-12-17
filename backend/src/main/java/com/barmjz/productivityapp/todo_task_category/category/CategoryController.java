@@ -1,4 +1,4 @@
-package com.barmjz.productivityapp.todo_mindmap.category;
+package com.barmjz.productivityapp.todo_task_category.category;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
