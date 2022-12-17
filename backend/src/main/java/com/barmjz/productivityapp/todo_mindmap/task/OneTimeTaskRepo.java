@@ -1,7 +1,7 @@
-package com.barmjz.productivityapp.todomindmap.repos;
+package com.barmjz.productivityapp.todo_mindmap.task;
 
-import com.barmjz.productivityapp.todomindmap.category.Category;
-import com.barmjz.productivityapp.todomindmap.task.OneTimeTask;
+import com.barmjz.productivityapp.todo_mindmap.category.Category;
+import com.barmjz.productivityapp.todo_mindmap.task.OneTimeTask;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

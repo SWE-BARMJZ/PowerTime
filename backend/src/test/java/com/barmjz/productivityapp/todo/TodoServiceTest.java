@@ -1,8 +1,8 @@
 package com.barmjz.productivityapp.todo;
-import com.barmjz.productivityapp.todomindmap.category.CategoryRepo;
-import com.barmjz.productivityapp.todomindmap.repos.OneTimeTaskRepo;
-import com.barmjz.productivityapp.todomindmap.repos.RepeatedTaskRepo;
-import com.barmjz.productivityapp.todomindmap.todo.TodoService;
+import com.barmjz.productivityapp.todo_mindmap.category.CategoryRepo;
+import com.barmjz.productivityapp.todo_mindmap.task.OneTimeTaskRepo;
+import com.barmjz.productivityapp.todo_mindmap.task.RepeatedTaskRepo;
+import com.barmjz.productivityapp.todo_mindmap.todo.TodoService;
 import com.barmjz.productivityapp.user.UserRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,8 +1,8 @@
-package com.barmjz.productivityapp.todomindmap.task;
+package com.barmjz.productivityapp.todo_mindmap.task;
 
-import com.barmjz.productivityapp.todomindmap.category.CategoryRepo;
-import com.barmjz.productivityapp.todomindmap.repos.OneTimeTaskRepo;
-import com.barmjz.productivityapp.todomindmap.repos.RepeatedTaskRepo;
+import com.barmjz.productivityapp.todo_mindmap.category.CategoryRepo;
+import com.barmjz.productivityapp.todo_mindmap.task.OneTimeTaskRepo;
+import com.barmjz.productivityapp.todo_mindmap.task.RepeatedTaskRepo;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import lombok.AllArgsConstructor;
@@ -86,7 +86,7 @@ public class TaskService {
                     .creationDate(repeatedTask.getCreationDate())
                     .user(user)
                     .taskDesc(repeatedTask.getTaskDesc())
-                    .isToDo(false)
+                    .todo(false)
                     .completionDate(currentDate)
                     .build();
             oneTimeTaskRepo.save(parsedRepeatedTask);
