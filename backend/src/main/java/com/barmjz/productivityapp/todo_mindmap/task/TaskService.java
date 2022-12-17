@@ -96,5 +96,20 @@ public class TaskService {
         return newTask;
     }
 
+    public Task untickTask(Long taskId, Long date){
+        Task newTask;
+        Date currentDate = new Date(date);
+        User user = userRepo.getUserByEmail(userAuthentication.getName()).get();
+        OneTimeTask oneTimeTask = oneTimeTaskRepo.findById(taskId).get();
+        if (repeatedTaskRepo.existsByCreationDate(oneTimeTask.getCreationDate()))
+        {
+
+        }
+        else {
+
+        }
+        return newTask;
+    }
+
 
 }
