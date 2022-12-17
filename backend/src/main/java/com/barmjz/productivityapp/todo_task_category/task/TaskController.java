@@ -1,4 +1,4 @@
-package com.barmjz.productivityapp.todomindmap.task;
+package com.barmjz.productivityapp.todo_mindmap.task;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

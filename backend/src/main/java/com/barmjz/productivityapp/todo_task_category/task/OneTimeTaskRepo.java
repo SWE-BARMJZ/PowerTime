@@ -1,7 +1,6 @@
-package com.barmjz.productivityapp.todomindmap.repos;
+package com.barmjz.productivityapp.todo_mindmap.task;
 
-import com.barmjz.productivityapp.todomindmap.category.Category;
-import com.barmjz.productivityapp.todomindmap.task.OneTimeTask;
+import com.barmjz.productivityapp.todo_mindmap.category.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -31,8 +30,8 @@ public interface OneTimeTaskRepo extends JpaRepository<OneTimeTask, Long> {
     void unMarkTaskAsDone(Long taskId);
 
     @Modifying
-    @Query("UPDATE OneTimeTask t SET t.isToDo = true WHERE t.id = ?1")
-    void addOnetimeTask(Long taskId);
+    @Query("UPDATE OneTimeTask t SET t.todo = true WHERE t.id = ?1")
+    void changeTodoFlagToTrue(Long taskId);
 
     Optional<OneTimeTask> getByCreationDate(Date creationDate);
 }

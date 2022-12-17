@@ -1,11 +1,11 @@
-package com.barmjz.productivityapp.todomindmap.todo;
+package com.barmjz.productivityapp.todo_mindmap.todo;
 
-import com.barmjz.productivityapp.todomindmap.category.CategoryRepo;
-import com.barmjz.productivityapp.todomindmap.task.OneTimeTask;
-import com.barmjz.productivityapp.todomindmap.task.RepeatedTask;
-import com.barmjz.productivityapp.todomindmap.task.Task;
-import com.barmjz.productivityapp.todomindmap.repos.OneTimeTaskRepo;
-import com.barmjz.productivityapp.todomindmap.repos.RepeatedTaskRepo;
+import com.barmjz.productivityapp.todo_mindmap.category.CategoryRepo;
+import com.barmjz.productivityapp.todo_mindmap.task.OneTimeTask;
+import com.barmjz.productivityapp.todo_mindmap.task.RepeatedTask;
+import com.barmjz.productivityapp.todo_mindmap.task.Task;
+import com.barmjz.productivityapp.todo_mindmap.task.OneTimeTaskRepo;
+import com.barmjz.productivityapp.todo_mindmap.task.RepeatedTaskRepo;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import lombok.AllArgsConstructor;
@@ -83,12 +83,12 @@ public class TodoService {
 //    }
 
     public void addTodoTask(long id){
-        oneTimeTaskRepo.addOnetimeTask(id);
+        oneTimeTaskRepo.changeTodoFlagToTrue(id);
     }
 
 
     public void createNewTodoTask(long id){
-        oneTimeTaskRepo.addOnetimeTask(id);
+        oneTimeTaskRepo.changeTodoFlagToTrue(id);
     }
 
 

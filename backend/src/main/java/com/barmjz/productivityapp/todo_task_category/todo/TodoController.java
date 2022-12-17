@@ -1,6 +1,6 @@
-package com.barmjz.productivityapp.todomindmap.todo;
+package com.barmjz.productivityapp.todo_mindmap.todo;
 
-import com.barmjz.productivityapp.todomindmap.task.Task;
+import com.barmjz.productivityapp.todo_mindmap.task.Task;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

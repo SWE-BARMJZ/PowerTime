@@ -1,8 +1,6 @@
-package com.barmjz.productivityapp.todomindmap.task;
+package com.barmjz.productivityapp.todo_mindmap.task;
 
-import com.barmjz.productivityapp.todomindmap.category.CategoryRepo;
-import com.barmjz.productivityapp.todomindmap.repos.OneTimeTaskRepo;
-import com.barmjz.productivityapp.todomindmap.repos.RepeatedTaskRepo;
+import com.barmjz.productivityapp.todo_mindmap.category.CategoryRepo;
 import com.barmjz.productivityapp.user.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
