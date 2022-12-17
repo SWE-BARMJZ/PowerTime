@@ -1,5 +1,5 @@
-package com.barmjz.productivityapp.todo_mindmap.task;
-import com.barmjz.productivityapp.todo_mindmap.category.Category;
+package com.barmjz.productivityapp.todo_task_category.task;
+import com.barmjz.productivityapp.todo_task_category.category.Category;
 import com.barmjz.productivityapp.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

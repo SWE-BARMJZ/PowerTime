@@ -1,11 +1,11 @@
-package com.barmjz.productivityapp.todo_mindmap.todo;
+package com.barmjz.productivityapp.todo_task_category.todo;
 
-import com.barmjz.productivityapp.todo_mindmap.category.CategoryRepo;
-import com.barmjz.productivityapp.todo_mindmap.task.OneTimeTask;
-import com.barmjz.productivityapp.todo_mindmap.task.RepeatedTask;
-import com.barmjz.productivityapp.todo_mindmap.task.Task;
-import com.barmjz.productivityapp.todo_mindmap.task.OneTimeTaskRepo;
-import com.barmjz.productivityapp.todo_mindmap.task.RepeatedTaskRepo;
+import com.barmjz.productivityapp.todo_task_category.category.CategoryRepo;
+import com.barmjz.productivityapp.todo_task_category.task.OneTimeTask;
+import com.barmjz.productivityapp.todo_task_category.task.RepeatedTask;
+import com.barmjz.productivityapp.todo_task_category.task.Task;
+import com.barmjz.productivityapp.todo_task_category.task.OneTimeTaskRepo;
+import com.barmjz.productivityapp.todo_task_category.task.RepeatedTaskRepo;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import lombok.AllArgsConstructor;

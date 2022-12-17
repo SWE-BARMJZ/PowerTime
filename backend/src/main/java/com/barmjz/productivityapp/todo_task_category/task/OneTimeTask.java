@@ -1,4 +1,4 @@
-package com.barmjz.productivityapp.todo_mindmap.task;
+package com.barmjz.productivityapp.todo_task_category.task;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

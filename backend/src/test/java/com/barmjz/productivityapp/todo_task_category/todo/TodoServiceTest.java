@@ -1,6 +1,4 @@
-package com.barmjz.productivityapp.todo_mindmap.todo;
-
-import static org.junit.jupiter.api.Assertions.*;
+package com.barmjz.productivityapp.todo_task_category.todo;
 
 class TodoServiceTest {
 

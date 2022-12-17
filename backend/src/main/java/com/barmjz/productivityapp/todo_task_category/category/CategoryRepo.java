@@ -1,6 +1,5 @@
-package com.barmjz.productivityapp.todo_mindmap.category;
+package com.barmjz.productivityapp.todo_task_category.category;
 
-import com.barmjz.productivityapp.todo_mindmap.category.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
