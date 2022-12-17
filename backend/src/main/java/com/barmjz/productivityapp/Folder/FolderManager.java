@@ -2,9 +2,8 @@ package com.barmjz.productivityapp.Folder;
 
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -30,11 +29,12 @@ public class FolderManager {
         Optional<User> user = userRepo.findById(userId);
         if(!user.isPresent())
             throw new NoSuchElementException("user not found");
+        Date date = new Date();
         Folder newFolder = Folder.builder()
                 .name(folderName)
                 .user(user.get())
-                .CreatedDate(new Date())
-                .modifiedDate(new Date())
+                .CreatedDate(date)
+                .modifiedDate(date)
                 .build();
         if(folderRepo.existsFolderByNameAndUser_Id(folderName,user.get().getId()))
             throw new IllegalStateException("folder name already exists");
@@ -47,7 +47,7 @@ public class FolderManager {
         if(folderId == null)
             throw new NullPointerException("folderId is null");
         if(!folderRepo.existsFolderById(folderId))
-            throw new IllegalStateException("folder not found");
+            throw new NoSuchElementException("folder not found");
         Folder folder = folderRepo.getReferenceById(folderId);
         if(folderRepo.existsFolderByNameAndUser_Id(folderName,folder.getUser().getId()))
             throw new IllegalStateException("folder name already exists");
@@ -64,11 +64,16 @@ public class FolderManager {
 
     }
 
+    @Transactional
     public boolean deleteFolder(Long folderId){
-        if(!folderRepo.existsFolderById(folderId))
+        if(folderId == null || !folderRepo.existsFolderById(folderId))
             throw new NoSuchElementException("folder not found");
         // check if note are deleted by cascade or not
         folderRepo.deleteById(folderId);
         return true;
+    }
+
+    public Long getUserId(String email){
+        return userRepo.getUserByEmail(email).get().getId();
     }
 }

@@ -38,18 +38,16 @@ public class Folder {
 
     @Column(nullable = false)
     private String name;
-
     private Date CreatedDate;
     private Date modifiedDate;
 
     @ManyToOne(
             optional = false,
-            cascade = CascadeType.ALL
+            cascade = {CascadeType.ALL}
     )
     @JoinColumn(
             name = "user_id",
-            referencedColumnName = "id",
-            nullable = false
+            referencedColumnName = "id"
     )
     private User user;
 }

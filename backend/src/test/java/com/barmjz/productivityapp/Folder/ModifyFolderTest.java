@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -75,7 +76,7 @@ class ModifyFolderTest {
                 .isInstanceOf(NullPointerException.class)
                 .hasMessageContaining("folderId is null");
         assertThatThrownBy(() -> folderManager.modifyFolder(folder1.getId()+3,"newFolder"))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(NoSuchElementException.class)
                 .hasMessageContaining("folder not found");
     }
 

@@ -40,20 +40,19 @@ public class Note {
     @Column(nullable = false)
     private String title;
     private String content;
-    private Date CreatedDate;
+    private Date createdDate;
     private Date modifiedDate;
-    private boolean isStarred = false;
-    private int fontSize = 5;
-    private int color = 5;
+    private boolean isStarred;
+    private int fontSize;
+    private int color;
 
     @ManyToOne(
             optional = false,
-            cascade = CascadeType.ALL
+            cascade = {CascadeType.ALL}
     )
     @JoinColumn(
             name = "folder_id",
-            referencedColumnName = "id",
-            nullable = false
+            referencedColumnName = "id"
     )
     private Folder folder;
 
