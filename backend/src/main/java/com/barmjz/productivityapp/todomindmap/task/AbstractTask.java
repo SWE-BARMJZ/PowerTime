@@ -1,4 +1,4 @@
-package com.barmjz.productivityapp.task;
+package com.barmjz.productivityapp.todomindmap.task;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;

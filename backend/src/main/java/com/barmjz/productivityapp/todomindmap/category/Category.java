@@ -1,7 +1,7 @@
-package com.barmjz.productivityapp.category;
+package com.barmjz.productivityapp.todomindmap.category;
 
-import com.barmjz.productivityapp.task.OneTimeTask;
-import com.barmjz.productivityapp.task.RepeatedTask;
+import com.barmjz.productivityapp.todomindmap.task.OneTimeTask;
+import com.barmjz.productivityapp.todomindmap.task.RepeatedTask;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;

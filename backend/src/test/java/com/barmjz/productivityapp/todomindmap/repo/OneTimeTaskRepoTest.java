@@ -1,10 +1,10 @@
-package com.barmjz.productivityapp.task.repo;
+package com.barmjz.productivityapp.todomindmap.repo;
 
 
-import com.barmjz.productivityapp.category.Category;
-import com.barmjz.productivityapp.category.CategoryRepo;
-import com.barmjz.productivityapp.task.OneTimeTaskRepo;
-import com.barmjz.productivityapp.task.OneTimeTask;
+import com.barmjz.productivityapp.todomindmap.category.Category;
+import com.barmjz.productivityapp.todomindmap.category.CategoryRepo;
+import com.barmjz.productivityapp.todomindmap.repos.OneTimeTaskRepo;
+import com.barmjz.productivityapp.todomindmap.task.OneTimeTask;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import org.junit.jupiter.api.AfterEach;

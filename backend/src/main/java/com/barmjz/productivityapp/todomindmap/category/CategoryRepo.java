@@ -1,6 +1,5 @@
-package com.barmjz.productivityapp.category;
+package com.barmjz.productivityapp.todomindmap.category;
 
-import com.barmjz.productivityapp.category.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
