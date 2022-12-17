@@ -34,7 +34,6 @@ import {
     return (
         <VStack flex={18}>
             <HStack 
-                pb={'1%'} 
                 w="full" 
                 justifyContent="space-around"
                 h={respLgContHeight}
@@ -42,11 +41,11 @@ import {
                 borderBottomWidth="2"
                 borderTopWidth="2"
                 >
-                <Flex flex="4" alignItems="center" justifyContent="center">
+                <Flex flex="4" alignItems="center" justifyContent="center" h="full">
                     <Text fontSize={respLgFont}>Date Modified</Text>
                 </Flex>
                 <Hidden from="base" till="md">
-                    <HStack flex="1" alignItems="center" justifyContent="space-between" mr="2%">
+                    <HStack flex="1" alignItems="center" justifyContent="space-between" mr="2%" h="full">
                         <MaterialIcons name="drive-file-move" size={30} color="#5BBA59" />
                         <Entypo name={ isStarred ? "star" : "star-outlined"} size={30} color="#D7BE69" />
                         <AntDesign name="delete" size={30} color="#FF5959" />
