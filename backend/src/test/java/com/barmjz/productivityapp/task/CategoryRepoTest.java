@@ -1,4 +1,4 @@
-package com.barmjz.productivityapp.todomindmap.repo;
+package com.barmjz.productivityapp.task;
 
 class CategoryRepoTest {
 
