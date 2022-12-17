@@ -94,9 +94,6 @@ export const Login = ({ navigation }) => {
               </Link>
             </HStack>
           </VStack>
-          <Button my={4} size={"lg"} onPress={() => navigation.navigate("Notes")}>
-            Notes
-          </Button>
         </VStack>
 
         <Hidden from="base" till="lg">

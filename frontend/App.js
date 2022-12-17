@@ -20,13 +20,13 @@ export default function App() {
       <AuthContextProvider>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Login" component={Login} />
+            {/* <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Sign Up" component={SignUp} />
             <Stack.Screen
               name="Password Recovery"
               component={PasswordRecovery}
             />
-            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Home" component={Home} /> */}
             <Stack.Screen name="Notes" component={Notes} />
           </Stack.Navigator>
         </NavigationContainer>

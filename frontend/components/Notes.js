@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { EditNote } from "./EditNote";
 import {
     Button,
     Text,
@@ -12,14 +13,15 @@ import {
     useToast,
   } from "native-base";
 
+
   export const Notes = ({ navigation }) => {
     return (
-      <Box>
+      <Box h="full" >
         <Text>Notes Component 😭</Text>
-        <Button my={4} size={"lg"} onPress={() => navigation.navigate("Login")}>
-            Back to login
-        </Button>
+        <EditNote  />
+    
       </Box>
+    
     );
   };
   
