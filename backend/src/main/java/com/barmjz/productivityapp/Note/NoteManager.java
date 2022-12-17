@@ -2,7 +2,6 @@ package com.barmjz.productivityapp.Note;
 
 import com.barmjz.productivityapp.Folder.Folder;
 import com.barmjz.productivityapp.Folder.FolderRepo;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

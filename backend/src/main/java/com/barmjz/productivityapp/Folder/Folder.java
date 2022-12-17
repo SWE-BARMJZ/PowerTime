@@ -1,17 +1,21 @@
 package com.barmjz.productivityapp.Folder;
 
 import com.barmjz.productivityapp.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.util.Date;
 
 @Entity
 @Table(
-        name = "folder",
-        uniqueConstraints = @UniqueConstraint(
-                name = "folder_unique_const",
-                columnNames = {"name","user_id"}
-        )
+        name = "folder"
+//        ,uniqueConstraints = @UniqueConstraint(
+//                name = "folder_unique_const",
+//                columnNames = {"user_id","name"}
+//        )
 
 )
 @Data
@@ -43,11 +47,14 @@ public class Folder {
 
     @ManyToOne(
             optional = false,
-            cascade = {CascadeType.ALL}
+            cascade = CascadeType.ALL
     )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(
             name = "user_id",
             referencedColumnName = "id"
     )
+    @JsonIgnore
     private User user;
 }
+

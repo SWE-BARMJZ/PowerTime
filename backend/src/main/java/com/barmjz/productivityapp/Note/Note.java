@@ -8,11 +8,11 @@ import java.util.Date;
 
 @Entity
 @Table(
-        name = "note",
-        uniqueConstraints = @UniqueConstraint(
-                name = "note_unique_const",
-                columnNames = {"title","folder_id"}
-        )
+        name = "note"
+//        ,uniqueConstraints = @UniqueConstraint(
+//                name = "note_unique_const",
+//                columnNames = {"title","folder_id"}
+//        )
 )
 @Data
 @AllArgsConstructor
@@ -47,8 +47,8 @@ public class Note {
     private int color;
 
     @ManyToOne(
-            optional = false,
-            cascade = {CascadeType.ALL}
+            optional = false
+//            ,cascade = {CascadeType.ALL}
     )
     @JoinColumn(
             name = "folder_id",

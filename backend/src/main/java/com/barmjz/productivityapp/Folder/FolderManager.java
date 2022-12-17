@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+
 @Service
 @AllArgsConstructor
 public class FolderManager {
@@ -49,11 +50,14 @@ public class FolderManager {
         if(!folderRepo.existsFolderById(folderId))
             throw new NoSuchElementException("folder not found");
         Folder folder = folderRepo.getReferenceById(folderId);
+        // front do not send req unless name changed
         if(folderRepo.existsFolderByNameAndUser_Id(folderName,folder.getUser().getId()))
             throw new IllegalStateException("folder name already exists");
-        folder.setName(folderName);
         folder.setModifiedDate(new Date());
-        return folder;
+        folder.setName(folderName);
+        folderRepo.save(folder);
+        // try return folder
+        return folderRepo.getReferenceById(folderId);
     }
 
     public List<Folder> getUserFolders(Long userId){
@@ -65,12 +69,11 @@ public class FolderManager {
     }
 
     @Transactional
-    public boolean deleteFolder(Long folderId){
+    public void deleteFolder(Long folderId){
         if(folderId == null || !folderRepo.existsFolderById(folderId))
             throw new NoSuchElementException("folder not found");
         // check if note are deleted by cascade or not
         folderRepo.deleteById(folderId);
-        return true;
     }
 
     public Long getUserId(String email){
