@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { EditNote } from "./EditNote";
 import {
     Button,
     Text,
@@ -54,9 +55,7 @@ import {
             </Box>
           </HStack>
         </VStack>
-        <VStack flex={18} bg="primary.700">
-
-        </VStack>
+        <EditNote   flex={18} bg="primary.700"/>
       </HStack>
     );
   };
