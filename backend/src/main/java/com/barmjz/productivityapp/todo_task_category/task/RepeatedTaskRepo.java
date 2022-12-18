@@ -26,6 +26,6 @@ public interface RepeatedTaskRepo extends JpaRepository<RepeatedTask, Long> {
     @Query("UPDATE RepeatedTask r SET r.lastRemovalDate = ?2 WHERE r.id = ?1")
     void changeRemovalDate(Long taskId, Date date);
 
-    Optional<RepeatedTask> getByCreationDate(java.sql.Date creationDate);
+    Optional<RepeatedTask> getByCreationDate(Date creationDate);
 
 }
