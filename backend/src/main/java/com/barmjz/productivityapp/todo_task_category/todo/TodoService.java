@@ -50,19 +50,19 @@ public class TodoService {
         Optional<List<RepeatedTask>> repeatedTasks;
         switch (currentDay){
             case "Saturday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndSaturdayEqualsAndLastRemovalDateNot(user.getId(), true, currentDate);
+                repeatedTasks = repeatedTaskRepo.getAllByUserAndSaturdayEqualsAndLastRemovalDateNot(user, true, currentDate);
             case "Sunday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndSundayEqualsAndLastRemovalDateNot(user.getId(), true, currentDate);
+                repeatedTasks = repeatedTaskRepo.getAllByUserAndSundayEqualsAndLastRemovalDateNot(user, true, currentDate);
             case "Monday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndMondayEqualsAndLastRemovalDateNot(user.getId(), true, currentDate);
+                repeatedTasks = repeatedTaskRepo.getAllByUserAndMondayEqualsAndLastRemovalDateNot(user, true, currentDate);
             case "Tuesday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndTuesdayEqualsAndLastRemovalDateNot(user.getId(), true, currentDate);
+                repeatedTasks = repeatedTaskRepo.getAllByUserAndTuesdayEqualsAndLastRemovalDateNot(user, true, currentDate);
             case "Wednesday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndWednesdayEqualsAndLastRemovalDateNot(user.getId(), true, currentDate);
+                repeatedTasks = repeatedTaskRepo.getAllByUserAndWednesdayEqualsAndLastRemovalDateNot(user, true, currentDate);
             case "Thursday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndThursdayEqualsAndLastRemovalDateNot(user.getId(), true, currentDate);
+                repeatedTasks = repeatedTaskRepo.getAllByUserAndThursdayEqualsAndLastRemovalDateNot(user, true, currentDate);
             case "Friday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserIdAndFridayEqualsAndLastRemovalDateNot(user.getId(), true, currentDate);
+                repeatedTasks = repeatedTaskRepo.getAllByUserAndFridayEqualsAndLastRemovalDateNot(user, true, currentDate);
             default:
                 repeatedTasks = null;
         }

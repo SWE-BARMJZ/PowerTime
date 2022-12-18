@@ -8,7 +8,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.sql.Date;
+import java.util.Date;
 
 @NoArgsConstructor
 @Setter

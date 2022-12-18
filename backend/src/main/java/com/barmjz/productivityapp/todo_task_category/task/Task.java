@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.sql.Date;
+import java.util.Date;
 
 
 @NoArgsConstructor
@@ -27,7 +27,7 @@ public class Task extends AbstractTask {
     @JoinColumn(name = "categoryId", referencedColumnName = "id")
     private Category category;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, optional = false)
     @JoinColumn(name = "userId", referencedColumnName = "id")
     @JsonIgnore
     private User user;

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,15 +20,15 @@ public interface OneTimeTaskRepo extends JpaRepository<OneTimeTask, Long> {
 
     Optional<List<OneTimeTask>> getTop10ByUserIdAndCompletionDateNotNullOrderByCompletionDateDesc(Long userId);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("UPDATE OneTimeTask t SET t.completionDate = ?2 WHERE t.id = ?1")
     void markTaskAsDone(Long taskId, Date currentDate);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("UPDATE OneTimeTask t SET t.completionDate = null WHERE t.id = ?1")
     void unMarkTaskAsDone(Long taskId);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("UPDATE OneTimeTask t SET t.todo = true WHERE t.id = ?1")
     void changeTodoFlagToTrue(Long taskId);
 

@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import javax.management.ObjectName;
 import java.sql.Date;
+import java.time.Instant;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -32,6 +32,7 @@ class OneTimeTaskRepoTest {
         userRepo.save(new User("ramy@gmail.com", "dhebdbdQ_1488", "Ramy", "Ahmed"));
         categoryRepo.save(new Category("Hobbies"));
         categoryRepo.save(new Category("Assignments"));
+        categoryRepo.save(new Category("Sports"));
     }
 
     @AfterEach
@@ -69,7 +70,7 @@ class OneTimeTaskRepoTest {
         List<OneTimeTask> oneTimeTasks = oneTimeTaskRepo.getAllByUserId(user.getId()).get();
 
         // then
-        assertThat(List.of(oneTimeTask1, oneTimeTask2)).isEqualTo(oneTimeTasks);
+        assertThat(oneTimeTasks).isEqualTo(List.of(oneTimeTask1, oneTimeTask2));
 
     }
 
@@ -126,8 +127,8 @@ class OneTimeTaskRepoTest {
         List<OneTimeTask> oneTimeTasks = oneTimeTaskRepo.getAllByUserIdAndTodoEqualsOrderByDueDate(user.getId(), true).get();
 
         // then
-        assertThat(oneTimeTask2).isEqualTo(oneTimeTasks.get(2));
-        assertThat(oneTimeTask1).isEqualTo(oneTimeTasks.get(3));
+        assertThat(oneTimeTasks.get(2)).isEqualTo(oneTimeTask2);
+        assertThat(oneTimeTasks.get(3)).isEqualTo(oneTimeTask1);
 
     }
 
@@ -177,6 +178,147 @@ class OneTimeTaskRepoTest {
         List<OneTimeTask> tasks = oneTimeTaskRepo.getTop10ByUserIdAndCompletionDateNotNullOrderByCompletionDateDesc(user.getId()).get();
 
         // then
-        assertThat(List.of(task1, task4, task2)).isEqualTo(tasks);
+        assertThat(tasks).isEqualTo(List.of(task1, task4, task2));
+    }
+
+    @Test
+    void getAllByCategory() {
+        Category category1 = categoryRepo.getCategoryByCategoryName("Assignments").get();
+        Category category2 = categoryRepo.getCategoryByCategoryName("Hobbies").get();
+        User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+
+        OneTimeTask task1 = OneTimeTask.builder()
+                .taskName("Assignment 1 Database")
+                .category(category1)
+                .creationDate(Date.valueOf("2020-12-04"))
+                .dueDate(Date.valueOf("2022-12-14"))
+                .completionDate(Date.valueOf("2022-12-14"))
+                .user(user)
+                .build();
+
+        OneTimeTask task2 = OneTimeTask.builder()
+                .taskName("Gym")
+                .category(category2)
+                .creationDate(Date.valueOf("2020-12-07"))
+                .completionDate(Date.valueOf("2020-12-16"))
+                .user(user)
+                .build();
+
+        OneTimeTask task3 = OneTimeTask.builder()
+                .taskName("Assignments 3 AI")
+                .category(category1)
+                .creationDate(Date.valueOf("2020-12-04"))
+                .dueDate(Date.valueOf("2022-12-29"))
+                .user(user)
+                .build();
+
+        OneTimeTask task4 = OneTimeTask.builder()
+                .taskName("Football match")
+                .category(category2)
+                .creationDate(Date.valueOf("2020-12-04"))
+                .dueDate(Date.valueOf("2022-12-10"))
+                .completionDate(Date.valueOf("2022-12-09"))
+                .user(user)
+                .build();
+
+
+        // when
+        oneTimeTaskRepo.saveAll(List.of(task1, task2, task3, task4));
+        List<OneTimeTask> tasksOfCategory1 = oneTimeTaskRepo.getAllByCategory(category1).get();
+        List<OneTimeTask> tasksOfCategory2 = oneTimeTaskRepo.getAllByCategory(category2).get();
+
+        // then
+        assertThat(tasksOfCategory1).isEqualTo(List.of(task1, task3));
+        assertThat(tasksOfCategory2).isEqualTo(List.of(task2, task4));
+    }
+
+    @Test
+    void markTaskAsDone() {
+        Date creationDate = Date.valueOf("2022-07-08");
+        Category category = categoryRepo.getCategoryByCategoryName("Assignments").get();
+        User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        OneTimeTask task = OneTimeTask.builder()
+                .taskName("Assignment 1 SWE")
+                .category(category)
+                .user(user)
+                .creationDate(creationDate)
+                .dueDate(Date.valueOf("2022-10-11"))
+                .build();
+        java.util.Date completionDate = Date.from(Instant.now());
+
+        // when
+        oneTimeTaskRepo.save(task);
+        Long taskId = oneTimeTaskRepo.getByCreationDate(creationDate).get().getId();
+        oneTimeTaskRepo.markTaskAsDone(taskId, completionDate);
+
+        // then
+        java.util.Date actualCompletionDate = oneTimeTaskRepo.findById(taskId).get().getCreationDate();
+        assertThat(actualCompletionDate).isNotNull();
+    }
+
+    @Test
+    void unMarkTaskAsDone() {
+        Date creationDate = Date.valueOf("2022-07-08");
+        Category category = categoryRepo.getCategoryByCategoryName("Assignments").get();
+        User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        OneTimeTask task = OneTimeTask.builder()
+                .taskName("Assignment 1 SWE")
+                .category(category)
+                .user(user)
+                .creationDate(creationDate)
+                .dueDate(Date.valueOf("2022-10-11"))
+                .completionDate(Date.valueOf("2022-10-10"))
+                .build();
+
+        // when
+        oneTimeTaskRepo.save(task);
+        Long taskId = oneTimeTaskRepo.getByCreationDate(creationDate).get().getId();
+        oneTimeTaskRepo.unMarkTaskAsDone(taskId);
+
+        // then
+        assertThat(oneTimeTaskRepo.findById(taskId).get().getCompletionDate()).isNull();
+    }
+
+    @Test
+    void changeTodoFlagToTrue() {
+        // given
+        Date date = Date.valueOf("2022-07-08");
+        Category category = categoryRepo.getCategoryByCategoryName("Assignments").get();
+        User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        OneTimeTask task = OneTimeTask.builder()
+                .taskName("Assignment 1 SWE")
+                .category(category)
+                .user(user)
+                .creationDate(date)
+                .build();
+
+        // when
+        oneTimeTaskRepo.save(task);
+        oneTimeTaskRepo.changeTodoFlagToTrue(oneTimeTaskRepo.getByCreationDate(date).get().getId());
+
+        // then
+        assertThat(oneTimeTaskRepo.getByCreationDate(date).get().isTodo()).isTrue();
+    }
+
+    @Test
+    void getByCreationDate() {
+        // given
+        java.util.Date creationDate = Date.valueOf("2022-12-17");
+        Category category = categoryRepo.getCategoryByCategoryName("Sports").get();
+        User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        OneTimeTask task = OneTimeTask.builder()
+                .taskName("Football Match")
+                .category(category)
+                .user(user)
+                .creationDate(creationDate)
+                .dueDate(Date.valueOf("2022-12-24"))
+                .build();
+
+        // when
+        oneTimeTaskRepo.save(task);
+        OneTimeTask actualTask = oneTimeTaskRepo.getByCreationDate(creationDate).get();
+
+        // then
+        assertThat(actualTask).isEqualTo(task);
     }
 }
