@@ -4,7 +4,7 @@ import { Home } from "./components/Home";
 import { Login } from "./components/Login";
 import { PasswordRecovery } from "./components/PasswordRecovery";
 import { SignUp } from "./components/SignUp";
-import { Notes } from "./components/notes-component/Notes";
+import { Notes } from "./components/notes-component/Notes-Main";
 import { StatusBar } from 'expo-status-bar';
 
 

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
-import { AntDesign } from '@expo/vector-icons';
-import { respLgContHeight, respLgFont } from "./NotesContainer";
+import { AntDesign,Entypo } from '@expo/vector-icons';
+import { respLgContHeight, respLgFont,respMdFont } from "./CurrentFolderContainer";
+import { Folder } from "./UI Items/Folder"
 
 
 import {
@@ -20,7 +21,7 @@ import {
   } from "native-base";
 
 
-  export const FolderContainer = ({
+  export const FoldersContainer = ({
     navigation,
   }) => {
     // const [isStarred, setIsStarred] = useState(false);
@@ -34,24 +35,25 @@ import {
             borderRightWidth="2"
             >
             <HStack 
-              pl={'1%'} 
               w="full" 
               h={respLgContHeight}
               aignItems="center"
-              justifyContent="space-around"
               borderColor="black.100"
               borderBottomWidth="2"
               borderLeftWidth="2"
               borderTopWidth="2"> 
-              <Flex alignItems="center" justifyContent="center">
+              <Flex ml="3%" mr="auto" justifyContent="center">
                 <Text fontSize={respLgFont}> 
                     Folders 
                 </Text>
               </Flex>
-              <VStack justifyContent="center">
+              <VStack justifyContent="center" pr="5%">
                 <AntDesign name="addfolder" size={30} color="#5BBA59" />
               </VStack>
             </HStack>
+            <Folder name="Folder1"/>
+            <Folder name="Folder2"/>
+            <Folder name="Folder3"/>
           </VStack>
         </Hidden>
 

@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Ionicons } from '@expo/vector-icons'; 
+import { Note } from "../UI Items/Note";
 
 export const respLgFont = {
     base: "20",
@@ -7,7 +8,23 @@ export const respLgFont = {
     lg: "35",
 }
 
+export const respMdFont = {
+  base: "15",
+  md: "20",
+  lg: "25",
+}
 
+export const respSmFont = {
+  base: "15",
+  md: "18",
+  lg: "20",
+}
+
+export const respMiniFont = {
+  base: "10",
+  md: "13",
+  lg: "15",
+}
 
 export const respLgContHeight = {
   base: 35,
@@ -34,7 +51,7 @@ import {
   } from "native-base";
 
 
-  export const NotesContainer = ({
+  export const CurrentFolderContainer = ({
     navigation,
   }) => {
     // const [isStarred, setIsStarred] = useState(false);
@@ -48,20 +65,23 @@ import {
         >
           <HStack 
             alignContent="center"
-            pl={'1%'} 
             w="full" 
             h={respLgContHeight}
             justifyContent="space-around"
             borderColor="black.100"
             borderBottomWidth="2"
             borderTopWidth="2">
-              <Flex alignItems="center" justifyContent="center" h="full">
-                <Text fontSize={respLgFont}>Notes</Text>
+              <Flex ml="3%" mr="auto" justifyContent="center">
+                <Text fontSize={respLgFont}>Folder1</Text>
               </Flex>
-              <VStack justifyContent="center" h="full">
+              <VStack justifyContent="center" pr="5%">
                 <Ionicons name="add-circle-sharp" size={30} color="#5BBA59" />
               </VStack>
           </HStack>
+          <Note title="Note1" date="embare7"/>
+          <Note title="Note2" date="awel embare7"/>
+          <Note title="Note3" date="awel awel embare7"/>
+          <Note title="Note4" date="awel awel awel embare7"/>
         </VStack>
     );
   };

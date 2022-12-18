@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { NoteEditor } from "./NoteEditor";
-import { FolderContainer } from "./FolderContainer";
-import { NotesContainer } from "./NotesContainer";
+import { FoldersContainer } from "./FoldersContainer";
+import { CurrentFolderContainer } from "./Subcomponents/CurrentFolderContainer";
 
 import {
     Button,
@@ -22,8 +22,8 @@ import {
   export const Notes = ({ navigation }) => {
     return (
       <HStack safeArea h="full" justifyContent="center" bg="primary.bg">
-        <FolderContainer/>
-        <NotesContainer/>
+        <FoldersContainer/>
+        <CurrentFolderContainer/>
         <NoteEditor/>
       </HStack>
     );
