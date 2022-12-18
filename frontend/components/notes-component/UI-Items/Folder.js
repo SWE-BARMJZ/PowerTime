@@ -31,11 +31,7 @@ import {
 
 
   export const Folder = ({
-    folder, onDelete, onEdit}) => {
-
-    const logWholeFolder = (e) => {
-        console.log("Clicked on Folder ", folder.id)
-      };
+    folder, onDelete, onEdit, onSelect}) => {
 
       const logMenuItem = (e) => {
         console.log("Clicked on Menu Item")
@@ -47,7 +43,7 @@ import {
 
     return (
         <Pressable 
-        onPress={logWholeFolder}
+        onPress={() => onSelect(folder.id)}
         _hover={{bg:"gray.300"}}>
             <HStack 
             py="5"

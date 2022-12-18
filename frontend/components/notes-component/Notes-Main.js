@@ -41,6 +41,7 @@ import {
     ])
 
     const [idCounter, setIdCounter] = useState(folders.length)
+    const [selectedFolderId, setSelectedFolderId] = useState(-1)
 
     const deleteFolder = (id) => {
       setFolders(folders.filter((folder) => folder.id !== id))
@@ -57,11 +58,16 @@ import {
       setFolders([...folders, newFolder])
     }
 
+    const selectFolder = (id) => {
+      setSelectedFolderId(id)
+      console.log("Selected Folder with ID: ", id)
+    }
+
     
 
     return (
       <HStack safeArea h="full" justifyContent="center" bg="primary.bg">
-        <FoldersContainer folders = {folders} onDelete = {deleteFolder} onEdit = {editFolder} onAdd = {addFolder} />
+        <FoldersContainer folders = {folders} onDelete = {deleteFolder} onEdit = {editFolder} onAdd = {addFolder} onSelect = {selectFolder} />
         <CurrentFolderContainer/>
         <NoteEditor/>
       </HStack>

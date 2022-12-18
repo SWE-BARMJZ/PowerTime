@@ -27,7 +27,7 @@ import {
 
 
   export const FoldersContainer = ({
-    folders, onDelete, onEdit, onAdd}) => {
+    folders, onDelete, onEdit, onAdd, onSelect}) => {
     const [showModal, setShowModal] = useState(false)
     const [folderName, setfolderName] = useState("")
     
@@ -93,7 +93,7 @@ import {
             </HStack>
             <FlatList data={folders} renderItem={({item}) => 
               <Box>
-                <Folder folder={item} onDelete={onDelete} onEdit={onEdit} />
+                <Folder folder={item} onDelete={onDelete} onEdit={onEdit} onSelect={onSelect}/>
               </Box>} keyExtractor={item => item.id} />
           </VStack>
         </Hidden>
