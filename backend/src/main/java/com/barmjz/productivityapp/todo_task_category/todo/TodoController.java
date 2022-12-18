@@ -29,10 +29,7 @@ public class TodoController {
        todoService.addTodoTask(taskId);
        return ResponseEntity.status(HttpStatus.OK).build();
     }
-//    @PostMapping("/")
-//    public ResponseEntity<String> createNewTodoTask(@RequestBody Task task, @RequestParam String type) {
-//        return null;
-//    }
+
 
     @DeleteMapping("/{taskId}")
     public ResponseEntity<Task> removeFromTodo(@PathVariable Long taskId){

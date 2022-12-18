@@ -7,7 +7,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class TaskService {
@@ -90,5 +95,31 @@ public class TaskService {
         return newTask;
     }
 
+    public Task untickTask(Long taskId, Long date){
+        Task newTask;
+        Date currentDate = new Date(date);
+        Instant time = currentDate.toInstant();
+        Date yesterday = (Date) Date.from(time.minus(1, ChronoUnit.DAYS));
+        OneTimeTask oneTimeTask = oneTimeTaskRepo.findById(taskId).get();
+        if (repeatedTaskRepo.existsByCreationDate(oneTimeTask.getCreationDate())){
+            RepeatedTask repeatedTask = repeatedTaskRepo.getByCreationDate(oneTimeTask.getCreationDate()).get();
+            repeatedTaskRepo.changeRemovalDate(repeatedTask.getId(), yesterday);
+            newTask = repeatedTaskRepo.findById(repeatedTask.getId()).get();
+            oneTimeTaskRepo.deleteById(taskId);
+        }
+        else {
+            oneTimeTaskRepo.unMarkTaskAsDone(taskId);
+            newTask = oneTimeTaskRepo.findById(taskId).get();
+        }
+        return newTask;
+    }
+
+    public List<Task> getCompletedTask(){
+        User user = userRepo.getUserByEmail(userAuthentication.getName()).get();
+        List<OneTimeTask> completedOneTimeTasks =  oneTimeTaskRepo.getCompletedTasks(user).get();
+        List<Task> completedTasks = new ArrayList<>();
+        completedTasks.addAll(completedOneTimeTasks);
+        return completedTasks;
+    }
 
 }

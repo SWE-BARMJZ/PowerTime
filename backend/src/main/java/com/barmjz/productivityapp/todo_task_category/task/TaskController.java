@@ -46,16 +46,28 @@ public class TaskController {
     }
     @PutMapping("/{taskId}/tick")
     public ResponseEntity<Task> tickTask(@PathVariable Long taskId, @RequestParam Long date, @RequestParam String taskType){
-        return null;
+        try {
+            return ResponseEntity.ok(taskService.tickTask(taskId, date, taskType));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
     @PutMapping("/{taskId}/untick")
     public ResponseEntity<Task> untickTask(@PathVariable Long taskId, @RequestParam Long date, @RequestParam String taskType){
-        return null;
+        try {
+            return ResponseEntity.ok(taskService.untickTask(taskId, date));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @GetMapping("/completed")
     public ResponseEntity<List<Task>> getCompletedTasks(){
-        return null;
+        try {
+            return ResponseEntity.ok(taskService.getCompletedTask());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
 

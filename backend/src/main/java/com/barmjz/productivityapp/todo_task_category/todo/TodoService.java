@@ -69,22 +69,11 @@ public class TodoService {
         return repeatedTasks.get();
     }
 
-//    public void addOnetimeTask(OneTimeTask oneTimeTask){
-//        oneTimeTaskRepo.save(oneTimeTask);
-//    }
-//
-//    public void addRepeatedTask(RepeatedTask repeatedTask){
-//        repeatedTaskRepo.save(repeatedTask);
-//    }
 
     public void addTodoTask(long id){
         oneTimeTaskRepo.changeTodoFlagToTrue(id);
     }
 
-
-    public void createNewTodoTask(long id){
-        oneTimeTaskRepo.changeTodoFlagToTrue(id);
-    }
 
 
     public void markOnetimeTask(Long id){

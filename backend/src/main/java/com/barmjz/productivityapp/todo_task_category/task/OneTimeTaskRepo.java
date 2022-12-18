@@ -1,5 +1,6 @@
 package com.barmjz.productivityapp.todo_task_category.task;
 import com.barmjz.productivityapp.todo_task_category.category.Category;
+import com.barmjz.productivityapp.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -33,4 +34,7 @@ public interface OneTimeTaskRepo extends JpaRepository<OneTimeTask, Long> {
     void changeTodoFlagToTrue(Long taskId);
 
     Optional<OneTimeTask> getByCreationDate(Date creationDate);
+
+    @Query("SELECT t FROM OneTimeTask t WHERE t.user = ?1 AND t.completionDate IS NOT NULL")
+    Optional<List<OneTimeTask>> getCompletedTasks(User user);
 }

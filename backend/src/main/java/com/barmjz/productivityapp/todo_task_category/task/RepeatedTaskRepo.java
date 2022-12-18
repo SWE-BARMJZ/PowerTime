@@ -28,4 +28,5 @@ public interface RepeatedTaskRepo extends JpaRepository<RepeatedTask, Long> {
 
     Optional<RepeatedTask> getByCreationDate(Date creationDate);
 
+    boolean existsByCreationDate(Date creationDate);
 }
