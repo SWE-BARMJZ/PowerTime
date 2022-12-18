@@ -1,8 +1,6 @@
 package com.barmjz.productivityapp.todo_task_category.task;
 import com.barmjz.productivityapp.todo_task_category.category.Category;
 import com.barmjz.productivityapp.todo_task_category.category.CategoryRepo;
-import com.barmjz.productivityapp.todo_task_category.task.RepeatedTaskRepo;
-import com.barmjz.productivityapp.todo_task_category.task.RepeatedTask;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import org.junit.jupiter.api.AfterEach;
@@ -11,7 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+
 import java.sql.Date;
+import java.time.Instant;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -36,7 +36,7 @@ class RepeatedTaskRepoTest {
         categoryRepo.save(new Category("Hobbies"));
         categoryRepo.save(new Category("Assignments"));
         categoryRepo.save(new Category("Language Courses"));
-
+        categoryRepo.save(new Category("Sports"));
     }
 
     @AfterEach
@@ -72,7 +72,7 @@ class RepeatedTaskRepoTest {
         List<RepeatedTask> tasks = repeatedTaskRepo.getAllByUserId(user.getId()).get();
 
         // then
-        assertThat(List.of(task1, task2)).isEqualTo(tasks);
+        assertThat(tasks).isEqualTo(List.of(task1, task2));
 
     }
 
@@ -109,11 +109,95 @@ class RepeatedTaskRepoTest {
 
         // when
         repeatedTaskRepo.saveAll(List.of(task1, task2, task3));
-        List<RepeatedTask> tasks = repeatedTaskRepo.getAllByUserIdAndSundayEqualsAndLastRemovalDateNot(user.getId(), true, Date.valueOf("2022-12-17")).get();
+        List<RepeatedTask> tasks = repeatedTaskRepo.getAllByUserAndSundayEqualsAndLastRemovalDateNot(user, true, Date.valueOf("2022-12-17")).get();
 
         // then
-        assertThat(List.of(task1, task2)).isEqualTo(tasks);
+        assertThat(List.of(task1, task2)).isEqualTo(List.of(task1, task2));
 
     }
 
+    @Test
+    void getAllByCategory() {
+        Category category1 = categoryRepo.getCategoryByCategoryName("Sports").get();
+        Category category2 = categoryRepo.getCategoryByCategoryName("Hobbies").get();
+        User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+
+        RepeatedTask task1 = RepeatedTask.builder()
+                .taskName("Padel")
+                .category(category1)
+                .creationDate(Date.valueOf("2020-12-04"))
+                .user(user)
+                .build();
+
+        RepeatedTask task2 = RepeatedTask.builder()
+                .taskName("Gym")
+                .category(category1)
+                .creationDate(Date.valueOf("2020-12-07"))
+                .user(user)
+                .build();
+
+
+        RepeatedTask task3 = RepeatedTask.builder()
+                .taskName("Music")
+                .category(category2)
+                .creationDate(Date.valueOf("2020-12-04"))
+                .user(user)
+                .build();
+
+
+        // when
+        repeatedTaskRepo.saveAll(List.of(task1, task2, task3));
+        List<RepeatedTask> tasksOfCategory1 = repeatedTaskRepo.getAllByCategory(category1).get();
+        List<RepeatedTask> tasksOfCategory2 = repeatedTaskRepo.getAllByCategory(category2).get();
+
+        // then
+        assertThat(tasksOfCategory1).isEqualTo(List.of(task1, task2));
+        assertThat(tasksOfCategory2).isEqualTo(List.of(task3));
+    }
+
+    @Test
+    void changedRemovalDateSuccessfully() {
+        // given
+        java.util.Date currDate = Date.from(Instant.now());
+        Category category = categoryRepo.getCategoryByCategoryName("Sports").get();
+        User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        RepeatedTask task = RepeatedTask.builder()
+                .taskName("Football Match")
+                .category(category)
+                .user(user)
+                .creationDate(Date.valueOf("2022-12-17"))
+                .tuesday(true)
+                .build();
+        repeatedTaskRepo.save(task);
+
+        // when
+        RepeatedTask actualTask = repeatedTaskRepo.getByCreationDate(Date.valueOf("2022-12-17")).get();
+        repeatedTaskRepo.changeRemovalDate(actualTask.getId(), currDate);
+
+        // then
+        java.util.Date actualDate = repeatedTaskRepo.findById(actualTask.getId()).get().getLastRemovalDate();
+        assertThat(actualDate.getTime()).isEqualTo(currDate.getTime());
+    }
+
+    @Test
+    void getTaskByCreationDateSuccessfully() {
+        // given
+        Date creationDate = Date.valueOf("2022-12-17");
+        Category category = categoryRepo.getCategoryByCategoryName("Sports").get();
+        User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        RepeatedTask task = RepeatedTask.builder()
+                .taskName("Football Match")
+                .category(category)
+                .user(user)
+                .creationDate(creationDate)
+                .tuesday(true)
+                .build();
+
+        // when
+        repeatedTaskRepo.save(task);
+        RepeatedTask actualTask = repeatedTaskRepo.getByCreationDate(creationDate).get();
+
+        // then
+        assertThat(task).isEqualTo(actualTask);
+    }
 }

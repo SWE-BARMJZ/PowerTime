@@ -21,15 +21,15 @@ public interface OneTimeTaskRepo extends JpaRepository<OneTimeTask, Long> {
 
     Optional<List<OneTimeTask>> getTop10ByUserIdAndCompletionDateNotNullOrderByCompletionDateDesc(Long userId);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("UPDATE OneTimeTask t SET t.completionDate = ?2 WHERE t.id = ?1")
     void markTaskAsDone(Long taskId, Date currentDate);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("UPDATE OneTimeTask t SET t.completionDate = null WHERE t.id = ?1")
     void unMarkTaskAsDone(Long taskId);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("UPDATE OneTimeTask t SET t.todo = true WHERE t.id = ?1")
     void changeTodoFlagToTrue(Long taskId);
 
