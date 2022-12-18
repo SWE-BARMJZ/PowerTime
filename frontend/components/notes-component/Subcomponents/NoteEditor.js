@@ -21,7 +21,8 @@ import {
     Icon,
     Flex,
     Center,
-    Input
+    Input,
+    IconButton
   } from "native-base";
 
 
@@ -46,9 +47,11 @@ import {
                 </Flex>
                 <Hidden from="base" till="md">
                     <HStack flex="1" alignItems="center" justifyContent="space-between" mr="2%" h="full">
-                        <MaterialIcons name="drive-file-move" size={30} color="#5BBA59" />
-                        <Entypo name={ isStarred ? "star" : "star-outlined"} size={30} color="#D7BE69" />
-                        <AntDesign name="delete" size={30} color="#FF5959" />
+                        <IconButton icon={<MaterialIcons name="drive-file-move" size={30} color="#5BBA59" />} />
+                        <IconButton
+                            onPress={() => setIsStarred(!isStarred)}
+                            icon={<Entypo name={ isStarred ? "star" : "star-outlined"} size={30} color="#D7BE69" />} />
+                        <IconButton icon={<AntDesign name="delete" size={30} color="#FF5959" />} />
                     </HStack>
                 </Hidden>
                 <Hidden from="md">

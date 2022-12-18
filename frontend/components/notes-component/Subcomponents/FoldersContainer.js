@@ -17,14 +17,20 @@ import {
     useToast,
     TextArea,
     Icon,
-    Flex
+    Flex,
+    IconButton,
+    Modal,
+    FormControl,
+    Input,
+    FlatList,
   } from "native-base";
 
 
   export const FoldersContainer = ({
-    navigation,
-  }) => {
-    // const [isStarred, setIsStarred] = useState(false);
+    folders, onDelete, onEdit, onAdd}) => {
+    const [showModal, setShowModal] = useState(false)
+    const [folderName, setfolderName] = useState("")
+    
     
     return (
 
@@ -48,12 +54,47 @@ import {
                 </Text>
               </Flex>
               <VStack justifyContent="center" pr="5%">
-                <AntDesign name="addfolder" size={30} color="#5BBA59" />
+              <IconButton 
+                icon={<AntDesign name="addfolder" size={30} color="#5BBA59" />} 
+                onPress={() => setShowModal(true)}
+                />
+                <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+                  <Modal.Content maxWidth="300px">
+                    <Modal.CloseButton />
+                    <Modal.Header>Create Folder</Modal.Header>
+                    <Modal.Body>
+                      <FormControl>
+                        <FormControl.Label>Name</FormControl.Label>
+                        <Input 
+                        onChangeText={(text) => setfolderName(text)} 
+                        value= {folderName}/>
+                      </FormControl>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button.Group space={2}>
+                        <Button bg="red.500" color="white" flex={1.5} onPress={() => {
+                          setfolderName("")
+                        setShowModal(false)
+                      }}>
+                          Cancel
+                        </Button>
+                        <Button bg="#5BBA59" flex={2} onPress={() => {
+                        onAdd(folderName)
+                        setfolderName("")
+                        setShowModal(false)
+                      }}>
+                          Save
+                        </Button>
+                      </Button.Group>
+                    </Modal.Footer>
+                  </Modal.Content>
+                </Modal>
               </VStack>
             </HStack>
-            <Folder name="Folder1"/>
-            <Folder name="Folder2"/>
-            <Folder name="Folder3"/>
+            <FlatList data={folders} renderItem={({item}) => 
+              <Box>
+                <Folder folder={item} onDelete={onDelete} onEdit={onEdit} />
+              </Box>} keyExtractor={item => item.id} />
           </VStack>
         </Hidden>
 

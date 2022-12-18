@@ -21,30 +21,43 @@ import {
     Icon,
     Flex,
     Center,
-    Input
+    Input,
+    Pressable
   } from "native-base";
 
 
   export const Note = ({
-    navigation,
     title,
     date
   }) => {
+
+    const logEvent = (e) => {
+        console.log(e)
+      };
+
+
     return (
-        <HStack 
-            w="full" 
-            h = {20}
-            borderColor="black.100"
-            borderBottomWidth="2"
-            > 
-            <VStack w="full" justifyContent="center">
-                <Text md="0" ml="10%" fontSize={{base:20,md:23,lg:25}}> 
-                    {title} 
-                </Text>
-                <Text numberOfLines={2} ml="20%" fontSize={respSmFont} color="gray.500">   
-                    {date} 
-                </Text>
-            </VStack>
-        </HStack>
+        
+        
+        <Pressable 
+        onPress={logEvent}
+        _hover={{bg:"gray.300"}}
+        w="full" 
+        h = {20}
+        borderColor="black.100"
+        borderBottomWidth="2"
+        >
+        <VStack w="full" justifyContent="center">
+            <Text md="0" ml="10%" fontSize={{base:20,md:23,lg:25}}> 
+                {title} 
+            </Text>
+            <Text numberOfLines={2} ml="20%" fontSize={respSmFont} color="gray.500">   
+                {date} 
+            </Text>
+        </VStack>
+        </Pressable>
+        
+    
+        
     );
 };

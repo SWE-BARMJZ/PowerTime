@@ -19,10 +19,49 @@ import {
 
 
   
-  export const Notes = ({ navigation }) => {
+  export const Notes = ({}) => {
+
+    const [folders, setFolders] = useState([
+      {
+        id: 1,
+        name: `Main Folder`
+      },
+      {
+        id: 2,
+        name: `Folder 2`
+      },
+      {
+        id: 3,
+        name: `Folder 3`
+      },
+      {
+        id: 4,
+        name: `Folder 4`
+      }
+    ])
+
+    const [idCounter, setIdCounter] = useState(folders.length)
+
+    const deleteFolder = (id) => {
+      setFolders(folders.filter((folder) => folder.id !== id))
+    }
+
+    const editFolder = (id, newName) => {
+      setFolders(folders.map((folder) => folder.id === id ? {...folder, name: newName} : folder) )
+    }
+
+    const addFolder = (name) => {
+      const newCounter = idCounter + 1
+      setIdCounter(newCounter)
+      const newFolder = {id: newCounter, name: name}
+      setFolders([...folders, newFolder])
+    }
+
+    
+
     return (
       <HStack safeArea h="full" justifyContent="center" bg="primary.bg">
-        <FoldersContainer/>
+        <FoldersContainer folders = {folders} onDelete = {deleteFolder} onEdit = {editFolder} onAdd = {addFolder} />
         <CurrentFolderContainer/>
         <NoteEditor/>
       </HStack>

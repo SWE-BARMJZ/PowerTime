@@ -47,13 +47,12 @@ import {
     TextArea,
     Icon,
     Flex,
-    center
+    Center,
+    IconButton
   } from "native-base";
 
 
-  export const CurrentFolderContainer = ({
-    navigation,
-  }) => {
+  export const CurrentFolderContainer = ({}) => {
     // const [isStarred, setIsStarred] = useState(false);
     
     return (
@@ -75,7 +74,7 @@ import {
                 <Text fontSize={respLgFont}>Folder1</Text>
               </Flex>
               <VStack justifyContent="center" pr="5%">
-                <Ionicons name="add-circle-sharp" size={30} color="#5BBA59" />
+              <IconButton icon={<Ionicons name="add-circle-sharp" size={30} color="#5BBA59" />} />
               </VStack>
           </HStack>
           <Note title="Note1" date="embare7"/>
