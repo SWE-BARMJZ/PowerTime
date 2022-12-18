@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import { NoteEditor } from "./NoteEditor";
-import { FoldersContainer } from "./FoldersContainer";
+import { NoteEditor } from "./Subcomponents/NoteEditor";
+import { FoldersContainer } from "./Subcomponents/FoldersContainer";
 import { CurrentFolderContainer } from "./Subcomponents/CurrentFolderContainer";
 
 import {

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Ionicons } from '@expo/vector-icons'; 
-import { Note } from "../UI Items/Note";
+import { Note } from "../UI-Items/Note";
 
 export const respLgFont = {
     base: "20",
