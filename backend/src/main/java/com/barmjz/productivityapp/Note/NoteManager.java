@@ -40,23 +40,27 @@ public class NoteManager {
     }
 
     public Note modifyNote(Note modifiedNote){
-        // check update whole note in DB
         if(modifiedNote == null || modifiedNote.getId() == null)
             throw new NullPointerException("note is null");
         if(!noteRepo.existsById(modifiedNote.getId()))
             throw new NoSuchElementException("note not found");
+        if(!noteRepo.findByTitleAndFolder_Id(modifiedNote.getTitle(),modifiedNote.getFolder().getId())
+                .getId().equals(modifiedNote.getId()))
+            throw new IllegalStateException("note title already exist");
         Note existedNote = noteRepo.getReferenceById(modifiedNote.getId());
         // need more efficient way
+        existedNote.setTitle(modifiedNote.getTitle());
         existedNote.setContent(modifiedNote.getContent());
         existedNote.setModifiedDate(new Date());
         existedNote.setStarred(modifiedNote.isStarred());
         existedNote.setColor(modifiedNote.getColor());
         existedNote.setFontSize(modifiedNote.getFontSize());
-        return modifiedNote;
+        noteRepo.save(existedNote);
+        return existedNote;
     }
 
     public List<Note> getFolderNotes(Long folderId){
-        if(folderId == null || !folderRepo.findById(folderId).isPresent())
+        if(folderId == null || folderRepo.findById(folderId).isEmpty())
             throw new NoSuchElementException("folder not found");
         return noteRepo.getNotesByFolderId(folderId);
     }
@@ -73,28 +77,29 @@ public class NoteManager {
         return noteRepo.getNotesByFolderInAndIsStarred(folderRepo.getFoldersByUserId(userId), true);
     }
 
-    public boolean moveNote(Long newFolderId, Long noteId){
+    public Note moveNote(Long newFolderId, Long noteId){
         if(noteId == null || newFolderId == null || !folderRepo.existsFolderById(newFolderId) || !noteRepo.existsById(noteId))
             throw new NoSuchElementException("not found");
         Note note = noteRepo.getReferenceById(noteId);
         note.setFolder(folderRepo.getReferenceById(newFolderId));
-        return true;
+        noteRepo.save(note);
+        return note;
     }
 
-    public boolean deleteNote(Long noteId){
+    public String deleteNote(Long noteId){
         if(noteId == null || !noteRepo.existsById(noteId))
             throw new NoSuchElementException("note not found");
         noteRepo.deleteById(noteId);
-        return true;
+        return "true";
     }
 
-    public boolean alterStar(Long noteId){
-        // just alter flag in front no need to return whole note
+    public Note alterStar(Long noteId){
         if(noteId == null || !noteRepo.existsById(noteId))
             throw new NoSuchElementException("note not found");
         Note note = noteRepo.getReferenceById(noteId);
         note.setStarred(!note.isStarred());
-        return note.isStarred();
+        noteRepo.save(note);
+        return note;
     }
 
 }

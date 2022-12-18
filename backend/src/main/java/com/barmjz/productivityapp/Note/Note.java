@@ -48,12 +48,11 @@ public class Note {
 
     @ManyToOne(
             optional = false
-//            ,cascade = {CascadeType.ALL}
+            ,cascade = {CascadeType.ALL}
     )
     @JoinColumn(
             name = "folder_id",
             referencedColumnName = "id"
     )
     private Folder folder;
-
 }
