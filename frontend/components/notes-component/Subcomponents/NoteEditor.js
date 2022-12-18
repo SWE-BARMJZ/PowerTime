@@ -27,7 +27,7 @@ import {
 
 
   export const NoteEditor = ({
-    navigation,
+    note
   }) => {
     const [isStarred, setIsStarred] = useState(false);
 
@@ -43,7 +43,7 @@ import {
                 borderTopWidth="2"
                 >
                 <Flex flex="4" alignItems="center" justifyContent="center" h="full">
-                    <Text fontSize={respLgFont}>Date Modified</Text>
+                    <Text fontSize={respLgFont}>{note.date}</Text>
                 </Flex>
                 <Hidden from="base" till="md">
                     <HStack flex="1" alignItems="center" justifyContent="space-between" mr="2%" h="full">
@@ -56,12 +56,12 @@ import {
                 </Hidden>
                 <Hidden from="md">
                     <HStack flex="1" alignItems="center" justifyContent="center" mr="2%">
-                        <Entypo name="dots-three-horizontal" size={25} color="#5BBA59" />
+                    <IconButton icon={<Entypo name="dots-three-horizontal" size={25} color="#5BBA59" />} />
                     </HStack>
                 </Hidden>
             </HStack>
-            <Input placeholder="Title" ontSize="md" fontWeight="bold"/>
-            <TextArea flex={1} placeholder="Content" fontSize="sm" fontWeight="regular" />
+            <Input placeholder="Title" ontSize="md" fontWeight="bold" value={note.title}/>
+            <TextArea flex={1} placeholder="Content" fontSize="sm" fontWeight="regular" value={note.content}/>
         </VStack>
     );
   };

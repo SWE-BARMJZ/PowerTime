@@ -48,12 +48,41 @@ import {
     Icon,
     Flex,
     Center,
-    IconButton
+    IconButton,
+    FlatList,
   } from "native-base";
 
 
-  export const CurrentFolderContainer = ({}) => {
+  export const CurrentFolderContainer = ({folder, onSelect}) => {
     // const [isStarred, setIsStarred] = useState(false);
+
+    const [notes, setNotes] = useState([
+      {
+        id: 1,
+        title: `Note 1`,
+        content: `bae`,
+        date: `24/12/2002`
+      },
+      {
+        id: 2,
+        title: `Note 2`,
+        content: `ray`,
+        date: `25/12/2002`
+      },
+      {
+        id: 3,
+        title: `Note 3`,
+        content: `jay`,
+        date: `26/12/2002`
+      },
+      {
+        id: 4,
+        title: `Note 4`,
+        content: `gay`,
+        date: `27/12/2002`
+      }
+      
+    ])
     
     return (
 
@@ -71,16 +100,16 @@ import {
             borderBottomWidth="2"
             borderTopWidth="2">
               <Flex ml="3%" mr="auto" justifyContent="center">
-                <Text fontSize={respLgFont}>Folder1</Text>
+                <Text fontSize={respLgFont}>{folder.name}</Text>
               </Flex>
               <VStack justifyContent="center" pr="5%">
               <IconButton icon={<Ionicons name="add-circle-sharp" size={30} color="#5BBA59" />} />
               </VStack>
           </HStack>
-          <Note title="Note1" date="embare7"/>
-          <Note title="Note2" date="awel embare7"/>
-          <Note title="Note3" date="awel awel embare7"/>
-          <Note title="Note4" date="awel awel awel embare7"/>
+          <FlatList data={notes} renderItem={({item}) => 
+              <Box>
+                <Note note={item} onSelect={onSelect}/>
+              </Box>} keyExtractor={item => item.id} />
         </VStack>
     );
   };

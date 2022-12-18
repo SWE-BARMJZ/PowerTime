@@ -43,7 +43,7 @@ import {
 
     return (
         <Pressable 
-        onPress={() => onSelect(folder.id)}
+        onPress={() => onSelect(folder)}
         _hover={{bg:"gray.300"}}>
             <HStack 
             py="5"

@@ -40,8 +40,10 @@ import {
       }
     ])
 
+
     const [idCounter, setIdCounter] = useState(folders.length)
-    const [selectedFolderId, setSelectedFolderId] = useState(-1)
+    const [selectedFolder, setSelectedFolder] = useState(null)
+    const [selectedNote, setSelectedNote] = useState(null)
 
     const deleteFolder = (id) => {
       setFolders(folders.filter((folder) => folder.id !== id))
@@ -58,9 +60,14 @@ import {
       setFolders([...folders, newFolder])
     }
 
-    const selectFolder = (id) => {
-      setSelectedFolderId(id)
-      console.log("Selected Folder with ID: ", id)
+    const selectFolder = (folder) => {
+      setSelectedFolder(folder)
+      console.log("Selected Folder with ID: ", folder.id)
+    }
+
+    const selectNote = (note) => {
+      setSelectedNote(note)
+      console.log("Selected Note with ID: ", note.id)
     }
 
     
@@ -68,8 +75,8 @@ import {
     return (
       <HStack safeArea h="full" justifyContent="center" bg="primary.bg">
         <FoldersContainer folders = {folders} onDelete = {deleteFolder} onEdit = {editFolder} onAdd = {addFolder} onSelect = {selectFolder} />
-        <CurrentFolderContainer/>
-        <NoteEditor/>
+        {selectedFolder!==null && <CurrentFolderContainer folder = {selectedFolder} onSelect = {selectNote}/>}
+        {selectedNote!==null && <NoteEditor note = {selectedNote}/>}
       </HStack>
     );
   };
