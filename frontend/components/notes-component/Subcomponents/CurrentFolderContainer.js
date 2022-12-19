@@ -83,6 +83,10 @@ import {
       }
       
     ])
+
+    const editNote = (id, newTitle, newContent) => {
+      setNotes(notes.map((note) => note.id === id ? {...note, title: newTitle, content: newContent} : folder) )
+    }
     
     return (
 

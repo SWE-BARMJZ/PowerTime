@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Entypo } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons';
@@ -30,6 +30,16 @@ import {
     note
   }) => {
     const [isStarred, setIsStarred] = useState(false);
+    const [titleText, setTitleText] = useState("")
+    const [contentText, setContentText] = useState("")
+    useEffect( () => {
+        setTitleText(note.title)
+        setContentText(note.content)
+        return () => {
+            note.title = titleText
+            note.content = contentText
+        }
+    }, [note])
 
 
     return (
@@ -60,8 +70,8 @@ import {
                     </HStack>
                 </Hidden>
             </HStack>
-            <Input placeholder="Title" ontSize="md" fontWeight="bold" value={note.title}/>
-            <TextArea flex={1} placeholder="Content" fontSize="sm" fontWeight="regular" value={note.content}/>
+            <Input placeholder="Title" ontSize="md" fontWeight="bold" onChangeText={(text) => setTitleText(text)}  value={titleText}/>
+            <TextArea flex={1} placeholder="Content" fontSize="sm" fontWeight="regular" onChangeText={(text) => setContentText(text)}  value={contentText}/>
         </VStack>
     );
   };
