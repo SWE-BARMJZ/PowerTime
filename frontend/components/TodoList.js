@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Heading, HStack, Switch, VStack, Text, ScrollView } from "native-base";
 import Task from "./Task";
 import TodoCategoryGroup from "./TodoCategoryGroup";
@@ -26,14 +26,31 @@ const TodoList = (props) => {
     // fetchTodoList();
   }, []);
 
-  const groupedTasks = () => {
+  const groupedTasks = useCallback(() => {
+    const none = [];
+
     const obj = data.reduce((groups, task) => {
-      const category = task.category || "None";
-      groups[category] = [...(groups[category] || []), task];
+      if (!task.category) {
+        none.push(task);
+        return groups;
+      }
+
+      groups[task.category] = [...(groups[task.category] || []), task];
       return groups;
     }, {});
-    return Object.entries(obj);
-  };
+
+    // arr will be in an array of pairs in the format
+    //    [ [categoryName, categoryTasks], [.., ..], [.., ..] ]
+    const arr = Object.entries(obj);
+
+    // sort groups by name to enforce consistency
+    arr.sort((a, b) => a[0].localeCompare(b[0]));
+    // add uncategorized to the end
+    if (none.length > 0)
+      arr.push(["None", none]);
+      
+    return arr;
+  }, [data]);
 
   const removeTask = (taskId) => {
     setData((data) => data.filter((task) => task.id !== taskId));
@@ -60,9 +77,9 @@ const TodoList = (props) => {
       <ScrollView>
         {isGrouped ? (
           <VStack space={6}>
-            {groupedTasks().map(([categoryName, categoryTasks], index) => (
+            {groupedTasks().map(([categoryName, categoryTasks]) => (
               <TodoCategoryGroup
-                key={index}
+                key={categoryName}
                 categoryName={categoryName}
                 categoryTasks={categoryTasks}
                 onTaskRemoval={removeTask}
@@ -72,9 +89,9 @@ const TodoList = (props) => {
           </VStack>
         ) : (
           <VStack space={2}>
-            {data.map((item, index) => (
+            {data.map((item) => (
               <Task
-                key={index}
+                key={item.id}
                 data={item}
                 onTaskRemoval={removeTask}
                 onTaskCompletion={completeTask}

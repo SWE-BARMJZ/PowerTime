@@ -15,8 +15,8 @@ const Task = (props) => {
   const { data, showCategory, onTaskRemoval, onTaskCompletion } = props;
 
   const [isDone, setIsDone] = useState(false);
-  const completeTask = (isChecked) => {
-    setIsDone(isChecked);
+  const completeTask = () => {
+    setIsDone(current => !current);
     onTaskCompletion(data.id);
   };
 

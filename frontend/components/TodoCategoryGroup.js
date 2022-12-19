@@ -12,10 +12,10 @@ const TodoCategoryGroup = ({ categoryName, categoryTasks, ...props }) => {
         </SingleLineText>
       </Box>
       <VStack space={2} p={2}>
-        {categoryTasks.map((task, index) => (
+        {categoryTasks.map((task) => (
           <Task
             data={task}
-            key={index}
+            key={task.id}
             borderWidth={1}
             borderColor="white"
             {...props}
