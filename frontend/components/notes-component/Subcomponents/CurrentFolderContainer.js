@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+import { NoteEditor } from "./NoteEditor";
+import React, { useContext, useState, useEffect } from "react";
 import { Ionicons } from '@expo/vector-icons'; 
 import { Note } from "../UI-Items/Note";
 
@@ -53,8 +54,9 @@ import {
   } from "native-base";
 
 
-  export const CurrentFolderContainer = ({folder, onSelect}) => {
+  export const CurrentFolderContainer = ({folder, folders}) => {
     // const [isStarred, setIsStarred] = useState(false);
+
 
     const [notes, setNotes] = useState([
       {
@@ -84,13 +86,33 @@ import {
       
     ])
 
+    const [idCounter, setIdCounter] = useState(notes.length)
+
+    const [selectedNote, setSelectedNote] = useState(null)
+
+    const selectNote = (note) => {
+      setSelectedNote(note)
+      console.log("Selected Note with ID: ", note.id)
+    }
+
     const editNote = (id, newTitle, newContent) => {
-      setNotes(notes.map((note) => note.id === id ? {...note, title: newTitle, content: newContent} : folder) )
+      setNotes(notes.map((note) => note.id === id ? {...note, title: newTitle, content: newContent} : note) )
+    }
+
+    const addNote = () => {
+      const newCounter = idCounter + 1
+      setIdCounter(newCounter)
+      const newNote = {id: newCounter, title: ``, content: ``, date: `25/12/2002`}
+      setNotes([...notes, newNote])
+    }
+
+    const deleteNote = (id) => {
+      setNotes(notes.filter((note) => note.id !== id))
     }
     
     return (
-
-      <VStack 
+      <HStack >
+        <VStack 
         flex={{base: 8,md:8, lg:5 }}
         borderColor="black.100"
         borderRightWidth="2"
@@ -107,13 +129,19 @@ import {
                 <Text fontSize={respLgFont}>{folder.name}</Text>
               </Flex>
               <VStack justifyContent="center" pr="5%">
-              <IconButton icon={<Ionicons name="add-circle-sharp" size={30} color="#5BBA59" />} />
+              <IconButton 
+                onPress={()=> addNote()}
+                icon={<Ionicons name="add-circle-sharp" size={30} color="#5BBA59" />} />
               </VStack>
           </HStack>
           <FlatList data={notes} renderItem={({item}) => 
               <Box>
-                <Note note={item} onSelect={onSelect}/>
+                <Note note={item} onSelect={selectNote}/>
               </Box>} keyExtractor={item => item.id} />
         </VStack>
+
+        {selectedNote!==null && <NoteEditor folders={folders} note = {selectedNote} onEdit={editNote} onDelete={deleteNote}/>}
+      </HStack>
+        
     );
   };

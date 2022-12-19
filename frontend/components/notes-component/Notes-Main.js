@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { NoteEditor } from "./Subcomponents/NoteEditor";
 import { FoldersContainer } from "./Subcomponents/FoldersContainer";
 import { CurrentFolderContainer } from "./Subcomponents/CurrentFolderContainer";
 
@@ -43,7 +42,7 @@ import {
 
     const [idCounter, setIdCounter] = useState(folders.length)
     const [selectedFolder, setSelectedFolder] = useState(null)
-    const [selectedNote, setSelectedNote] = useState(null)
+    
 
     const deleteFolder = (id) => {
       setFolders(folders.filter((folder) => folder.id !== id))
@@ -65,18 +64,13 @@ import {
       console.log("Selected Folder with ID: ", folder.id)
     }
 
-    const selectNote = (note) => {
-      setSelectedNote(note)
-      console.log("Selected Note with ID: ", note.id)
-    }
 
     
 
     return (
       <HStack safeArea h="full" justifyContent="center" bg="primary.bg">
         <FoldersContainer folders = {folders} onDelete = {deleteFolder} onEdit = {editFolder} onAdd = {addFolder} onSelect = {selectFolder} />
-        {selectedFolder!==null && <CurrentFolderContainer folder = {selectedFolder} onSelect = {selectNote}/>}
-        {selectedNote!==null && <NoteEditor note = {selectedNote}/>}
+        {selectedFolder!==null && <CurrentFolderContainer folder = {selectedFolder} folders={folders}/>}
       </HStack>
     );
   };

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Entypo } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons'; 
 import { respLgFont,respLgContHeight } from "./CurrentFolderContainer";
 
 
@@ -22,12 +23,14 @@ import {
     Flex,
     Center,
     Input,
-    IconButton
+    IconButton,
+    Menu,
+    FlatList,
   } from "native-base";
 
 
   export const NoteEditor = ({
-    note
+    folders, note, onEdit, onDelete
   }) => {
     const [isStarred, setIsStarred] = useState(false);
     const [titleText, setTitleText] = useState("")
@@ -35,10 +38,6 @@ import {
     useEffect( () => {
         setTitleText(note.title)
         setContentText(note.content)
-        return () => {
-            note.title = titleText
-            note.content = contentText
-        }
     }, [note])
 
 
@@ -57,11 +56,27 @@ import {
                 </Flex>
                 <Hidden from="base" till="md">
                     <HStack flex="1" alignItems="center" justifyContent="space-between" mr="2%" h="full">
-                        <IconButton icon={<MaterialIcons name="drive-file-move" size={30} color="#5BBA59" />} />
+                        <IconButton
+                            onPress={() => onEdit(note.id, titleText, contentText)}
+                            icon={<FontAwesome name="save" size={24} color="black" />} />
+                        <Menu w="190" trigger={triggerProps => {
+                            return <IconButton
+                                icon={<MaterialIcons name="drive-file-move" size={30} color="#5BBA59" />}
+                                    accessibilityLabel="Move Note" {...triggerProps}
+                        />
+                        }}>
+                            <FlatList data={folders} renderItem={({item}) => 
+                                <Menu.Item>
+                                    {item.name}
+                                </Menu.Item>} keyExtractor={item => item.id} />
+                        </Menu>
+                
                         <IconButton
                             onPress={() => setIsStarred(!isStarred)}
                             icon={<Entypo name={ isStarred ? "star" : "star-outlined"} size={30} color="#D7BE69" />} />
-                        <IconButton icon={<AntDesign name="delete" size={30} color="#FF5959" />} />
+                        <IconButton 
+                            onPress={() => onDelete(note.id)}
+                            icon={<AntDesign name="delete" size={30} color="#FF5959" />} />
                     </HStack>
                 </Hidden>
                 <Hidden from="md">

@@ -35,7 +35,6 @@ import {
 
     return (
         
-        
         <Pressable 
         onPress={() => onSelect(note)}
         _hover={{bg:"gray.300"}}
