@@ -4,7 +4,10 @@ const theme = extendTheme({
   colors: {
     primary: {
       main: "#0068F9",
-      bg: "#dffaef"
+      darkBlue: "#2C406E",
+      accent: "#4338ca",
+      accentDark: "#312e81",
+      bg: "#dffaef",
     },
   },
   components: {
@@ -40,7 +43,33 @@ const theme = extendTheme({
     },
     FormControlLabel: {
       baseStyle: {
-        _text: { color: 'black' },
+        _text: { color: "black" },
+      },
+    },
+    Checkbox: {
+      defaultProps: {
+        _checked: {
+          bgColor: "primary.accent",
+          borderColor: "primary.accent",
+          _hover: {
+            borderColor: "primary.accentDark",
+          },
+        },
+        _hover: {
+          borderColor: "primary.accentDark",
+        },
+        _focus: {
+          borderColor: "primary.accentDark",
+
+        }
+      },
+    },
+    Switch: {
+      defaultProps: {
+        onTrackColor: "primary.accent",
+        _hover: {
+          onTrackColor: "primary.accentDark",
+        },
       },
     },
   },
