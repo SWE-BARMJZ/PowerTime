@@ -30,13 +30,19 @@ class RepeatedTaskRepoTest {
 
     @BeforeEach
     void setUp() {
-        userRepo.save(new User("basel20ahmed@gmail.com", "Abdeebde_1023", "Basel", "Ahmed"));
-        userRepo.save(new User("meneim@gmail.com", "nswswA_9nee", "Meneim", "Hany"));
-        userRepo.save(new User("ramy@gmail.com", "dhebdbdQ_1488", "Ramy", "Ahmed"));
-        categoryRepo.save(new Category("Hobbies"));
-        categoryRepo.save(new Category("Assignments"));
-        categoryRepo.save(new Category("Language Courses"));
-        categoryRepo.save(new Category("Sports"));
+        User user1 = new User("basel20ahmed@gmail.com", "Abdeebde_1023", "Basel", "Ahmed");
+        User user2 = new User("meneim@gmail.com", "nswswA_9nee", "Meneim", "Hany");
+        User user3 = new User("ramy@gmail.com", "dhebdbdQ_1488", "Ramy", "Ahmed");
+        userRepo.save(user1);
+        userRepo.save(user2);
+        userRepo.save(user3);
+        categoryRepo.save(new Category("Language Courses", user1));
+        categoryRepo.save(new Category("Hobbies", user1));
+        categoryRepo.save(new Category("Assignments", user1));
+        categoryRepo.save(new Category("Sports", user1));
+        categoryRepo.save(new Category("Hobbies", user2));
+        categoryRepo.save(new Category("Assignments", user2));
+        categoryRepo.save(new Category("Sports", user2));
     }
 
     @AfterEach
@@ -49,8 +55,8 @@ class RepeatedTaskRepoTest {
     @Test
     void gettingRightTasksGivenUserId() {
         // given
-        Category category = categoryRepo.getCategoryByCategoryName("Assignments").get();
         User user = userRepo.getUserByEmail("basel20ahmed@gmail.com").get();
+        Category category = categoryRepo.getCategoryByCategoryNameAndUser("Assignments", user).get();
         RepeatedTask task1 = RepeatedTask.builder()
                 .taskName("Assignment 1 Database")
                 .category(category)
@@ -79,10 +85,9 @@ class RepeatedTaskRepoTest {
     @Test
     void getRepeatedTaskOnSunday() {
         // given
-        Category category1 = categoryRepo.getCategoryByCategoryName("Language Courses").get();
-        Category category2 = categoryRepo.getCategoryByCategoryName("Hobbies").get();
-
         User user = userRepo.getUserByEmail("basel20ahmed@gmail.com").get();
+        Category category1 = categoryRepo.getCategoryByCategoryNameAndUser("Language Courses", user).get();
+        Category category2 = categoryRepo.getCategoryByCategoryNameAndUser("Hobbies", user).get();
         RepeatedTask task1 = RepeatedTask.builder()
                 .taskName("German Course")
                 .category(category1)
@@ -118,9 +123,9 @@ class RepeatedTaskRepoTest {
 
     @Test
     void getAllByCategory() {
-        Category category1 = categoryRepo.getCategoryByCategoryName("Sports").get();
-        Category category2 = categoryRepo.getCategoryByCategoryName("Hobbies").get();
         User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        Category category1 = categoryRepo.getCategoryByCategoryNameAndUser("Sports", user).get();
+        Category category2 = categoryRepo.getCategoryByCategoryNameAndUser("Hobbies", user).get();
 
         RepeatedTask task1 = RepeatedTask.builder()
                 .taskName("Padel")
@@ -159,8 +164,8 @@ class RepeatedTaskRepoTest {
     void changedRemovalDateSuccessfully() {
         // given
         java.util.Date currDate = Date.from(Instant.now());
-        Category category = categoryRepo.getCategoryByCategoryName("Sports").get();
         User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        Category category = categoryRepo.getCategoryByCategoryNameAndUser("Sports", user).get();
         RepeatedTask task = RepeatedTask.builder()
                 .taskName("Football Match")
                 .category(category)
@@ -183,8 +188,8 @@ class RepeatedTaskRepoTest {
     void getTaskByCreationDateSuccessfully() {
         // given
         Date creationDate = Date.valueOf("2022-12-17");
-        Category category = categoryRepo.getCategoryByCategoryName("Sports").get();
         User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        Category category = categoryRepo.getCategoryByCategoryNameAndUser("Sports", user).get();
         RepeatedTask task = RepeatedTask.builder()
                 .taskName("Football Match")
                 .category(category)

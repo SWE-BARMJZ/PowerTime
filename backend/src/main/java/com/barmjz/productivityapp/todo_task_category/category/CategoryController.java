@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/category")
 public class CategoryController {
 
-    CategoryService categoryService;
+    private final CategoryService categoryService;
     @PostMapping("/")
     public ResponseEntity<Long> createCategory(@RequestBody Category category) {
         try {

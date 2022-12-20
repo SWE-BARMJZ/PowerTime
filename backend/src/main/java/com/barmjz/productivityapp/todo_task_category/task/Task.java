@@ -23,11 +23,11 @@ public class Task extends AbstractTask {
     @JsonIgnore
     private Date creationDate;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoryId", referencedColumnName = "id")
     private Category category;
 
-    @ManyToOne(cascade = CascadeType.MERGE, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "userId", referencedColumnName = "id")
     @JsonIgnore
     private User user;

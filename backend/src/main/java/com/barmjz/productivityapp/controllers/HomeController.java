@@ -14,8 +14,8 @@ public class HomeController {
 
     @GetMapping("/home")
     public OneTimeTask home(){
-        Category category = new Category("Assignments");
         User user = new User("basel20ahmed@gmail.com", "Abdeebde_1023", "Basel", "Ahmed");
+        Category category = new Category("Assignments", user);
         OneTimeTask oneTimeTask = OneTimeTask.builder()
                 .taskName("Assignment 1 Database")
                 .category(category)

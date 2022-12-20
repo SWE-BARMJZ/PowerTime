@@ -27,12 +27,18 @@ class OneTimeTaskRepoTest {
 
     @BeforeEach
     void setUp() {
-        userRepo.save(new User("basel20ahmed@gmail.com", "Abdeebde_1023", "Basel", "Ahmed"));
-        userRepo.save(new User("meneim@gmail.com", "nswswA_9nee", "Meneim", "Hany"));
-        userRepo.save(new User("ramy@gmail.com", "dhebdbdQ_1488", "Ramy", "Ahmed"));
-        categoryRepo.save(new Category("Hobbies"));
-        categoryRepo.save(new Category("Assignments"));
-        categoryRepo.save(new Category("Sports"));
+        User user1 = new User("basel20ahmed@gmail.com", "Abdeebde_1023", "Basel", "Ahmed");
+        User user2 = new User("meneim@gmail.com", "nswswA_9nee", "Meneim", "Hany");
+        User user3 = new User("ramy@gmail.com", "dhebdbdQ_1488", "Ramy", "Ahmed");
+        userRepo.save(user1);
+        userRepo.save(user2);
+        userRepo.save(user3);
+        categoryRepo.save(new Category("Hobbies", user1));
+        categoryRepo.save(new Category("Assignments", user1));
+        categoryRepo.save(new Category("Sports", user1));
+        categoryRepo.save(new Category("Hobbies", user2));
+        categoryRepo.save(new Category("Assignments", user2));
+        categoryRepo.save(new Category("Sports", user2));
     }
 
     @AfterEach
@@ -45,8 +51,8 @@ class OneTimeTaskRepoTest {
     @Test
     void gettingRightTasksGivenUserId() {
         // given
-        Category category = categoryRepo.getCategoryByCategoryName("Assignments").get();
         User user = userRepo.getUserByEmail("basel20ahmed@gmail.com").get();
+        Category category = categoryRepo.getCategoryByCategoryNameAndUser("Assignments", user).get();
         OneTimeTask oneTimeTask1 = OneTimeTask.builder()
                 .taskName("Assignment 1 Database")
                 .category(category)
@@ -76,10 +82,9 @@ class OneTimeTaskRepoTest {
 
     @Test
     void gettingOneTimeTasksWithToDoFlagEqualTrueInTheRightOrder() {
-        Category category1 = categoryRepo.getCategoryByCategoryName("Assignments").get();
-        Category category2 = categoryRepo.getCategoryByCategoryName("Hobbies").get();
-
         User user = userRepo.getUserByEmail("basel20ahmed@gmail.com").get();
+        Category category1 = categoryRepo.getCategoryByCategoryNameAndUser("Assignments", user).get();
+        Category category2 = categoryRepo.getCategoryByCategoryNameAndUser("Hobbies", user).get();
         OneTimeTask oneTimeTask1 = OneTimeTask.builder()
                 .taskName("Assignment 1 Database")
                 .category(category1)
@@ -135,9 +140,9 @@ class OneTimeTaskRepoTest {
     @Test
     void getTheLatestCompletedTasks() {
         // given
-        Category category1 = categoryRepo.getCategoryByCategoryName("Assignments").get();
-        Category category2 = categoryRepo.getCategoryByCategoryName("Hobbies").get();
         User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        Category category1 = categoryRepo.getCategoryByCategoryNameAndUser("Assignments", user).get();
+        Category category2 = categoryRepo.getCategoryByCategoryNameAndUser("Hobbies", user).get();
 
         OneTimeTask task1 = OneTimeTask.builder()
                 .taskName("Assignment 1 Database")
@@ -183,9 +188,9 @@ class OneTimeTaskRepoTest {
 
     @Test
     void getAllByCategory() {
-        Category category1 = categoryRepo.getCategoryByCategoryName("Assignments").get();
-        Category category2 = categoryRepo.getCategoryByCategoryName("Hobbies").get();
         User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        Category category1 = categoryRepo.getCategoryByCategoryNameAndUser("Assignments", user).get();
+        Category category2 = categoryRepo.getCategoryByCategoryNameAndUser("Hobbies", user).get();
 
         OneTimeTask task1 = OneTimeTask.builder()
                 .taskName("Assignment 1 Database")
@@ -235,8 +240,8 @@ class OneTimeTaskRepoTest {
     @Test
     void markTaskAsDone() {
         Date creationDate = Date.valueOf("2022-07-08");
-        Category category = categoryRepo.getCategoryByCategoryName("Assignments").get();
         User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        Category category = categoryRepo.getCategoryByCategoryNameAndUser("Assignments", user).get();
         OneTimeTask task = OneTimeTask.builder()
                 .taskName("Assignment 1 SWE")
                 .category(category)
@@ -259,8 +264,8 @@ class OneTimeTaskRepoTest {
     @Test
     void unMarkTaskAsDone() {
         Date creationDate = Date.valueOf("2022-07-08");
-        Category category = categoryRepo.getCategoryByCategoryName("Assignments").get();
         User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        Category category = categoryRepo.getCategoryByCategoryNameAndUser("Assignments", user).get();
         OneTimeTask task = OneTimeTask.builder()
                 .taskName("Assignment 1 SWE")
                 .category(category)
@@ -283,8 +288,8 @@ class OneTimeTaskRepoTest {
     void changeTodoFlagToTrue() {
         // given
         Date date = Date.valueOf("2022-07-08");
-        Category category = categoryRepo.getCategoryByCategoryName("Assignments").get();
         User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        Category category = categoryRepo.getCategoryByCategoryNameAndUser("Assignments", user).get();
         OneTimeTask task = OneTimeTask.builder()
                 .taskName("Assignment 1 SWE")
                 .category(category)
@@ -294,7 +299,7 @@ class OneTimeTaskRepoTest {
 
         // when
         oneTimeTaskRepo.save(task);
-        oneTimeTaskRepo.changeTodoFlagToTrue(oneTimeTaskRepo.getByCreationDate(date).get().getId());
+        oneTimeTaskRepo.changeTodoFlag(oneTimeTaskRepo.getByCreationDate(date).get().getId(), true);
 
         // then
         assertThat(oneTimeTaskRepo.getByCreationDate(date).get().isTodo()).isTrue();
@@ -304,8 +309,8 @@ class OneTimeTaskRepoTest {
     void getByCreationDate() {
         // given
         java.util.Date creationDate = Date.valueOf("2022-12-17");
-        Category category = categoryRepo.getCategoryByCategoryName("Sports").get();
         User user = userRepo.getUserByEmail("meneim@gmail.com").get();
+        Category category = categoryRepo.getCategoryByCategoryNameAndUser("Sports", user).get();
         OneTimeTask task = OneTimeTask.builder()
                 .taskName("Football Match")
                 .category(category)
