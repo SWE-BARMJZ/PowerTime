@@ -30,8 +30,9 @@ public interface OneTimeTaskRepo extends JpaRepository<OneTimeTask, Long> {
     void unMarkTaskAsDone(Long taskId);
 
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE OneTimeTask t SET t.todo = true WHERE t.id = ?1")
-    void changeTodoFlagToTrue(Long taskId);
+    @Query("UPDATE OneTimeTask t SET t.todo = ?2 WHERE t.id = ?1")
+    void changeTodoFlag(Long taskId, boolean bool);
+
 
     Optional<OneTimeTask> getByCreationDate(Date creationDate);
 

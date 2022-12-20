@@ -26,16 +26,21 @@ public class TodoController {
 
     @PutMapping("/{taskId}")
     public ResponseEntity<Task> addToTodo(@PathVariable Long taskId){
-       todoService.addTodoTask(taskId);
-       return ResponseEntity.status(HttpStatus.OK).build();
+        try {
+            return ResponseEntity.ok(todoService.addTodoTask(taskId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
-
     @DeleteMapping("/{taskId}")
-    public ResponseEntity<Task> removeFromTodo(@PathVariable Long taskId){
+    public ResponseEntity<Task> removeFromTodo(@PathVariable Long taskId, @RequestParam String taskType){
         // if task is one time task, we only update the isToDo flag to false
         // if task is repeated task, we update the value of lastRemovalDate to today.
-
-        return null;
+        try {
+            return ResponseEntity.ok(todoService.removeTaskFromTodo(taskId, taskType));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 }
