@@ -34,6 +34,7 @@ export const respLgContHeight = {
 }
 
 
+
 import {
     Button,
     Text,
@@ -88,7 +89,7 @@ import {
 
     const [idCounter, setIdCounter] = useState(notes.length)
 
-    const [selectedNote, setSelectedNote] = useState(null)
+    const [selectedNote, setSelectedNote] = useState(notes[0])
 
     const selectNote = (note) => {
       setSelectedNote(note)
@@ -111,27 +112,24 @@ import {
     }
     
     return (
-      <HStack 
-      flex={2}
-      >
+      <HStack flex={2}>
         <VStack 
-        flex={1}
-        // flex={{base: 8,md:8, lg:5 }}
+        flex={{base:2, md:1, lg:1}}
         borderColor="black.100"
         borderRightWidth="2"
         >
           <HStack 
             alignContent="center"
             w="full" 
-            h={respLgContHeight}
+            h={{base:60, md:42, lg:50}}
             justifyContent="space-around"
             borderColor="black.100"
             borderBottomWidth="2"
             borderTopWidth="2">
-              <Flex ml="3%" flex={10} justifyContent="center">
+              <Flex ml="3%" flex={4} justifyContent="center">
                 <Text numberOfLines={1} fontSize={respLgFont}>{folder.name}</Text>
               </Flex>
-              <VStack flex={1} justifyContent="center" pr="5%">
+              <VStack w="50" justifyContent="center">
               <IconButton 
                 onPress={()=> addNote()}
                 icon={<Ionicons name="add-circle-sharp" size={30} color="#5BBA59" />} />

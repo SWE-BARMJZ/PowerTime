@@ -46,7 +46,7 @@ import {
             <HStack 
                 w="full" 
                 justifyContent="space-around"
-                h={respLgContHeight}
+                h={{base:60, md:42, lg:50}}
                 borderColor="black.100"
                 borderBottomWidth="2"
                 borderTopWidth="2"
@@ -54,7 +54,7 @@ import {
                 <Flex flex={1} alignItems="center" justifyContent="center" h="full">
                     <Text numberOfLines={1} fontSize={respLgFont}>{note.date}</Text>
                 </Flex>
-                <Hidden from="base" till="md">
+                <Hidden from="base" till="lg">
                     <HStack w = "200" alignItems="center" justifyContent="space-between" mr="2%" h="full">
                         <IconButton
                             onPress={() => onEdit(note.id, titleText, contentText)}
@@ -79,9 +79,12 @@ import {
                             icon={<AntDesign name="delete" size={30} color="#FF5959" />} />
                     </HStack>
                 </Hidden>
-                <Hidden from="md">
-                    <HStack flex="1" alignItems="center" justifyContent="center" mr="2%">
-                    <IconButton icon={<Entypo name="dots-three-horizontal" size={25} color="#5BBA59" />} />
+                <Hidden from="lg">
+                    <HStack w = "70" alignItems="center" justifyContent="center" mr="2%" pr="3%">
+                    <IconButton
+                            onPress={() => onEdit(note.id, titleText, contentText)}
+                            icon={<FontAwesome name="save" size={30} color="#5BBA59" />} />
+                    <IconButton icon={<Entypo name="dots-three-horizontal" size={30} color="#5BBA59" />} />
                     </HStack>
                 </Hidden>
             </HStack>

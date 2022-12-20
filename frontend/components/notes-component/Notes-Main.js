@@ -41,7 +41,7 @@ import {
 
 
     const [idCounter, setIdCounter] = useState(folders.length)
-    const [selectedFolder, setSelectedFolder] = useState(null)
+    const [selectedFolder, setSelectedFolder] = useState(folders[0])
     
 
     const deleteFolder = (id) => {
@@ -76,10 +76,9 @@ import {
         onAdd = {addFolder} 
         onSelect = {selectFolder} />
 
-        {selectedFolder!==null && 
         <CurrentFolderContainer 
         folder = {selectedFolder} 
-        folders={folders}/>}
+        folders={folders}/>
       </HStack>
     );
   };

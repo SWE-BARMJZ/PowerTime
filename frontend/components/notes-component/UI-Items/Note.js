@@ -39,11 +39,11 @@ import {
             onPress={() => onSelect(note)}
             _hover={{bg:"gray.300"}}
             w="full" 
-            h = "20"
+            // h = {{noteSize}}
             borderColor="black.100"
             borderBottomWidth="2"
             >
-            <VStack w="full" justifyContent="center">
+            <VStack w="full" justifyContent="center" alignContent={"center"}>
                 <Text numberOfLines={1} md="0" ml="10%" fontSize={{base:20,md:23,lg:25}}> 
                     {note.title} 
                 </Text>
@@ -57,3 +57,8 @@ import {
         
     );
 };
+export const noteSize = {
+    base: 40,
+    md: 45,
+    lg: 50,
+  }
