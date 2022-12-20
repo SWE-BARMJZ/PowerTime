@@ -13,8 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -70,55 +68,24 @@ public class TodoService {
     }
 
 
-    public void addTodoTask(long id){
-        oneTimeTaskRepo.changeTodoFlagToTrue(id);
+    public Task addTodoTask(long id){
+        oneTimeTaskRepo.changeTodoFlag(id, true);
+        return oneTimeTaskRepo.findById(id).get();
     }
 
-
-
-    public void markOnetimeTask(Long id){
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
-        oneTimeTaskRepo.markTaskAsDone(id, (java.sql.Date) date);
-
+    public Task removeTaskFromTodo(long id, String taskType){
+        Task removedTask;
+        if (taskType.equals("onetime"))
+        {
+            oneTimeTaskRepo.changeTodoFlag(id, false);
+            removedTask = oneTimeTaskRepo.findById(id).get();
+        }
+        else{
+            repeatedTaskRepo.changeRemovalDate(id, new Date());
+            removedTask = repeatedTaskRepo.findById(id).get();
+        }
+        return removedTask;
     }
-
-    public void unmarkOneTimeTask(Long id){
-        oneTimeTaskRepo.unMarkTaskAsDone(id);
-    }
-
-    public void markRepeatedTask(Long id){
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
-        repeatedTaskRepo.changeRemovalDate(id, date);
-    }
-
-    public void unMarkRepeatedTask(long id){
-        RepeatedTask unmakredTask = repeatedTaskRepo.getById(id);
-        Instant now = unmakredTask.getLastRemovalDate().toInstant();
-        Instant yesterday = now.minus(1, ChronoUnit.DAYS);
-        repeatedTaskRepo.changeRemovalDate(id, Date.from(yesterday));
-    }
-
-//    public Map<String, List<OneTimeTask>> categorizeOnetimeTasks(){
-//        Map<String, List<OneTimeTask>> stringListMap = new HashMap<>();
-//        List<Category> categories = categoryRepo.findAll();
-//        for (Category category: categories){
-//            List<OneTimeTask> categoryTasks = oneTimeTaskRepo.getAllByCategory(category).get();
-//            stringListMap.put(category.getCategoryName(), categoryTasks);
-//        }
-//        return stringListMap;
-//    }
-//
-//    public Map<String, List<RepeatedTask>> categorizeRepeatedTasks(){
-//        Map<String, List<RepeatedTask>> stringListMap = new HashMap<>();
-//        List<Category> categories = categoryRepo.findAll();
-//        for (Category category: categories){
-//            List<RepeatedTask> categoryTasks = repeatedTaskRepo.getAllByCategory(category).get();
-//            stringListMap.put(category.getCategoryName(), categoryTasks);
-//        }
-//        return stringListMap;
-//    }
 
 
 }

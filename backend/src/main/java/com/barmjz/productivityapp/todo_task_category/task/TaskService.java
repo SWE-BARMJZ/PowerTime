@@ -1,4 +1,5 @@
 package com.barmjz.productivityapp.todo_task_category.task;
+import com.barmjz.productivityapp.todo_task_category.category.Category;
 import com.barmjz.productivityapp.todo_task_category.category.CategoryRepo;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
@@ -120,6 +121,23 @@ public class TaskService {
         List<Task> completedTasks = new ArrayList<>();
         completedTasks.addAll(completedOneTimeTasks);
         return completedTasks;
+    }
+
+
+    public List<CategoryPair> getCategorizedTasks(){
+        List<CategoryPair> categoryTaskPairs = new ArrayList<>();
+        List<Category> categories = categoryRepo.findAll();
+        List<Task> categoryTasks = new ArrayList<>();
+        for (Category category: categories){
+            categoryTasks.addAll(oneTimeTaskRepo
+                    .getAllByCategory(category)
+                    .get());
+            categoryTasks.addAll(repeatedTaskRepo
+                    .getAllByCategory(category)
+                    .get());
+            categoryTaskPairs.add(new CategoryPair(category, categoryTasks));
+        }
+        return categoryTaskPairs;
     }
 
 }
