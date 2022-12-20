@@ -121,8 +121,14 @@ public class TaskService {
 
 
     public List<CategoryPair> getCategorizedTasks(){
+        String user = userAuthentication.getName();
         List<CategoryPair> categoryTaskPairs = new ArrayList<>();
-        List<Category> categories = categoryRepo.findAll();
+        List<Category> categories = categoryRepo
+                .getCategoryByUserId(
+                        userRepo.getUserByEmail(user)
+                                .get()
+                                .getId())
+                .get();
         List<Task> categoryTasks = new ArrayList<>();
         for (Category category: categories){
             categoryTasks.addAll(oneTimeTaskRepo
