@@ -69,8 +69,17 @@ import {
 
     return (
       <HStack safeArea h="full" justifyContent="center" bg="primary.bg">
-        <FoldersContainer folders = {folders} onDelete = {deleteFolder} onEdit = {editFolder} onAdd = {addFolder} onSelect = {selectFolder} />
-        {selectedFolder!==null && <CurrentFolderContainer folder = {selectedFolder} folders={folders}/>}
+        <FoldersContainer 
+        folders = {folders} 
+        onDelete = {deleteFolder} 
+        onEdit = {editFolder} 
+        onAdd = {addFolder} 
+        onSelect = {selectFolder} />
+
+        {selectedFolder!==null && 
+        <CurrentFolderContainer 
+        folder = {selectedFolder} 
+        folders={folders}/>}
       </HStack>
     );
   };

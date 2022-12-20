@@ -42,7 +42,7 @@ import {
 
 
     return (
-        <VStack flex={18}>
+        <VStack flex={3}>
             <HStack 
                 w="full" 
                 justifyContent="space-around"
@@ -51,14 +51,14 @@ import {
                 borderBottomWidth="2"
                 borderTopWidth="2"
                 >
-                <Flex flex="4" alignItems="center" justifyContent="center" h="full">
-                    <Text fontSize={respLgFont}>{note.date}</Text>
+                <Flex flex={1} alignItems="center" justifyContent="center" h="full">
+                    <Text numberOfLines={1} fontSize={respLgFont}>{note.date}</Text>
                 </Flex>
                 <Hidden from="base" till="md">
-                    <HStack flex="1" alignItems="center" justifyContent="space-between" mr="2%" h="full">
+                    <HStack w = "200" alignItems="center" justifyContent="space-between" mr="2%" h="full">
                         <IconButton
                             onPress={() => onEdit(note.id, titleText, contentText)}
-                            icon={<FontAwesome name="save" size={24} color="black" />} />
+                            icon={<FontAwesome name="save" size={30} color="#5BBA59" />} />
                         <Menu w="190" trigger={triggerProps => {
                             return <IconButton
                                 icon={<MaterialIcons name="drive-file-move" size={30} color="#5BBA59" />}

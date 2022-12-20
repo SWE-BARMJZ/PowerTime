@@ -111,9 +111,12 @@ import {
     }
     
     return (
-      <HStack >
+      <HStack 
+      flex={2}
+      >
         <VStack 
-        flex={{base: 8,md:8, lg:5 }}
+        flex={1}
+        // flex={{base: 8,md:8, lg:5 }}
         borderColor="black.100"
         borderRightWidth="2"
         >
@@ -125,10 +128,10 @@ import {
             borderColor="black.100"
             borderBottomWidth="2"
             borderTopWidth="2">
-              <Flex ml="3%" mr="auto" justifyContent="center">
-                <Text fontSize={respLgFont}>{folder.name}</Text>
+              <Flex ml="3%" flex={10} justifyContent="center">
+                <Text numberOfLines={1} fontSize={respLgFont}>{folder.name}</Text>
               </Flex>
-              <VStack justifyContent="center" pr="5%">
+              <VStack flex={1} justifyContent="center" pr="5%">
               <IconButton 
                 onPress={()=> addNote()}
                 icon={<Ionicons name="add-circle-sharp" size={30} color="#5BBA59" />} />
@@ -140,7 +143,12 @@ import {
               </Box>} keyExtractor={item => item.id} />
         </VStack>
 
-        {selectedNote!==null && <NoteEditor folders={folders} note = {selectedNote} onEdit={editNote} onDelete={deleteNote}/>}
+        {selectedNote!==null && 
+        <NoteEditor 
+        folders={folders} 
+        note = {selectedNote} 
+        onEdit={editNote} 
+        onDelete={deleteNote}/>}
       </HStack>
         
     );

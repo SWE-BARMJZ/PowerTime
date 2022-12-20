@@ -36,7 +36,8 @@ import {
 
         <Hidden from="base" till="md">
           <VStack 
-            flex={{base: 8,md:8, lg:5 }}
+            // flex={{base: 8,md:8, lg:5 }}
+            flex={1}
             borderColor="black.100"
             borderRightWidth="2"
             >
@@ -48,12 +49,12 @@ import {
               borderBottomWidth="2"
               borderLeftWidth="2"
               borderTopWidth="2"> 
-              <Flex ml="3%" mr="auto" justifyContent="center">
-                <Text fontSize={respLgFont}> 
+              <Flex flex={10} ml="3%" justifyContent="center">
+                <Text numberOfLines={1} fontSize={respLgFont}> 
                     Folders 
                 </Text>
               </Flex>
-              <VStack justifyContent="center" pr="5%">
+              <VStack flex={1} justifyContent="center" pr="5%">
               <IconButton 
                 icon={<AntDesign name="addfolder" size={30} color="#5BBA59" />} 
                 onPress={() => setShowModal(true)}
@@ -97,6 +98,5 @@ import {
               </Box>} keyExtractor={item => item.id} />
           </VStack>
         </Hidden>
-
     );
   };
