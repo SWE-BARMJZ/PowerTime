@@ -48,7 +48,7 @@ import {
                 {note.title} 
             </Text>
             <Text numberOfLines={2} ml="20%" fontSize={respSmFont} color="gray.500">   
-                {note.date} 
+                {note.modifiedDate} 
             </Text>
         </VStack>
         </Pressable>

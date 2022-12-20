@@ -5,6 +5,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { respLgFont,respLgContHeight } from "./CurrentFolderContainer";
 
+import AuthContext from "../../../store/auth-context";
+
 
 
 import {
@@ -27,14 +29,23 @@ import {
     Menu,
     FlatList,
   } from "native-base";
+import { set } from "express/lib/application";
 
 
   export const NoteEditor = ({
-    folders, note, onEdit, onDelete
+    folders, note, onEdit, onDelete, onStar
   }) => {
-    const [isStarred, setIsStarred] = useState(false);
+
+    const auth = useContext(AuthContext)
+    const toast = useToast()
+    
+    // const[isStarred, setIsStarred] = useState()
     const [titleText, setTitleText] = useState("")
     const [contentText, setContentText] = useState("")
+    const [starred, setStarred] = useState(note.starred)                 
+
+    
+
     useEffect( () => {
         setTitleText(note.title)
         setContentText(note.content)
@@ -52,12 +63,15 @@ import {
                 borderTopWidth="2"
                 >
                 <Flex flex="4" alignItems="center" justifyContent="center" h="full">
-                    <Text fontSize={respLgFont}>{note.date}</Text>
+                    <Text fontSize={respLgFont}>{note.modifiedDate}</Text>
                 </Flex>
                 <Hidden from="base" till="md">
                     <HStack flex="1" alignItems="center" justifyContent="space-between" mr="2%" h="full">
                         <IconButton
-                            onPress={() => onEdit(note.id, titleText, contentText)}
+                            onPress={() => {
+                                setStarred(!starred)
+                                onEdit(note, titleText, contentText)
+                            }}
                             icon={<FontAwesome name="save" size={24} color="black" />} />
                         <Menu w="190" trigger={triggerProps => {
                             return <IconButton
@@ -72,8 +86,8 @@ import {
                         </Menu>
                 
                         <IconButton
-                            onPress={() => setIsStarred(!isStarred)}
-                            icon={<Entypo name={ isStarred ? "star" : "star-outlined"} size={30} color="#D7BE69" />} />
+                            onPress={() => onStar(note.id)}
+                            icon={<Entypo name={ note.starred ? "star" : "star-outlined"} size={30} color="#D7BE69" />} />
                         <IconButton 
                             onPress={() => onDelete(note.id)}
                             icon={<AntDesign name="delete" size={30} color="#FF5959" />} />
