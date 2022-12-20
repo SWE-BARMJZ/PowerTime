@@ -12,6 +12,15 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
+
+    @GetMapping("/")
+    public ResponseEntity<List<CategoryPair>> getCategorizedTasks() {
+        try {
+            return ResponseEntity.ok(taskService.getCategorizedTasks());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
     @GetMapping("/{taskId}")
     public ResponseEntity<Task> getTask(@PathVariable Long taskId) {
         try {
@@ -64,7 +73,7 @@ public class TaskController {
     @GetMapping("/completed")
     public ResponseEntity<List<Task>> getCompletedTasks(){
         try {
-            return ResponseEntity.ok(taskService.getCompletedTask());
+            return ResponseEntity.ok(taskService.getCompletedTasks());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }

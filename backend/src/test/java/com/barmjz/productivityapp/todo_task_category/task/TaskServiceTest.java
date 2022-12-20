@@ -27,7 +27,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TaskServiceTest {
-//    @InjectMocks
     @Mock
     Authentication userAuthentication;
     @Mock
@@ -42,13 +41,14 @@ class TaskServiceTest {
     @Mock
     RepeatedTaskRepo repeatedTaskRepo;
 
+    @InjectMocks
     TaskService taskService;
 
 
-    @BeforeEach
-    void setUp() {
-        taskService = new TaskService(userRepo, categoryRepo, oneTimeTaskRepo, repeatedTaskRepo);
-    }
+//    @BeforeEach
+//    void setUp() {
+//        taskService = new TaskService(userRepo, categoryRepo, oneTimeTaskRepo, repeatedTaskRepo);
+//    }
 
     @Test
     void getOneTimeTaskById() {
@@ -71,7 +71,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void getRepeatedTask() {
+    void getRepeatedTaskById() {
         // given
         Long taskId = 12L;
         Optional<RepeatedTask> optionalObject = Optional.of(new RepeatedTask());

@@ -1,4 +1,5 @@
 package com.barmjz.productivityapp.todo_task_category.task;
+import com.barmjz.productivityapp.todo_task_category.category.Category;
 import com.barmjz.productivityapp.todo_task_category.category.CategoryRepo;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
@@ -27,26 +28,21 @@ public class TaskService {
     private final RepeatedTaskRepo repeatedTaskRepo;
 
     public Task getTask(Long taskId){
-        Task fetchedTask;
         if (oneTimeTaskRepo.existsById(taskId))
-            fetchedTask = oneTimeTaskRepo.findById(taskId).get();
-        else
-            fetchedTask = repeatedTaskRepo.findById(taskId).get();
-        return fetchedTask;
+            return oneTimeTaskRepo.findById(taskId).orElse(null);
+        return repeatedTaskRepo.findById(taskId).orElse(null);
     }
 
     public Task updateTask(Long taskId, Task task){
         Task updatedTask;
         if (oneTimeTaskRepo.existsById(taskId)) {
-            oneTimeTaskRepo.deleteById(taskId);
             OneTimeTask oneTimeTask = (OneTimeTask) task;
             oneTimeTaskRepo.save(oneTimeTask);
-            updatedTask = oneTimeTaskRepo.findById(taskId).get();
+            updatedTask = oneTimeTaskRepo.findById(taskId).orElse(null);
         }
-        else{
-            repeatedTaskRepo.deleteById(taskId);
-            RepeatedTask oneTimeTask = (RepeatedTask) task;
-            repeatedTaskRepo.save(oneTimeTask);
+        else {
+            RepeatedTask repeatedTask = (RepeatedTask) task;
+            repeatedTaskRepo.save(repeatedTask);
             updatedTask = repeatedTaskRepo.findById(taskId).get();
         }
         return updatedTask;
@@ -63,10 +59,10 @@ public class TaskService {
         Task newTask;
         if (taskType.equals("onetime")) {
             oneTimeTaskRepo.save((OneTimeTask) task);
-            newTask = oneTimeTaskRepo.getByCreationDate(task.getCreationDate()).get();
-        }else {
+            newTask = oneTimeTaskRepo.getByCreationDate(task.getCreationDate()).orElse(null);
+        } else {
             repeatedTaskRepo.save((RepeatedTask) task);
-            newTask = repeatedTaskRepo.getByCreationDate(task.getCreationDate()).get();
+            newTask = repeatedTaskRepo.getByCreationDate(task.getCreationDate()).orElse(null);
         }
         return newTask;
     }
@@ -74,12 +70,12 @@ public class TaskService {
     public Task tickTask(Long taskId, Long date, String taskType){
         Task newTask;
         Date currentDate = new Date(date);
-        User user = userRepo.getUserByEmail(userAuthentication.getName()).get();
+        User user = userRepo.getUserByEmail(userAuthentication.getName()).orElse(null);
         if (taskType.equals("onetime")) {
             oneTimeTaskRepo.markTaskAsDone(taskId, currentDate);
             newTask = oneTimeTaskRepo.findById(taskId).get();
-        }else {
-            RepeatedTask repeatedTask = repeatedTaskRepo.findById(taskId).get();
+        } else {
+            RepeatedTask repeatedTask = repeatedTaskRepo.findById(taskId).orElse(null);
             OneTimeTask parsedRepeatedTask = OneTimeTask.builder()
                     .taskName(repeatedTask.getTaskName())
                     .creationDate(repeatedTask.getCreationDate())
@@ -90,7 +86,7 @@ public class TaskService {
                     .build();
             oneTimeTaskRepo.save(parsedRepeatedTask);
             repeatedTaskRepo.changeRemovalDate(taskId, currentDate);
-            newTask = repeatedTaskRepo.findById(taskId).get();
+            newTask = oneTimeTaskRepo.getByCreationDate(repeatedTask.getCreationDate()).orElse(null);
         }
         return newTask;
     }
@@ -99,27 +95,51 @@ public class TaskService {
         Task newTask;
         Date currentDate = new Date(date);
         Instant time = currentDate.toInstant();
-        Date yesterday = (Date) Date.from(time.minus(1, ChronoUnit.DAYS));
-        OneTimeTask oneTimeTask = oneTimeTaskRepo.findById(taskId).get();
+        Date yesterday = Date.from(time.minus(1, ChronoUnit.DAYS));
+        OneTimeTask oneTimeTask = oneTimeTaskRepo.findById(taskId).orElse(null);
+        assert oneTimeTask != null;
         if (repeatedTaskRepo.existsByCreationDate(oneTimeTask.getCreationDate())){
-            RepeatedTask repeatedTask = repeatedTaskRepo.getByCreationDate(oneTimeTask.getCreationDate()).get();
+            RepeatedTask repeatedTask = repeatedTaskRepo.getByCreationDate(oneTimeTask.getCreationDate()).orElse(null);
+            assert repeatedTask != null;
             repeatedTaskRepo.changeRemovalDate(repeatedTask.getId(), yesterday);
-            newTask = repeatedTaskRepo.findById(repeatedTask.getId()).get();
+            newTask = repeatedTaskRepo.findById(repeatedTask.getId()).orElse(null);
             oneTimeTaskRepo.deleteById(taskId);
         }
         else {
             oneTimeTaskRepo.unMarkTaskAsDone(taskId);
-            newTask = oneTimeTaskRepo.findById(taskId).get();
+            newTask = oneTimeTaskRepo.findById(taskId).orElse(null);
         }
         return newTask;
     }
 
-    public List<Task> getCompletedTask(){
-        User user = userRepo.getUserByEmail(userAuthentication.getName()).get();
-        List<OneTimeTask> completedOneTimeTasks =  oneTimeTaskRepo.getCompletedTasks(user).get();
-        List<Task> completedTasks = new ArrayList<>();
-        completedTasks.addAll(completedOneTimeTasks);
-        return completedTasks;
+    public List<Task> getCompletedTasks(){
+        User user = userRepo.getUserByEmail(userAuthentication.getName()).orElse(null);
+        List<OneTimeTask> completedOneTimeTasks =  oneTimeTaskRepo.getCompletedTasks(user).orElse(null);
+        assert completedOneTimeTasks != null;
+        return new ArrayList<>(completedOneTimeTasks);
+    }
+
+
+    public List<CategoryPair> getCategorizedTasks(){
+        String user = userAuthentication.getName();
+        List<CategoryPair> categoryTaskPairs = new ArrayList<>();
+        List<Category> categories = categoryRepo
+                .getCategoryByUserId(
+                        userRepo.getUserByEmail(user)
+                                .get()
+                                .getId())
+                .get();
+        List<Task> categoryTasks = new ArrayList<>();
+        for (Category category: categories){
+            categoryTasks.addAll(oneTimeTaskRepo
+                    .getAllByCategory(category)
+                    .get());
+            categoryTasks.addAll(repeatedTaskRepo
+                    .getAllByCategory(category)
+                    .get());
+            categoryTaskPairs.add(new CategoryPair(category, categoryTasks));
+        }
+        return categoryTaskPairs;
     }
 
 }
