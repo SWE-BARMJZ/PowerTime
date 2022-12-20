@@ -51,7 +51,6 @@ public class NoteController {
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-
     }
 
     @GetMapping("/getStarredNotes")
@@ -88,6 +87,5 @@ public class NoteController {
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-
     }
 }

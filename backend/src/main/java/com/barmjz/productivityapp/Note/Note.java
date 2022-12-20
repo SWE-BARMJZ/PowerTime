@@ -3,7 +3,6 @@ package com.barmjz.productivityapp.Note;
 import com.barmjz.productivityapp.Folder.Folder;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.Date;
 
 @Entity
