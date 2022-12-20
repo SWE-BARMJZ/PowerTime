@@ -69,14 +69,14 @@ class MoveDeleteNoteTest {
         assertThat(folderRepo.findById(folder.getId()).isPresent()).isFalse();
     }
 
-    @Test
-    void deleteNote(){
-        folderRepo.save(folder);
-        note1 = noteManager.createNote(folder.getId(),"note");
-        List<Note> expectedNotes = new ArrayList<>();
-        expectedNotes.add(note1);
-        assertThat(noteManager.getFolderNotes(folder.getId())).isEqualTo(expectedNotes);
-        noteManager.deleteNote(note1.getId());
-        assertThat(noteManager.getFolderNotes(folder.getId())).isEqualTo(new ArrayList<>());
-    }
+//    @Test
+//    void deleteNote(){
+//        folderRepo.save(folder);
+//        note1 = noteManager.createNote(folder.getId(),"note");
+//        List<Note> expectedNotes = new ArrayList<>();
+//        expectedNotes.add(note1);
+//        assertThat(noteManager.getFolderNotes(folder.getId())).isEqualTo(expectedNotes);
+//        noteManager.deleteNote(note1.getId());
+//        assertThat(noteManager.getFolderNotes(folder.getId())).isEqualTo(new ArrayList<>());
+//    }
 }
