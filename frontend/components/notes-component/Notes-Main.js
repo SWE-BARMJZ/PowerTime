@@ -20,6 +20,15 @@ import {
   
   export const Notes = ({}) => {
 
+    const FoldersCont = () => {
+      return (<FoldersContainer 
+                            folders = {folders} 
+                            onDelete = {deleteFolder} 
+                            onEdit = {editFolder} 
+                            onAdd = {addFolder} 
+                            onSelect = {selectFolder} />)
+      }
+
     const [folders, setFolders] = useState([
       {
         id: 1,
@@ -41,11 +50,13 @@ import {
 
 
     const [idCounter, setIdCounter] = useState(folders.length)
-    const [selectedFolder, setSelectedFolder] = useState(folders[0])
+    const [selectedFolder, setSelectedFolder] = useState(null)
     
 
     const deleteFolder = (id) => {
       setFolders(folders.filter((folder) => folder.id !== id))
+      setSelectedFolder(null)
+      console.log("Deleted Folder with ID: ", id)
     }
 
     const editFolder = (id, newName) => {
@@ -69,16 +80,31 @@ import {
 
     return (
       <HStack safeArea h="full" justifyContent="center" bg="primary.bg">
-        <FoldersContainer 
-        folders = {folders} 
-        onDelete = {deleteFolder} 
-        onEdit = {editFolder} 
-        onAdd = {addFolder} 
-        onSelect = {selectFolder} />
-
+        {
+        selectedFolder 
+        ?
+        <>
+        <Hidden from='base' till='md'>
+          <FoldersCont/>
+        </Hidden>
         <CurrentFolderContainer 
         folder = {selectedFolder} 
-        folders={folders}/>
+        folders={folders}
+        onDelete = {deleteFolder}/>
+        </>
+        :
+        <>
+        <FoldersCont/>
+        <Hidden from='base' till='md'>
+          <HStack flex={2}>
+            <VStack h="full"/>
+          </HStack>
+        </Hidden>
+        </>
+        }
+
+
+          
       </HStack>
     );
   };

@@ -34,9 +34,7 @@ import {
     
     return (
 
-        <Hidden from="base" till="md">
           <VStack 
-            // flex={{base: 8,md:8, lg:5 }}
             flex={1}
             borderColor="black.100"
             borderRightWidth="2"
@@ -97,6 +95,5 @@ import {
                 <Folder folder={item} onDelete={onDelete} onEdit={onEdit} onSelect={onSelect}/>
               </Box>} keyExtractor={item => item.id} />
           </VStack>
-        </Hidden>
     );
   };

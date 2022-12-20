@@ -26,11 +26,12 @@ import {
     IconButton,
     Menu,
     FlatList,
+    Pressable
   } from "native-base";
 
 
   export const NoteEditor = ({
-    folders, note, onEdit, onDelete
+    folders, folder, note, onEdit, onDelete
   }) => {
     const [isStarred, setIsStarred] = useState(false);
     const [titleText, setTitleText] = useState("")
@@ -39,6 +40,11 @@ import {
         setTitleText(note.title)
         setContentText(note.content)
     }, [note])
+
+    const navigateToFolders = () => {
+        note = null
+        folder = null
+    }
 
 
     return (
@@ -84,7 +90,34 @@ import {
                     <IconButton
                             onPress={() => onEdit(note.id, titleText, contentText)}
                             icon={<FontAwesome name="save" size={30} color="#5BBA59" />} />
-                    <IconButton icon={<Entypo name="dots-three-horizontal" size={30} color="#5BBA59" />} />
+
+                    <Menu w="190" trigger={triggerProps => {
+                        return <IconButton
+                                icon={<Entypo name="dots-three-horizontal" size={25} color="#5BBA59" />} 
+                                accessibilityLabel="More options menu" {...triggerProps}
+                        />
+                        }}>
+                            <Menu.Item onPress={() => setIsStarred(!isStarred)}>{isStarred ? 'Unstar Note' : 'Star Note' } </Menu.Item>
+                            <Menu.Item onPress={() => onDelete(note.id)}>Delete Note</Menu.Item>
+                            <Menu.Item onPress={() => navigateToFolders()}>Back to Folders</Menu.Item>
+                            <Menu w="190" trigger={triggerProps => {
+                            return <Pressable
+                                        accessibilityLabel="More options menu"
+                                        alignContent={"center"}
+                                        p='3'
+                                        pl='6'
+                                        {...triggerProps}>
+                                        <Text>Move Note</Text>
+                                    </Pressable>;
+                        }}>
+            
+                            <FlatList data={folders} renderItem={({item}) => 
+                                <Menu.Item>
+                                    {item.name}
+                                </Menu.Item>} keyExtractor={item => item.id} />
+                            </Menu>
+
+                    </Menu>
                     </HStack>
                 </Hidden>
             </HStack>

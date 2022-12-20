@@ -53,9 +53,10 @@ import {
     IconButton,
     FlatList,
   } from "native-base";
+import { Pressable } from "react-native";
 
 
-  export const CurrentFolderContainer = ({folder, folders}) => {
+  export const CurrentFolderContainer = ({folder, folders,onDelete}) => {
     // const [isStarred, setIsStarred] = useState(false);
 
 
@@ -87,13 +88,16 @@ import {
       
     ])
 
+
+
+
     const [idCounter, setIdCounter] = useState(notes.length)
 
-    const [selectedNote, setSelectedNote] = useState(notes[0])
+    const [selectedNote, setSelectedNote] = useState(null)
 
     const selectNote = (note) => {
       setSelectedNote(note)
-      console.log("Selected Note with ID: ", note.id)
+      // console.log("Selected Note with ID: ", note.id)
     }
 
     const editNote = (id, newTitle, newContent) => {
@@ -109,7 +113,9 @@ import {
 
     const deleteNote = (id) => {
       setNotes(notes.filter((note) => note.id !== id))
+      selectNote(null)
     }
+
     
     return (
       <HStack flex={2}>
@@ -139,14 +145,26 @@ import {
               <Box>
                 <Note note={item} onSelect={selectNote}/>
               </Box>} keyExtractor={item => item.id} />
+          <Hidden from="md">
+            <Button m="3" bgColor="#FF5959" onPress={() => onDelete(folder.id)} size={"lg"}>
+              Delete folder
+            </Button>
+          </Hidden>
         </VStack>
 
-        {selectedNote!==null && 
+        {selectedNote ? 
+
         <NoteEditor 
         folders={folders} 
+        folder={folder}
         note = {selectedNote} 
         onEdit={editNote} 
-        onDelete={deleteNote}/>}
+        onDelete={deleteNote}/> :
+        
+        <VStack flex={3}>
+            <HStack w="full"></HStack>
+        </VStack>
+        }
       </HStack>
         
     );
