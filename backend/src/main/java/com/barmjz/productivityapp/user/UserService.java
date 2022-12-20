@@ -29,18 +29,18 @@ public class UserService implements UserDetailsService {
         user.setPassword(encodedPass);
         userRepo.save(user);
         // TODO: Send Confirmation Token
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-                user,
-                token,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15)
-        );
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
+//        String token = UUID.randomUUID().toString();
+//        ConfirmationToken confirmationToken = new ConfirmationToken(
+//                user,
+//                token,
+//                LocalDateTime.now(),
+//                LocalDateTime.now().plusMinutes(15)
+//        );
+//        confirmationTokenService.saveConfirmationToken(confirmationToken);
 
         // TODO: SEND EMAIL
 
-        return token;
+        return "token";
     }
 
     public User getUserByEmail(String email) {

@@ -13,6 +13,8 @@ import java.util.List;
 public class TodoController {
 
     private final TodoService todoService;
+
+
     @GetMapping("/{date}")
     public ResponseEntity<List<Task>> getTodo(@PathVariable long date) {
         // tasks will be returned as sorted by due data ascendingly.

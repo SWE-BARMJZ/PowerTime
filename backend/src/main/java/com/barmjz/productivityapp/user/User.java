@@ -58,7 +58,7 @@ public class User {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.emailVerified = false;
+        this.emailVerified = true;
     }
 
 }
