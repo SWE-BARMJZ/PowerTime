@@ -64,7 +64,7 @@ public class TaskController {
     @GetMapping("/completed")
     public ResponseEntity<List<Task>> getCompletedTasks(){
         try {
-            return ResponseEntity.ok(taskService.getCompletedTask());
+            return ResponseEntity.ok(taskService.getCompletedTasks());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }

@@ -37,4 +37,6 @@ public interface OneTimeTaskRepo extends JpaRepository<OneTimeTask, Long> {
 
     @Query("SELECT t FROM OneTimeTask t WHERE t.user = ?1 AND t.completionDate IS NOT NULL")
     Optional<List<OneTimeTask>> getCompletedTasks(User user);
+
+
 }

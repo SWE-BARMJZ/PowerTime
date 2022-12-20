@@ -16,7 +16,6 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
-
     private final UserRepo userRepo;
     private final ConfirmationTokenService confirmationTokenService;
 
