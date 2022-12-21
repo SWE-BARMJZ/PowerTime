@@ -61,7 +61,7 @@ import { set } from "express/lib/application";
                 borderBottomWidth="2"
                 borderTopWidth="2"
                 >
-                <Flex flex={1} alignItems="center" justifyContent="center" h="full">
+                <Flex px="3" flex={1} alignItems="center" justifyContent="center" h="full">
                     <Text numberOfLines={1} fontSize={respLgFont}>{note.modifiedDate}</Text>
                 </Flex>
                 <Hidden from="base" till="lg">

@@ -102,23 +102,25 @@ import { Pressable } from "react-native";
     }
 
     const changeNote = async (note, newTitle, newContent) => {
+      setNotes(notes.map((item) => item.id === note.id ? {...item, title: newTitle, content: newContent, } : item) )
 
-      try{
-        const newNote = note
-        newNote.title = newTitle
-        newNote.content = newContent
 
-        const res = await editNote(newNote, folder.id, auth.token)
-        const data = await res.json()
-        console.log("data:", data)
-        setNotes(notes.map((note) => note.id === id ? {...note, title: newTitle, content: newContent, } : note) )
-      }
-      catch(error){
-        toast.show({
-          title: error.message,
-          placement: "top",
-        });
-      }
+      // try{
+      //   const newNote = note
+      //   newNote.title = newTitle
+      //   newNote.content = newContent
+
+      //   const res = await editNote(newNote, folder.id, auth.token)
+      //   const data = await res.json()
+      //   console.log("data:", data)
+      //   setNotes(notes.map((note) => note.id === id ? {...note, title: newTitle, content: newContent, } : note) )
+      // }
+      // catch(error){
+      //   toast.show({
+      //     title: error.message,
+      //     placement: "top",
+      //   });
+      // }
     }
 
 
@@ -148,6 +150,9 @@ import { Pressable } from "react-native";
       const data = await res.text()
       setNotes(notes.map( (note) => note.id === id ? {...note, starred: !note.starred} : note ))
       console.log(data)
+      const n = selectedNote
+      setSelectedNote(null)
+      setSelectedNote(n)
     }
 
     const backToFolders = () => {
@@ -216,10 +221,10 @@ import { Pressable } from "react-native";
                 <Note note={item} onSelect={selectNote}/>
               </Box>} keyExtractor={item => item.id} />
           <Hidden from="md">
-            <Button m="3" bgColor="#FF5959" onPress={() => backToFolders()} size={"lg"}>
+            <Button m="3" bgColor="#5BBA59" onPress={() => backToFolders()} size={"lg"}>
               Back To folders
             </Button>
-            <Button m="3" bgColor="#5BBA59" onPress={() => onDelete(folder.id)} size={"lg"}>
+            <Button m="3" bgColor="#FF5959" onPress={() => onDelete(folder.id)} size={"lg"}>
               Delete folder
             </Button>
           </Hidden>
