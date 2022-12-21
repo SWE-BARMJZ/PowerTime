@@ -98,6 +98,7 @@ export const Login = ({ navigation }) => {
         </VStack>
 
         <Hidden from="base" till="lg">
+
           <Box flex="1" h="full" mx={4}>
             <Image
               source={require("../assets/images/themeImage.png")}
@@ -111,3 +112,4 @@ export const Login = ({ navigation }) => {
     </Box>
   );
 };
+

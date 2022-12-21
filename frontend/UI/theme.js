@@ -1,6 +1,7 @@
 import { extendTheme } from "native-base";
 
 const theme = extendTheme({
+
   breakpoints: {
     base: 0,
     sm: 480,
@@ -8,6 +9,7 @@ const theme = extendTheme({
     lg: 992,
     xl: 1280,
   },
+
   colors: {
     primary: {
       main: "#0068F9",
@@ -53,6 +55,5 @@ const theme = extendTheme({
     },
   },
 });
-
 
 export { theme };

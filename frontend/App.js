@@ -6,8 +6,6 @@ import { PasswordRecovery } from "./components/PasswordRecovery";
 import { SignUp } from "./components/SignUp";
 import { Notes } from "./components/notes-component/Notes-Main";
 import { StatusBar } from 'expo-status-bar';
-
-
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeBaseProvider } from "native-base";
@@ -22,6 +20,7 @@ export default function App() {
     <NativeBaseProvider theme={theme}>
       <AuthContextProvider>
         <NavigationContainer>
+
           <StatusBar style="dark" />
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login" component={Login} />
