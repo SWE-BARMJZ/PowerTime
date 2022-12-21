@@ -45,26 +45,23 @@ public class TodoService {
         User user = userRepo.getUserByEmail(userAuthentication.getName()).get();
         Date currentDate = new Date(date);
         String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(currentDate.getTime());
-        Optional<List<RepeatedTask>> repeatedTasks;
-        switch (currentDay){
-            case "Saturday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserAndSaturdayEqualsAndLastRemovalDateNot(user, true, currentDate);
-            case "Sunday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserAndSundayEqualsAndLastRemovalDateNot(user, true, currentDate);
-            case "Monday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserAndMondayEqualsAndLastRemovalDateNot(user, true, currentDate);
-            case "Tuesday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserAndTuesdayEqualsAndLastRemovalDateNot(user, true, currentDate);
-            case "Wednesday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserAndWednesdayEqualsAndLastRemovalDateNot(user, true, currentDate);
-            case "Thursday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserAndThursdayEqualsAndLastRemovalDateNot(user, true, currentDate);
-            case "Friday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserAndFridayEqualsAndLastRemovalDateNot(user, true, currentDate);
-            default:
-                repeatedTasks = null;
-        }
-        return repeatedTasks.get();
+        return switch (currentDay) {
+            case "Saturday" ->
+                    repeatedTaskRepo.getAllByUserAndSaturdayEqualsAndLastRemovalDateNot(user, true, currentDate).orElse(null);
+            case "Sunday" ->
+                    repeatedTaskRepo.getAllByUserAndSundayEqualsAndLastRemovalDateNot(user, true, currentDate).orElse(null);
+            case "Monday" ->
+                    repeatedTaskRepo.getAllByUserAndMondayEqualsAndLastRemovalDateNot(user, true, currentDate).orElse(null);
+            case "Tuesday" ->
+                    repeatedTaskRepo.getAllByUserAndTuesdayEqualsAndLastRemovalDateNot(user, true, currentDate).orElse(null);
+            case "Wednesday" ->
+                    repeatedTaskRepo.getAllByUserAndWednesdayEqualsAndLastRemovalDateNot(user, true, currentDate).orElse(null);
+            case "Thursday" ->
+                    repeatedTaskRepo.getAllByUserAndThursdayEqualsAndLastRemovalDateNot(user, true, currentDate).orElse(null);
+            case "Friday" ->
+                    repeatedTaskRepo.getAllByUserAndFridayEqualsAndLastRemovalDateNot(user, true, currentDate).orElse(null);
+            default -> null;
+        };
     }
 
 

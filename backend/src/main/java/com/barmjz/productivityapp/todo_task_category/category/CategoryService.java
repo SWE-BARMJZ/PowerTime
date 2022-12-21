@@ -29,12 +29,11 @@ public class CategoryService {
                 .getId();
     }
 
-    public void editCategory(long categoryId, Category category){
+    public void editCategory(Long categoryId, Category category){
         categoryRepo.save(category);
     }
 
-    public void deleteCategory(long categoryId){
+    public void deleteCategory(Long categoryId){
         categoryRepo.deleteById(categoryId);
     }
-
 }
