@@ -4,36 +4,23 @@ import com.barmjz.productivityapp.todo_task_category.category.Category;
 import com.barmjz.productivityapp.todo_task_category.category.CategoryRepo;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
-import org.h2.expression.OperationN;
-import org.hamcrest.core.Is;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestComponent;
-import org.springframework.security.core.Authentication;
-
 import java.sql.Date;
-import java.util.Arrays;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willCallRealMethod;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TaskServiceTest {
-    @Mock
-    Authentication userAuthentication;
     @Mock
     UserRepo userRepo;
 
@@ -237,37 +224,62 @@ class TaskServiceTest {
     }
 
     @Test
-    void tickTaskInCaseOneTimeTask() {
+    void untickRepeatedTask() {
         // given
-//        long taskId = 15L, date = 10000020222L;
-//        String taskType = "onetime";
-//        Optional<User> optionalUser = Optional.of(new User());
-//        given(userAuthentication.getName()).willReturn(anyString());
-//        given(userRepo.getUserByEmail(anyString())).willReturn(optionalUser);
-//        /**/ doNothing().when(oneTimeTaskRepo).markTaskAsDone(taskId, new Date(date));
-//        Optional<OneTimeTask> optionalTask = Optional.of(new OneTimeTask());
-//        given(oneTimeTaskRepo.findById(taskId)).willReturn(optionalTask);
-//
-//        // when
-//        taskService.tickTask(taskId, date, taskType);
-//
-//        // then
-//        verify(userRepo, times(1)).getUserByEmail(isA(String.class));
-//        ArgumentCaptor<Date> dateArgumentCaptor = ArgumentCaptor.forClass(Date.class);
-//        verify(oneTimeTaskRepo, times(1)).markTaskAsDone(taskId, dateArgumentCaptor.capture());
-//        assertThat(dateArgumentCaptor.getValue()).isEqualTo(new Date(date));
-//        verify(repeatedTaskRepo, never()).findById(any());
-//        verify(oneTimeTaskRepo, never()).save(any());
-//        verify(repeatedTaskRepo, never()).changeRemovalDate(any(), any());
-//        verify(oneTimeTaskRepo, never()).getByCreationDate(any());
+        long taskId = 12L, date = 24488158484848L;
+        java.util.Date currentDate = new java.util.Date(date);
+        Instant time = currentDate.toInstant();
+        java.util.Date yesterday = java.util.Date.from(time.minus(1, ChronoUnit.DAYS));
+        Optional<OneTimeTask> optionalOneTimeTask = Optional.of(OneTimeTask.builder().creationDate(Date.valueOf("2022-01-01")).build());
+        given(oneTimeTaskRepo.findById(taskId)).willReturn(optionalOneTimeTask);
+        given(repeatedTaskRepo.existsByCreationDate(optionalOneTimeTask.get().getCreationDate())).willReturn(true);
+        Optional<RepeatedTask> optionalRepeatedTask = Optional.of(RepeatedTask.builder().id(123L).build());
+        given(repeatedTaskRepo.getByCreationDate(optionalOneTimeTask.get().getCreationDate())).willReturn(optionalRepeatedTask);
+        doNothing().when(repeatedTaskRepo).changeRemovalDate(optionalRepeatedTask.get().getId(), yesterday);
+        given(repeatedTaskRepo.findById(optionalRepeatedTask.get().getId())).willReturn(optionalRepeatedTask);
+
+        // when
+        Task newTask = taskService.untickTask(taskId, date);
+
+        // then
+        ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
+        verify(oneTimeTaskRepo, times(1)).findById(longArgumentCaptor.capture());
+        assertThat(longArgumentCaptor.getValue()).isEqualTo(taskId);
+        verify(repeatedTaskRepo, times(1)).existsByCreationDate(isA(java.util.Date.class));
+        verify(repeatedTaskRepo, times(1)).changeRemovalDate(isA(Long.class), isA(java.util.Date.class));
+        verify(repeatedTaskRepo, times(1)).findById(isA(Long.class));
+        verify(oneTimeTaskRepo).deleteById(longArgumentCaptor.capture());
+        assertThat(longArgumentCaptor.getValue()).isEqualTo(taskId);
+        verify(oneTimeTaskRepo, never()).unMarkTaskAsDone(any());
+        assertThat(newTask).isNotNull();
     }
 
-
     @Test
-    void untickTask() {
-    }
+    void untickOneTimeTask() {
+        // given
+        long taskId = 12L, date = 24488158484848L;
+        java.util.Date currentDate = new java.util.Date(date);
+        Instant time = currentDate.toInstant();
+        java.util.Date yesterday = java.util.Date.from(time.minus(1, ChronoUnit.DAYS));
+        Optional<OneTimeTask> optionalOneTimeTask = Optional.of(OneTimeTask.builder().creationDate(Date.valueOf("2022-01-01")).build());
+        given(oneTimeTaskRepo.findById(taskId)).willReturn(optionalOneTimeTask);
+        given(repeatedTaskRepo.existsByCreationDate(optionalOneTimeTask.get().getCreationDate())).willReturn(false);
+        doNothing().when(oneTimeTaskRepo).unMarkTaskAsDone(taskId);
+        given(oneTimeTaskRepo.findById(taskId)).willReturn(optionalOneTimeTask);
 
-    @Test
-    void getCompletedTask() {
+        // when
+        Task newTask = taskService.untickTask(taskId, date);
+
+        // then
+        ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
+        verify(oneTimeTaskRepo, times(2)).findById(longArgumentCaptor.capture());
+        assertThat(longArgumentCaptor.getValue()).isEqualTo(taskId);
+        verify(repeatedTaskRepo, times(1)).existsByCreationDate(isA(java.util.Date.class));
+        verify(repeatedTaskRepo, never()).changeRemovalDate(any(), any());
+        verify(repeatedTaskRepo, never()).findById(any());
+        verify(oneTimeTaskRepo, never()).deleteById(any());
+        verify(oneTimeTaskRepo, times(1)).unMarkTaskAsDone(longArgumentCaptor.capture());
+        assertThat(longArgumentCaptor.getValue()).isEqualTo(taskId);
+        assertThat(newTask).isNotNull();
     }
 }

@@ -8,17 +8,17 @@ import com.barmjz.productivityapp.todo_task_category.task.RepeatedTaskRepo;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class TodoService {
-    private final Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
+    private final Authentication userAuthentication;
 
     private final UserRepo userRepo;
 
@@ -27,6 +27,15 @@ public class TodoService {
     private final OneTimeTaskRepo oneTimeTaskRepo;
 
     private final RepeatedTaskRepo repeatedTaskRepo;
+
+    @Autowired
+    public TodoService(UserRepo userRepo, CategoryRepo categoryRepo, OneTimeTaskRepo oneTimeTaskRepo, RepeatedTaskRepo repeatedTaskRepo) {
+        this.userAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        this.userRepo = userRepo;
+        this.categoryRepo = categoryRepo;
+        this.oneTimeTaskRepo = oneTimeTaskRepo;
+        this.repeatedTaskRepo = repeatedTaskRepo;
+    }
 
     public List<Task> getTasks(long date){
         List<Task> tasks = new ArrayList<>();
