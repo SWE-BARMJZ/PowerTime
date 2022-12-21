@@ -4,6 +4,7 @@ import com.barmjz.productivityapp.todo_task_category.category.CategoryRepo;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,8 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class TaskService {
-    private final Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
+    private final Authentication userAuthentication;
 
     private final UserRepo userRepo;
 
@@ -26,6 +26,19 @@ public class TaskService {
     private final OneTimeTaskRepo oneTimeTaskRepo;
 
     private final RepeatedTaskRepo repeatedTaskRepo;
+
+    @Autowired
+    public TaskService(UserRepo userRepo, CategoryRepo categoryRepo, OneTimeTaskRepo oneTimeTaskRepo, RepeatedTaskRepo repeatedTaskRepo) {
+        this.userAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        this.userRepo = userRepo;
+        this.categoryRepo = categoryRepo;
+        this.oneTimeTaskRepo = oneTimeTaskRepo;
+        this.repeatedTaskRepo = repeatedTaskRepo;
+    }
+
+    @Autowired
+
+
 
     public Task getTask(Long taskId){
         if (oneTimeTaskRepo.existsById(taskId))
@@ -114,7 +127,7 @@ public class TaskService {
 
     public List<Task> getCompletedTasks(){
         User user = userRepo.getUserByEmail(userAuthentication.getName()).orElse(null);
-        List<OneTimeTask> completedOneTimeTasks =  oneTimeTaskRepo.getCompletedTasks(user).orElse(null);
+        List<OneTimeTask> completedOneTimeTasks = oneTimeTaskRepo.getCompletedTasks(user).orElse(null);
         assert completedOneTimeTasks != null;
         return new ArrayList<>(completedOneTimeTasks);
     }

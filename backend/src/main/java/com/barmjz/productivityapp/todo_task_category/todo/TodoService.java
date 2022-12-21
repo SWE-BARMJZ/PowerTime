@@ -8,17 +8,17 @@ import com.barmjz.productivityapp.todo_task_category.task.RepeatedTaskRepo;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class TodoService {
-    private final Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
+    private final Authentication userAuthentication;
 
     private final UserRepo userRepo;
 
@@ -27,6 +27,15 @@ public class TodoService {
     private final OneTimeTaskRepo oneTimeTaskRepo;
 
     private final RepeatedTaskRepo repeatedTaskRepo;
+
+    @Autowired
+    public TodoService(UserRepo userRepo, CategoryRepo categoryRepo, OneTimeTaskRepo oneTimeTaskRepo, RepeatedTaskRepo repeatedTaskRepo) {
+        this.userAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        this.userRepo = userRepo;
+        this.categoryRepo = categoryRepo;
+        this.oneTimeTaskRepo = oneTimeTaskRepo;
+        this.repeatedTaskRepo = repeatedTaskRepo;
+    }
 
     public List<Task> getTasks(long date){
         List<Task> tasks = new ArrayList<>();
@@ -45,26 +54,23 @@ public class TodoService {
         User user = userRepo.getUserByEmail(userAuthentication.getName()).get();
         Date currentDate = new Date(date);
         String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(currentDate.getTime());
-        Optional<List<RepeatedTask>> repeatedTasks;
-        switch (currentDay){
-            case "Saturday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserAndSaturdayEqualsAndLastRemovalDateNot(user, true, currentDate);
-            case "Sunday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserAndSundayEqualsAndLastRemovalDateNot(user, true, currentDate);
-            case "Monday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserAndMondayEqualsAndLastRemovalDateNot(user, true, currentDate);
-            case "Tuesday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserAndTuesdayEqualsAndLastRemovalDateNot(user, true, currentDate);
-            case "Wednesday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserAndWednesdayEqualsAndLastRemovalDateNot(user, true, currentDate);
-            case "Thursday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserAndThursdayEqualsAndLastRemovalDateNot(user, true, currentDate);
-            case "Friday":
-                repeatedTasks = repeatedTaskRepo.getAllByUserAndFridayEqualsAndLastRemovalDateNot(user, true, currentDate);
-            default:
-                repeatedTasks = null;
-        }
-        return repeatedTasks.get();
+        return switch (currentDay) {
+            case "Saturday" ->
+                    repeatedTaskRepo.getAllByUserAndSaturdayEqualsAndLastRemovalDateNot(user, true, currentDate).orElse(null);
+            case "Sunday" ->
+                    repeatedTaskRepo.getAllByUserAndSundayEqualsAndLastRemovalDateNot(user, true, currentDate).orElse(null);
+            case "Monday" ->
+                    repeatedTaskRepo.getAllByUserAndMondayEqualsAndLastRemovalDateNot(user, true, currentDate).orElse(null);
+            case "Tuesday" ->
+                    repeatedTaskRepo.getAllByUserAndTuesdayEqualsAndLastRemovalDateNot(user, true, currentDate).orElse(null);
+            case "Wednesday" ->
+                    repeatedTaskRepo.getAllByUserAndWednesdayEqualsAndLastRemovalDateNot(user, true, currentDate).orElse(null);
+            case "Thursday" ->
+                    repeatedTaskRepo.getAllByUserAndThursdayEqualsAndLastRemovalDateNot(user, true, currentDate).orElse(null);
+            case "Friday" ->
+                    repeatedTaskRepo.getAllByUserAndFridayEqualsAndLastRemovalDateNot(user, true, currentDate).orElse(null);
+            default -> null;
+        };
     }
 
 
