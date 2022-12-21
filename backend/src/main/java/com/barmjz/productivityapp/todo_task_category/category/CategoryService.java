@@ -36,7 +36,6 @@ public class CategoryService {
                 .get()
                 .getId();
     }
-
     public String editCategory(long categoryId, String category){
         categoryRepo.renameCategory(category, categoryId);
         return "Edited";
