@@ -62,7 +62,7 @@ public class TaskController {
         }
     }
     @PutMapping("/{taskId}/untick")
-    public ResponseEntity<Task> untickTask(@PathVariable Long taskId, @RequestParam Long date, @RequestParam String taskType){
+    public ResponseEntity<Task> untickTask(@PathVariable Long taskId, @RequestParam Long date){
         try {
             return ResponseEntity.ok(taskService.untickTask(taskId, date));
         } catch (Exception e) {

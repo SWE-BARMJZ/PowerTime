@@ -19,16 +19,22 @@ public class CategoryController {
     }
 
     @PutMapping("/{categoryId}")
-    public ResponseEntity<String> editCategory(@PathVariable Long categoryId, @RequestBody Category category) {
-        categoryService.editCategory(categoryId, category);
-        return null;
+    public ResponseEntity<String> editCategory(@PathVariable Long categoryId, @RequestBody String category) {
+        try {
+            return ResponseEntity.ok(categoryService.editCategory(categoryId, category));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{categoryId}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId) {
         // what is the deletion responsibility ??
         // on deleting cascade
-        categoryService.deleteCategory(categoryId);
-        return null;
+        try {
+            return  ResponseEntity.ok(categoryService.deleteCategory(categoryId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }
