@@ -1,6 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { FoldersContainer } from "./Subcomponents/FoldersContainer";
 import { CurrentFolderContainer } from "./Subcomponents/CurrentFolderContainer";
+import { createFolder } from "../../api/notes.api";
+import AuthContext from "../../store/auth-context";
+import { getFolders } from "../../api/notes.api";
+import { renameFolder } from "../../api/notes.api";
 
 import {
     Button,
@@ -18,7 +22,10 @@ import {
 
 
   
-  export const Notes = ({}) => {
+  export const Notes = () => {
+    const auth = useContext(AuthContext);
+    const toast = useToast();
+    const [folders, setFolders] = useState([])
 
     const FoldersCont = () => {
       return (<FoldersContainer 
@@ -29,27 +36,23 @@ import {
                             onSelect = {selectFolder} />)
       }
 
-    const [folders, setFolders] = useState([
-      {
-        id: 1,
-        name: `Main Folder`
-      },
-      {
-        id: 2,
-        name: `Folder 2`
-      },
-      {
-        id: 3,
-        name: `Folder 3`
-      },
-      {
-        id: 4,
-        name: `Folder 4`
+    useEffect( () => {
+      const getFolders = async () => {
+        const foldersFromServer = await loadFolders()
+        setFolders(foldersFromServer)
       }
-    ])
+
+      getFolders()
+    }, [])
+
+    const loadFolders = async () => {
+      const res = await getFolders(auth.token)
+      const data = await res.json()
+
+      return data
+    }
 
 
-    const [idCounter, setIdCounter] = useState(folders.length)
     const [selectedFolder, setSelectedFolder] = useState(null)
     
 
@@ -59,20 +62,45 @@ import {
       console.log("Deleted Folder with ID: ", id)
     }
 
-    const editFolder = (id, newName) => {
-      setFolders(folders.map((folder) => folder.id === id ? {...folder, name: newName} : folder) )
+    const editFolder = async (id, newName) => {
+      try{
+        const res = await renameFolder(id, newName, auth.token)
+        const data = await res.text()
+        console.log(data)
+        setFolders(folders.map((folder) => folder.id === id ? {...folder, name: newName} : folder) )
+      }
+      catch(error){
+        toast.show({
+          title: error.message,
+          placement: "top",
+        });
+      }
     }
 
-    const addFolder = (name) => {
-      const newCounter = idCounter + 1
-      setIdCounter(newCounter)
-      const newFolder = {id: newCounter, name: name}
-      setFolders([...folders, newFolder])
+    const addFolder = async (name) => {
+  
+      try{
+        const res = await createFolder(name, auth.token)
+        const newFolder = await res.json()
+        console.log(newFolder)
+        setFolders([...folders, newFolder])
+      }
+      catch(error){
+        toast.show({
+          title: error.message,
+          placement: "top",
+        });
+      }
+      
     }
 
     const selectFolder = (folder) => {
       setSelectedFolder(folder)
       console.log("Selected Folder with ID: ", folder.id)
+    }
+
+    const navigateToFolders = () => {
+      setSelectedFolder(null)
     }
 
 
@@ -90,7 +118,8 @@ import {
         <CurrentFolderContainer 
         folder = {selectedFolder} 
         folders={folders}
-        onDelete = {deleteFolder}/>
+        onDelete = {deleteFolder}
+        onBack = {navigateToFolders}/>
         </>
         :
         <>

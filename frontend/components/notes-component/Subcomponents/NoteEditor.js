@@ -5,6 +5,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { respLgFont,respLgContHeight } from "./CurrentFolderContainer";
 
+import AuthContext from "../../../store/auth-context";
+
 
 
 import {
@@ -28,24 +30,26 @@ import {
     FlatList,
     Pressable
   } from "native-base";
+import { set } from "express/lib/application";
 
 
   export const NoteEditor = ({
-    folders, folder, note, onEdit, onDelete
+    folders, note, onEdit, onDelete, onStar
   }) => {
-    const [isStarred, setIsStarred] = useState(false);
+
+    const auth = useContext(AuthContext)
+    const toast = useToast()
+    
     const [titleText, setTitleText] = useState("")
     const [contentText, setContentText] = useState("")
+    const [starred, setStarred] = useState(note.starred)                 
+
+    
+
     useEffect( () => {
         setTitleText(note.title)
         setContentText(note.content)
     }, [note])
-
-    const navigateToFolders = () => {
-        note = null
-        folder = null
-    }
-
 
     return (
         <VStack flex={3}>
@@ -58,12 +62,15 @@ import {
                 borderTopWidth="2"
                 >
                 <Flex flex={1} alignItems="center" justifyContent="center" h="full">
-                    <Text numberOfLines={1} fontSize={respLgFont}>{note.date}</Text>
+                    <Text numberOfLines={1} fontSize={respLgFont}>{note.modifiedDate}</Text>
                 </Flex>
                 <Hidden from="base" till="lg">
                     <HStack w = "200" alignItems="center" justifyContent="space-between" mr="2%" h="full">
                         <IconButton
-                            onPress={() => onEdit(note.id, titleText, contentText)}
+                            onPress={() => {
+                                setStarred(!starred)
+                                onEdit(note, titleText, contentText)
+                            }}
                             icon={<FontAwesome name="save" size={30} color="#5BBA59" />} />
                         <Menu w="190" trigger={triggerProps => {
                             return <IconButton
@@ -78,8 +85,8 @@ import {
                         </Menu>
                 
                         <IconButton
-                            onPress={() => setIsStarred(!isStarred)}
-                            icon={<Entypo name={ isStarred ? "star" : "star-outlined"} size={30} color="#D7BE69" />} />
+                            onPress={() => onStar(note.id)}
+                            icon={<Entypo name={ note.starred ? "star" : "star-outlined"} size={30} color="#D7BE69" />} />
                         <IconButton 
                             onPress={() => onDelete(note.id)}
                             icon={<AntDesign name="delete" size={30} color="#FF5959" />} />
@@ -88,7 +95,10 @@ import {
                 <Hidden from="lg">
                     <HStack w = "70" alignItems="center" justifyContent="center" mr="2%" pr="3%">
                     <IconButton
-                            onPress={() => onEdit(note.id, titleText, contentText)}
+                            onPress={() => {
+                                setStarred(!starred)
+                                onEdit(note, titleText, contentText)
+                            }}
                             icon={<FontAwesome name="save" size={30} color="#5BBA59" />} />
 
                     <Menu w="190" trigger={triggerProps => {
@@ -97,9 +107,8 @@ import {
                                 accessibilityLabel="More options menu" {...triggerProps}
                         />
                         }}>
-                            <Menu.Item onPress={() => setIsStarred(!isStarred)}>{isStarred ? 'Unstar Note' : 'Star Note' } </Menu.Item>
+                            <Menu.Item onPress={() => onStar(note.id)}>{note.starred ? 'Unstar Note' : 'Star Note' } </Menu.Item>
                             <Menu.Item onPress={() => onDelete(note.id)}>Delete Note</Menu.Item>
-                            <Menu.Item onPress={() => navigateToFolders()}>Back to Folders</Menu.Item>
                             <Menu w="190" trigger={triggerProps => {
                             return <Pressable
                                         accessibilityLabel="More options menu"

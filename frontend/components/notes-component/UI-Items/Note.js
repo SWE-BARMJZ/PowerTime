@@ -39,7 +39,6 @@ import {
             onPress={() => onSelect(note)}
             _hover={{bg:"gray.300"}}
             w="full" 
-            // h = {{noteSize}}
             borderColor="black.100"
             borderBottomWidth="2"
             >
@@ -48,7 +47,7 @@ import {
                     {note.title} 
                 </Text>
                 <Text numberOfLines={1} ml="20%" fontSize={respSmFont} color="gray.500">   
-                    {note.date} 
+                    {note.modifiedDate} 
                 </Text>
             </VStack>
         </Pressable>

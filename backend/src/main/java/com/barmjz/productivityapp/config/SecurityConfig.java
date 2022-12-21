@@ -40,6 +40,8 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST,"/api/user/register").permitAll()
+//                        .requestMatchers(HttpMethod.POST,"/folder/create").permitAll()
+//                        .requestMatchers(HttpMethod.GET,"/folder/get").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .userDetailsService(jpaUserDetailsService)

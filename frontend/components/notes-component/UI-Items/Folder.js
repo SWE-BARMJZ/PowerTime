@@ -33,10 +33,6 @@ import {
   export const Folder = ({
     folder, onDelete, onEdit, onSelect}) => {
 
-      const logMenuItem = (e) => {
-        console.log("Clicked on Menu Item")
-      };
-
       const [showModal, setShowModal] = useState(false);
       const [newName, setNewName] = useState("")
 
