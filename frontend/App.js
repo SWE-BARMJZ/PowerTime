@@ -5,12 +5,14 @@ import { Login } from "./components/Login";
 import { PasswordRecovery } from "./components/PasswordRecovery";
 import { SignUp } from "./components/SignUp";
 import TodoScreen from "./components/TodoScreen";
+import MindMapScreen from "./components/MindMapScreen";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeBaseProvider } from "native-base";
 import { AuthContextProvider } from "./store/auth-context";
 import { theme } from "./UI/theme";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +22,7 @@ export default function App() {
       <AuthContextProvider>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="MindMap" component={MindMapScreen} />
             <Stack.Screen name="Todo" component={TodoScreen} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Sign Up" component={SignUp} />
