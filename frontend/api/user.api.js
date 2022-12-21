@@ -7,14 +7,15 @@ export const registerUser = async (user) => {
     method: "POST",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify(user),
+  }).catch((error) => {
+    throw new Error("Problem connecting with the server!");
   });
 
   if (response.status !== 200) {
     const message = await response.text();
-    alert(message);
-    throw new Error(response.status);
-
-  } 
+    throw new Error(message);
+  }
+  
   return response;
 };
 
@@ -23,11 +24,11 @@ export const getUser = async (token) => {
 
   const response = await fetch(url, {
     method: "GET",
-    headers: { "Authorization": `Bearer ${token}` },
+    headers: { Authorization: `Bearer ${token}` },
   });
 
   if (response.status !== 200) {
     throw new Error(response.status);
-  } 
+  }
   return response;
-}
+};

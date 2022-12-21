@@ -1,0 +1,78 @@
+import { extendTheme } from "native-base";
+
+const theme = extendTheme({
+  colors: {
+    primary: {
+      main: "#0068F9",
+      darkBlue: "#2C406E",
+      accent: "#4338ca",
+      accentDark: "#312e81",
+      bg: "#dffaef",
+    },
+  },
+  components: {
+    Link: {
+      baseStyle: {
+        _web: {
+          cursor: "pointer",
+        },
+      },
+    },
+    Button: {
+      baseStyle: { _text: { fontWeight: "bold" } },
+      defaultProps: {
+        bgColor: "primary.main",
+      },
+    },
+    Input: {
+      baseStyle: {
+        _hover: {
+          borderColor: "primary.main",
+        },
+        _focus: {
+          bgColor: "white",
+          borderColor: "primary.main",
+          _hover: {
+            borderColor: "primary.main",
+          },
+        },
+      },
+      defaultProps: {
+        size: "lg",
+      },
+    },
+    FormControlLabel: {
+      baseStyle: {
+        _text: { color: "black" },
+      },
+    },
+    Checkbox: {
+      defaultProps: {
+        _checked: {
+          bgColor: "primary.accent",
+          borderColor: "primary.accent",
+          _hover: {
+            borderColor: "primary.accentDark",
+          },
+        },
+        _hover: {
+          borderColor: "primary.accentDark",
+        },
+        _focus: {
+          borderColor: "primary.accentDark",
+
+        }
+      },
+    },
+    Switch: {
+      defaultProps: {
+        onTrackColor: "primary.accent",
+        _hover: {
+          onTrackColor: "primary.accentDark",
+        },
+      },
+    },
+  },
+});
+
+export { theme };
