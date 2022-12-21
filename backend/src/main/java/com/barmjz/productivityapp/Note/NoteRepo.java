@@ -4,7 +4,7 @@ import com.barmjz.productivityapp.Folder.Folder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.*;
 
 @Repository
 public interface NoteRepo extends JpaRepository<Note,Long> {
