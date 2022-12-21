@@ -18,7 +18,6 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willCallRealMethod;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -256,7 +255,6 @@ class TaskServiceTest {
         assertThat(newTask).isNotNull();
     }
 
-
     @Test
     void untickOneTimeTask() {
         // given
@@ -269,7 +267,6 @@ class TaskServiceTest {
         given(repeatedTaskRepo.existsByCreationDate(optionalOneTimeTask.get().getCreationDate())).willReturn(false);
         doNothing().when(oneTimeTaskRepo).unMarkTaskAsDone(taskId);
         given(oneTimeTaskRepo.findById(taskId)).willReturn(optionalOneTimeTask);
-
         // when
         Task newTask = taskService.untickTask(taskId, date);
 

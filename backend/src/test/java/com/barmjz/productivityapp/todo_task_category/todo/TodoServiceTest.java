@@ -22,7 +22,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TodoServiceTest {
-
     @Mock
     private UserRepo userRepo;
 
