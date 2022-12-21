@@ -24,23 +24,26 @@ public class CategoryService {
     }
 
     public Long createCategory(Category category){
+        User user = userRepo.getUserByEmail(userAuthentication.getName()).orElse(null);
+        category.setUser(user);
         if (categoryRepo.findAll().contains(category))
             return -1L;
         else
             categoryRepo.save(category);
 
-        User user = userRepo.getUserByEmail(userAuthentication.getName()).orElse(null);
         return categoryRepo
                 .getCategoryByCategoryNameAndUser(category.getCategory_name(), user)
                 .get()
                 .getId();
     }
 
-    public void editCategory(Long categoryId, Category category){
-        categoryRepo.save(category);
+    public String editCategory(long categoryId, String category){
+        categoryRepo.renameCategory(category, categoryId);
+        return "Edited";
     }
 
-    public void deleteCategory(Long categoryId){
+    public String deleteCategory(long categoryId){
         categoryRepo.deleteById(categoryId);
+        return "Deleted";
     }
 }
