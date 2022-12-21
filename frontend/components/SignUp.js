@@ -125,9 +125,9 @@ export const SignUp = ({ navigation }) => {
             </HStack>
           </VStack>
         </VStack>
+        <Hidden from="base" till="lg">
+          <Box flex="1" h="full">
 
-        <Hidden from="base" till="lg" >
-          <Box flex="1" h="full" pr="10">
             <Image
               source={require("../assets/images/themeImage.png")}
               resizeMode="contain"
