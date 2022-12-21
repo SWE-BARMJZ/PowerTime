@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+
 @Repository
 public interface NoteRepo extends JpaRepository<Note,Long> {
     boolean existsByTitleAndFolder_Id(String noteTitle, Long folderId);
@@ -13,4 +14,5 @@ public interface NoteRepo extends JpaRepository<Note,Long> {
     List<Note> getNotesByFolderIn(List<Folder> foldersId);
     Note findByTitleAndFolder_Id(String noteTitle, Long folderId);
     List<Note> getNotesByFolderInAndStarred(List<Folder> foldersId, boolean starred);
+
 }
