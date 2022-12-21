@@ -150,9 +150,6 @@ import { Pressable } from "react-native";
       const data = await res.text()
       setNotes(notes.map( (note) => note.id === id ? {...note, starred: !note.starred} : note ))
       console.log(data)
-      const n = selectedNote
-      setSelectedNote(null)
-      setSelectedNote(n)
     }
 
     const backToFolders = () => {
