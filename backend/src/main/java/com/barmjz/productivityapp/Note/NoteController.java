@@ -26,10 +26,11 @@ public class NoteController {
     }
 
     @PutMapping("/modify")
-    public ResponseEntity<Note> modifyNote(@RequestBody Note modifiedNote) {
+    public ResponseEntity<Note> modifyNote(@RequestParam("folderId") Long folderId, @RequestBody String modifiedNote) {
         try {
-            System.out.println(modifiedNote.toString());
-            return ResponseEntity.status(HttpStatus.OK).body(noteManager.modifyNote(modifiedNote));
+            System.out.println(modifiedNote);
+//            return ResponseEntity.status(HttpStatus.OK).body(noteManager.modifyNote(modifiedNote, folderId));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -81,11 +82,13 @@ public class NoteController {
     }
 
     @PutMapping("/alterStar")
-    public ResponseEntity<Note> alterStar(@RequestParam("noteId") Long noteId) {
+    public ResponseEntity<String> alterStar(@RequestParam("noteId") Long noteId) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(noteManager.alterStar(noteId));
+            noteManager.alterStar(noteId);
+            return ResponseEntity.status(HttpStatus.OK).body("Done");
         } catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Fuck");
+
         }
     }
 }

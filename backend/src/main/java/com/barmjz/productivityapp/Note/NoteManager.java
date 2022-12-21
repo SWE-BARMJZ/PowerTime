@@ -28,7 +28,7 @@ public class NoteManager {
         Note newNote = Note.builder()
                 .title(noteTitle)
                 .content("")
-                .isStarred(false)
+                .starred(false)
                 .folder(folder.get())
                 .createdDate(date)
                 .modifiedDate(date)
@@ -39,14 +39,14 @@ public class NoteManager {
         return newNote;
     }
 
-    public Note modifyNote(Note modifiedNote){
+    public Note modifyNote(Note modifiedNote, Long folderId){
         if(modifiedNote == null || modifiedNote.getId() == null)
             throw new NullPointerException("note is null");
         if(!noteRepo.existsById(modifiedNote.getId()))
             throw new NoSuchElementException("note not found");
-        if(!noteRepo.findByTitleAndFolder_Id(modifiedNote.getTitle(),modifiedNote.getFolder().getId())
-                .getId().equals(modifiedNote.getId()))
-            throw new IllegalStateException("note title already exist");
+//        if(!noteRepo.findByTitleAndFolder_Id(modifiedNote.getTitle(),folderId)
+//                .getId().equals(modifiedNote.getId()))
+//            throw new IllegalStateException("note title already exist");
         Note existedNote = noteRepo.getReferenceById(modifiedNote.getId());
         // need more efficient way
         existedNote.setTitle(modifiedNote.getTitle());
@@ -74,7 +74,7 @@ public class NoteManager {
     public List<Note> getUserStarredNotes(Long userId){
         if(userId == null)
             throw new NullPointerException("userId is null");
-        return noteRepo.getNotesByFolderInAndIsStarred(folderRepo.getFoldersByUserId(userId), true);
+        return noteRepo.getNotesByFolderInAndStarred(folderRepo.getFoldersByUserId(userId), true);
     }
 
     public Note moveNote(Long newFolderId, Long noteId){

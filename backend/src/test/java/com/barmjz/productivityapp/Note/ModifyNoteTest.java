@@ -60,7 +60,7 @@ class ModifyNoteTest {
                 .modifiedDate(date)
                 .fontSize(8)
                 .build();
-        noteManager.modifyNote(note2);
+        noteManager.modifyNote(note2, folder.getId());
         assertThat(noteRepo.findById(note1.getId()).get().getContent()).isEqualTo("note 1 content");
         assertThat(noteRepo.findById(note1.getId()).get().getFontSize()).isEqualTo(8);
 //        assertThat(noteRepo.findById(note1.getId()).get()).isEqualTo(note2);
@@ -68,7 +68,7 @@ class ModifyNoteTest {
 
     @Test
     void invalidModifiedNote(){
-        assertThatThrownBy(() -> noteManager.modifyNote(null))
+        assertThatThrownBy(() -> noteManager.modifyNote(null, folder.getId()))
                 .isInstanceOf(NullPointerException.class)
                 .hasMessageContaining("note is null");
     }
@@ -87,7 +87,7 @@ class ModifyNoteTest {
                 .modifiedDate(date)
                 .fontSize(8)
                 .build();
-        assertThatThrownBy(() -> noteManager.modifyNote(note2))
+        assertThatThrownBy(() -> noteManager.modifyNote(note2,folder.getId()))
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessageContaining("note not found");
     }

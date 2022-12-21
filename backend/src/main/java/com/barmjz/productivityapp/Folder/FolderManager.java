@@ -25,11 +25,17 @@ public class FolderManager {
     private final UserRepo userRepo;
 
     public Folder createFolder(Long userId, String folderName){
-        if(userId == null)
+        if(userId == null){
+            System.out.println("userId is null");
             throw new NullPointerException("userId is null");
+        }
+
         Optional<User> user = userRepo.findById(userId);
-        if(!user.isPresent())
+        if(!user.isPresent()){
+            System.out.println("user not found");
             throw new NoSuchElementException("user not found");
+        }
+
         Date date = new Date();
         Folder newFolder = Folder.builder()
                 .name(folderName)
@@ -37,8 +43,10 @@ public class FolderManager {
                 .CreatedDate(date)
                 .modifiedDate(date)
                 .build();
-        if(folderRepo.existsFolderByNameAndUser_Id(folderName,user.get().getId()))
+        if(folderRepo.existsFolderByNameAndUser_Id(folderName,user.get().getId())) {
+            System.out.println("folder name already exists");
             throw new IllegalStateException("folder name already exists");
+        }
         folderRepo.save(newFolder);
         return newFolder;
     }

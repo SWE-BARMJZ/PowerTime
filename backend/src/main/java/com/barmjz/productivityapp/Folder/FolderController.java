@@ -3,6 +3,9 @@ package com.barmjz.productivityapp.Folder;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -16,9 +19,15 @@ public class FolderController {
     private FolderManager folderManager;
 
     @PostMapping("/create")
-    public ResponseEntity<Folder> createFolder(@RequestParam("folderName") String folderName, @RequestParam("email") String email) {
+    public ResponseEntity<Folder> createFolder(@RequestBody String folderName) {
+
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+//        UserDetails user = (UserDetails) currentUser.getPrincipal();
+//        System.out.println(user.getUsername());
+//        System.out.println(currentUser.getCredentials());
+
         try {
-            Long userId = folderManager.getUserId(email);
+            Long userId = folderManager.getUserId(currentUser.getName());
             return ResponseEntity.status(HttpStatus.OK).body(folderManager.createFolder(userId, folderName));
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -26,18 +35,20 @@ public class FolderController {
     }
 
     @PutMapping("/modify")
-    public ResponseEntity<Folder> modifyFolder(@RequestParam("folderId") Long folderId, @RequestParam("folderName") String folderName) {
+    public ResponseEntity<String> modifyFolder(@RequestParam("folderId") Long folderId, @RequestParam("folderName") String folderName) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(folderManager.modifyFolder(folderId, folderName));
+            folderManager.modifyFolder(folderId, folderName);
+            return ResponseEntity.status(HttpStatus.OK).body("Done");
         } catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fuck");
         }
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<Folder>> getUserFolders(@RequestParam("email") String email) {
+    public ResponseEntity<List<Folder>> getUserFolders() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         try {
-            Long userId = folderManager.getUserId(email);
+            Long userId = folderManager.getUserId(currentUser.getName());
             return ResponseEntity.status(HttpStatus.OK).body(folderManager.getUserFolders(userId));
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

@@ -41,7 +41,7 @@ public class Note {
     private String content;
     private Date createdDate;
     private Date modifiedDate;
-    private boolean isStarred;
+    private boolean starred;
     private int fontSize;
     private int color;
 
