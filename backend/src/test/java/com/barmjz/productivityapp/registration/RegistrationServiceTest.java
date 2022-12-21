@@ -4,6 +4,7 @@ import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserService;
 import com.barmjz.productivityapp.user.registration.RegistrationRequest;
 import com.barmjz.productivityapp.user.registration.RegistrationService;
+import com.barmjz.productivityapp.user.registration.token.ConfirmationTokenService;
 import com.barmjz.productivityapp.user.registration.validators.EmailValidator;
 import com.barmjz.productivityapp.user.registration.validators.PasswordValidator;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,9 +35,13 @@ public class RegistrationServiceTest {
 
     private RegistrationService registrationService;
 
+    @Mock
+    private  ConfirmationTokenService confirmationTokenService;
+
+
     @BeforeEach
     void setUp() {
-        registrationService = new RegistrationService(userService, emailValidator, passwordValidator, passwordEncoder);
+        registrationService = new RegistrationService(userService, emailValidator, passwordValidator, passwordEncoder, confirmationTokenService);
     }
 
     @Test
