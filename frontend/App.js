@@ -6,7 +6,8 @@ import { PasswordRecovery } from "./components/PasswordRecovery";
 import { SignUp } from "./components/SignUp";
 import TodoScreen from "./components/TodoScreen";
 import MindMapScreen from "./components/MindMapScreen";
-
+import { Notes } from "./components/notes-component/Notes-Main";
+import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeBaseProvider } from "native-base";
@@ -16,11 +17,14 @@ import { theme } from "./UI/theme";
 
 const Stack = createNativeStackNavigator();
 
+
 export default function App() {
   return (
     <NativeBaseProvider theme={theme}>
       <AuthContextProvider>
         <NavigationContainer>
+
+          <StatusBar style="dark" />
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="MindMap" component={MindMapScreen} />
             <Stack.Screen name="Todo" component={TodoScreen} />
@@ -30,7 +34,8 @@ export default function App() {
               name="Password Recovery"
               component={PasswordRecovery}
             />
-            <Stack.Screen name="Home" component={Home} />
+            {/* <Stack.Screen name="Home" component={Home} /> */}
+            <Stack.Screen name="Notes" component={Notes} />
           </Stack.Navigator>
         </NavigationContainer>
       </AuthContextProvider>

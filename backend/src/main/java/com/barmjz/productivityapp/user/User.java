@@ -3,9 +3,7 @@ import com.barmjz.productivityapp.todo_task_category.category.Category;
 import com.barmjz.productivityapp.todo_task_category.task.OneTimeTask;
 import com.barmjz.productivityapp.todo_task_category.task.RepeatedTask;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
@@ -19,6 +17,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class User {
     @Id
     @GeneratedValue(

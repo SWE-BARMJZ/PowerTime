@@ -31,7 +31,8 @@ export const Login = ({ navigation }) => {
       const response = await requestToken({ email, password });
       const token = await response.text();
       auth.login(token);
-      navigation.navigate("Home");
+      console.log(token)
+      navigation.navigate("Notes");
     } catch (error) {
       toast.show({
         title: error.message,
@@ -97,7 +98,8 @@ export const Login = ({ navigation }) => {
         </VStack>
 
         <Hidden from="base" till="lg">
-          <Box flex="1" h="full" pr="10">
+
+          <Box flex="1" h="full" mx={4}>
             <Image
               source={require("../assets/images/themeImage.png")}
               resizeMode="contain"
@@ -110,3 +112,4 @@ export const Login = ({ navigation }) => {
     </Box>
   );
 };
+

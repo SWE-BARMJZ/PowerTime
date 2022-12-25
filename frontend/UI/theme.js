@@ -1,6 +1,15 @@
 import { extendTheme } from "native-base";
 
 const theme = extendTheme({
+
+  breakpoints: {
+    base: 0,
+    sm: 480,
+    md: 768,
+    lg: 992,
+    xl: 1280,
+  },
+
   colors: {
     primary: {
       main: "#0068F9",
@@ -9,6 +18,7 @@ const theme = extendTheme({
       accentDark: "#312e81",
       bg: "#dffaef",
     },
+    secondary: "#5BBA59",
   },
   components: {
     Link: {
