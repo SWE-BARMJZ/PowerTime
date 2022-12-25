@@ -1,49 +1,44 @@
 import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StatusBar } from "expo-status-bar";
-import { View, StyleSheet } from "react-native";
 
 import { Home } from "./components/Home";
 import { Login } from "./components/Login";
-import { SignUp } from "./components/SignUp";
 import { PasswordRecovery } from "./components/PasswordRecovery";
+import { SignUp } from "./components/SignUp";
+import TodoScreen from "./components/TodoScreen";
+import MindMapScreen from "./components/MindMapScreen";
+import { Notes } from "./components/notes-component/Notes-Main";
+import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NativeBaseProvider } from "native-base";
+import { AuthContextProvider } from "./store/auth-context";
+import { theme } from "./UI/theme";
 
-import { AuthContextProvider } from './store/auth-context'
 
 const Stack = createNativeStackNavigator();
 
+
 export default function App() {
   return (
-    <AuthContextProvider>
-      <View style={Styles.outer}>
-        <View style={Styles.container}>
+    <NativeBaseProvider theme={theme}>
+      <AuthContextProvider>
+        <NavigationContainer>
+
           <StatusBar style="dark" />
-          <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name="Sign Up" component={SignUp} />
-              <Stack.Screen
-                name="Password Recovery"
-                component={PasswordRecovery}
-              />
-              <Stack.Screen name="Home" component={Home} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </View>
-      </View>
-    </AuthContextProvider>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="MindMap" component={MindMapScreen} />
+            <Stack.Screen name="Todo" component={TodoScreen} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Sign Up" component={SignUp} />
+            <Stack.Screen
+              name="Password Recovery"
+              component={PasswordRecovery}
+            />
+            {/* <Stack.Screen name="Home" component={Home} /> */}
+            <Stack.Screen name="Notes" component={Notes} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AuthContextProvider>
+    </NativeBaseProvider>
   );
 }
-
-const Styles = StyleSheet.create({
-  outer: {
-    flex: 1,
-    backgroundColor: "#dffaef",
-  },
-
-  container: {
-    marginTop: 25,
-    flex: 1,
-  },
-});

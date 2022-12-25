@@ -27,6 +27,7 @@ export const Home = ({ navigation }) => {
         <Text style={{ fonstSize: 40 }}>logged in Token = {auth.token}</Text>
       )}
       <Button title="Log out" onPress={() => navigation.navigate("Login")} />
+      <Button title="Go To Notes" onPress={() => navigation.navigate("Notes")} />
     </View>
   );
 };

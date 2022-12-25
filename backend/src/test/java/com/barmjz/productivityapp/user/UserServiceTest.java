@@ -1,5 +1,6 @@
 package com.barmjz.productivityapp.user;
 
+import com.barmjz.productivityapp.user.registration.token.ConfirmationTokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,11 +27,13 @@ public class UserServiceTest {
     private UserRepo userRepo;
     @Mock
     private PasswordEncoder passwordencoder;
+    @Mock
+    ConfirmationTokenService confirmationTokenService;
     private UserService userService;
 
     @BeforeEach
     void setUp() {
-        userService = new UserService(userRepo);
+        userService = new UserService(userRepo, confirmationTokenService);
     }
 
 
