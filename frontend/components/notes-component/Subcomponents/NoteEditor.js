@@ -30,7 +30,6 @@ import {
     FlatList,
     Pressable
   } from "native-base";
-import { set } from "express/lib/application";
 
 
   export const NoteEditor = ({
