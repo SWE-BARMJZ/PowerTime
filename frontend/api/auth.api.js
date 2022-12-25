@@ -13,7 +13,12 @@ export const requestToken = async ({ email, password }) => {
     throw new Error("Problem connecting with the server!");
   });
 
-  if (response.status === 200) return response;
-  if (response.status === 401) throw new Error("Invalid credentials");
-  else throw new Error();
+  if (response.status == 401) {
+    throw new Error("Invalid credentials");
+  }
+  else if (response.status !== 200) {
+    throw new Error(response.status);
+  } 
+  return response;
+
 };

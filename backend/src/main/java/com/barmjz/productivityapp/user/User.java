@@ -1,7 +1,11 @@
 package com.barmjz.productivityapp.user;
-
+import com.barmjz.productivityapp.todo_task_category.category.Category;
+import com.barmjz.productivityapp.todo_task_category.task.OneTimeTask;
+import com.barmjz.productivityapp.todo_task_category.task.RepeatedTask;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Set;
 
 @Entity
 @Table( name = "`user`",
@@ -43,13 +47,21 @@ public class User {
 
     private Boolean emailVerified;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<OneTimeTask> oneTimeTasks;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<RepeatedTask> repeatedTasks;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Category> Categories;
 
     public User(String email, String password, String firstName, String lastName) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.emailVerified = false;
+        this.emailVerified = true;
     }
 
 }
