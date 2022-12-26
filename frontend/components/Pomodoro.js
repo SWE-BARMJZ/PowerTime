@@ -15,7 +15,9 @@ import {
 export const Pomodoro = ({ navigation }) => {
     return (
         <Text>Pomodoro Page</Text>
-    )
+    );
 };
+
+
 
 
