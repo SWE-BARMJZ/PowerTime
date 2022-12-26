@@ -12,8 +12,6 @@ import {
   useToast,
 } from "native-base";
 
-const logoPath = require("../assets/images/LOGO.png");
-
 export const Pomodoro = ({ navigation }) => {
     return (
         <Text>Pomodoro Page</Text>
