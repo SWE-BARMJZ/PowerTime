@@ -31,8 +31,6 @@ export const Login = ({ navigation }) => {
       const response = await requestToken({ email, password });
       const token = await response.text();
       auth.login(token);
-      console.log(token)
-      navigation.navigate("Notes");
     } catch (error) {
       toast.show({
         title: error.message,
