@@ -22,7 +22,7 @@ const AppNavigation = () => {
 
   return (
     <NavigationContainer>
-      {/* {auth.isLoggedIn ? ( */}
+      {auth.isLoggedIn ? (
         <Drawer.Navigator
           screenOptions={{ headerShown: false }}
           drawerContent={CustomDrawerContent}
@@ -32,13 +32,13 @@ const AppNavigation = () => {
           <Drawer.Screen name="Home" component={Home} />
           <Drawer.Screen name="Todo" component={TodoScreen} />
         </Drawer.Navigator>
-      {/* ) : (
+      ) : (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Sign Up" component={SignUp} />
           <Stack.Screen name="Password Recovery" component={PasswordRecovery} />
         </Stack.Navigator>
-      )} */}
+      )}
     </NavigationContainer>
   );
 };
