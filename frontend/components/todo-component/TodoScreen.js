@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "native-base";
-import { NavigationButton } from "../UI/NavigationButton";
+import { NavigationButton } from "../../UI/NavigationButton";
 import TodoList from "./TodoList";
 
 const TodoScreen = () => {

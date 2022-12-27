@@ -1,12 +1,12 @@
 import { NoteEditor } from "./NoteEditor";
 import React, { useContext, useState, useEffect } from "react";
 import { Ionicons } from '@expo/vector-icons'; 
-import { Note } from "../UI-Items/Note";
-import { getNotes } from "../../../api/notes.api";
-import AuthContext from "../../../store/auth-context";
-import { createNote } from "../../../api/notes.api";
-import { starNote } from "../../../api/notes.api";
-import { editNote } from "../../../api/notes.api";
+import { Note } from "./Note";
+import { getNotes } from "../../api/notes.api";
+import AuthContext from "../../store/auth-context";
+import { createNote } from "../../api/notes.api";
+import { starNote } from "../../api/notes.api";
+import { editNote } from "../../api/notes.api";
 
 export const respLgFont = {
     base: "20",

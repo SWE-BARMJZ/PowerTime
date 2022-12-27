@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
-import { FoldersContainer } from "./Subcomponents/FoldersContainer";
-import { CurrentFolderContainer } from "./Subcomponents/CurrentFolderContainer";
+import { FoldersContainer } from "./FoldersContainer";
+import { CurrentFolderContainer } from "./CurrentFolderContainer";
 import { createFolder } from "../../api/notes.api";
 import AuthContext from "../../store/auth-context";
 import { getFolders } from "../../api/notes.api";
