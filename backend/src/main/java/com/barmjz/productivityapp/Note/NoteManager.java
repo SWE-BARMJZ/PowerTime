@@ -39,24 +39,21 @@ public class NoteManager {
         return newNote;
     }
 
-    public Note modifyNote(Note modifiedNote, Long folderId){
-        if(modifiedNote == null || modifiedNote.getId() == null)
-            throw new NullPointerException("note is null");
-        if(!noteRepo.existsById(modifiedNote.getId()))
-            throw new NoSuchElementException("note not found");
+    public String modifyNote(Long noteId, String title, String content){
+//        if(modifiedNote == null || modifiedNote.getId() == null)
+//            throw new NullPointerException("note is null");
+//        if(!noteRepo.existsById(modifiedNote.getId()))
+//            throw new NoSuchElementException("note not found");
 //        if(!noteRepo.findByTitleAndFolder_Id(modifiedNote.getTitle(),folderId)
 //                .getId().equals(modifiedNote.getId()))
 //            throw new IllegalStateException("note title already exist");
-        Note existedNote = noteRepo.getReferenceById(modifiedNote.getId());
+        Note existedNote = noteRepo.getReferenceById(noteId);
         // need more efficient way
-        existedNote.setTitle(modifiedNote.getTitle());
-        existedNote.setContent(modifiedNote.getContent());
+        existedNote.setTitle(title);
+        existedNote.setContent(content);
         existedNote.setModifiedDate(new Date());
-        existedNote.setStarred(modifiedNote.isStarred());
-        existedNote.setColor(modifiedNote.getColor());
-        existedNote.setFontSize(modifiedNote.getFontSize());
         noteRepo.save(existedNote);
-        return existedNote;
+        return "Done";
     }
 
     public List<Note> getFolderNotes(Long folderId){

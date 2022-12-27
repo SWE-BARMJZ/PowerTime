@@ -104,23 +104,18 @@ import {
     const changeNote = async (note, newTitle, newContent) => {
       setNotes(notes.map((item) => item.id === note.id ? {...item, title: newTitle, content: newContent, } : item) )
 
+      try{
 
-      // try{
-      //   const newNote = note
-      //   newNote.title = newTitle
-      //   newNote.content = newContent
-
-      //   const res = await editNote(newNote, folder.id, auth.token)
-      //   const data = await res.json()
-      //   console.log("data:", data)
-      //   setNotes(notes.map((note) => note.id === id ? {...note, title: newTitle, content: newContent, } : note) )
-      // }
-      // catch(error){
-      //   toast.show({
-      //     title: error.message,
-      //     placement: "top",
-      //   });
-      // }
+        const res = await editNote(note.id, newTitle, newContent, auth.token)
+        const data = await res.text()
+        console.log("data:", data)
+      }
+      catch(error){
+        toast.show({
+          title: error.message,
+          placement: "top",
+        });
+      }
     }
 
     const MoveNote = async (newFolderId, noteId) => {
