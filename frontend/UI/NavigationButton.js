@@ -7,7 +7,6 @@ export const NavigationButton = ({ navigation }) => {
 
   const toggleDrawer = () => {
     navigate.dispatch(DrawerActions.toggleDrawer());
-    console.log("lol")
   };
 
   return (
