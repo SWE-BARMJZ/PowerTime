@@ -1,11 +1,15 @@
-import { Box, Heading, VStack } from "native-base";
 import React from "react";
+import { Box, Heading, HStack } from "native-base";
+import { NavigationButton } from "../UI/NavigationButton";
 import MindMap from "./MindMap";
 
 const MindMapScreen = () => {
   return (
     <Box safeArea flex={1} p={2}>
-      <Heading m={4}>MindMap</Heading>
+      <HStack space={2} ml={2} alignItems="center">
+        <NavigationButton />
+        <Heading>MindMap</Heading>
+      </HStack>
       <MindMap />
     </Box>
   );
