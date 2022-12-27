@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Heading, HStack } from "native-base";
-import { NavigationButton } from "../UI/NavigationButton";
+import { NavigationButton } from "../../UI/NavigationButton";
 import MindMap from "./MindMap";
 
 const MindMapScreen = () => {

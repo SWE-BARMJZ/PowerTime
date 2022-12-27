@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { respLgFont,respLgContHeight } from "./CurrentFolderContainer";
 
-import AuthContext from "../../../store/auth-context";
+import AuthContext from "../../store/auth-context";
 
 
 

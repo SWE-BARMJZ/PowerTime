@@ -1,8 +1,8 @@
 import { useContext, useState, useEffect } from "react";
 import { Text, View } from "react-native";
-import AuthContext from "../store/auth-context";
-import { getUser } from "../api/user.api";
-import { NavigationButton } from "../UI/NavigationButton";
+import AuthContext from "../../store/auth-context";
+import { getUser } from "../../api/user.api";
+import { NavigationButton } from "../../UI/NavigationButton";
 
 export const Home = () => {
   const [name, setName] = useState("");
