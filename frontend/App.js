@@ -6,7 +6,7 @@ import { PasswordRecovery } from "./components/PasswordRecovery";
 import { SignUp } from "./components/SignUp";
 import TodoScreen from "./components/TodoScreen";
 import MindMapScreen from "./components/MindMapScreen";
-import { Pomodoro } from "./components/Pomodoro"
+import { Pomodoro } from "./components/pomdoro/Pomodoro"
 import { Notes } from "./components/notes-component/Notes-Main";
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from "@react-navigation/native";

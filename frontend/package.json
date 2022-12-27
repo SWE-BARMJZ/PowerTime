@@ -26,7 +26,8 @@
     "react-native-web": "~0.18.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "react-error-overlay": "6.0.9"  
   },
   "private": true
 }
