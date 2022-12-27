@@ -80,8 +80,8 @@ public class NoteManager {
     public Note moveNote(Long newFolderId, Long noteId){
         if(noteId == null || newFolderId == null || !folderRepo.existsFolderById(newFolderId) || !noteRepo.existsById(noteId))
             throw new NoSuchElementException("not found");
-        Note note = noteRepo.getReferenceById(noteId);
-        note.setFolder(folderRepo.getReferenceById(newFolderId));
+        Note note = noteRepo.findById(noteId).get();
+        note.setFolder(folderRepo.findById(newFolderId).get());
         noteRepo.save(note);
         return note;
     }

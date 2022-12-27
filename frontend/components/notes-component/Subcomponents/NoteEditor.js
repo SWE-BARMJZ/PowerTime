@@ -33,7 +33,7 @@ import {
 
 
   export const NoteEditor = ({
-    folders, note, onEdit, onDelete, onStar
+    folders, note, onEdit, onDelete, onStar, onMove
   }) => {
 
     const auth = useContext(AuthContext)
@@ -78,7 +78,7 @@ import {
                         />
                         }}>
                             <FlatList data={folders} renderItem={({item}) => 
-                                <Menu.Item>
+                                <Menu.Item onPress={() => onMove(item.id, note.id)}>
                                     {item.name}
                                 </Menu.Item>} keyExtractor={item => item.id} />
                         </Menu>
@@ -120,7 +120,7 @@ import {
                         }}>
             
                             <FlatList data={folders} renderItem={({item}) => 
-                                <Menu.Item>
+                                <Menu.Item onPress={() => onMove(item.id, note.id)}>
                                     {item.name}
                                 </Menu.Item>} keyExtractor={item => item.id} />
                             </Menu>

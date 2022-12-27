@@ -2,7 +2,7 @@ import { NoteEditor } from "./NoteEditor";
 import React, { useContext, useState, useEffect } from "react";
 import { Ionicons } from '@expo/vector-icons'; 
 import { Note } from "../UI-Items/Note";
-import { getNotes } from "../../../api/notes.api";
+import { getNotes, MoveNoteToFolder } from "../../../api/notes.api";
 import AuthContext from "../../../store/auth-context";
 import { createNote } from "../../../api/notes.api";
 import { starNote } from "../../../api/notes.api";
@@ -61,7 +61,6 @@ import {
     Input,
     FormControl,
   } from "native-base";
-import { Pressable } from "react-native";
 
 
   export const CurrentFolderContainer = ({folder, folders,onDelete,onBack}) => {
@@ -101,9 +100,9 @@ import { Pressable } from "react-native";
       console.log("Selected Note with ID: ", note.id)
     }
 
-    const changeNote = async (note, newTitle, newContent) => {
-      setNotes(notes.map((item) => item.id === note.id ? {...item, title: newTitle, content: newContent, } : item) )
 
+    const changeNote = (note, newTitle, newContent) => {
+      setNotes(notes.map((item) => item.id === note.id ? {...item, title: newTitle, content: newContent, } : item) )
 
       // try{
       //   const newNote = note
@@ -121,6 +120,23 @@ import { Pressable } from "react-native";
       //     placement: "top",
       //   });
       // }
+    }
+
+    const MoveNote = async (newFolderId, noteId) => {
+      try{
+        const res = await MoveNoteToFolder(newFolderId, noteId, auth.token)
+        const newNote = await res.json()
+        console.log(newNote)
+        if(newFolderId !== folder.id){
+          setNotes(notes.filter((note) => note.id !== noteId))
+        }
+      }
+      catch(error){
+        toast.show({
+          title: error.message,
+          placement: "top",
+        });
+      }
     }
 
 
@@ -142,7 +158,7 @@ import { Pressable } from "react-native";
 
     const deleteNote = (id) => {
       setNotes(notes.filter((note) => note.id !== id))
-      selectNote(null)
+      setSelectedNote(null)
     }
 
     const alterStar = async (id) => {
@@ -234,7 +250,8 @@ import { Pressable } from "react-native";
         note = {selectedNote} 
         onEdit={changeNote}
         onDelete={deleteNote}
-        onStar = {alterStar}/> 
+        onStar = {alterStar}
+        onMove = {MoveNote}/> 
         :
         <VStack flex={3}>
             <HStack w="full"></HStack>
