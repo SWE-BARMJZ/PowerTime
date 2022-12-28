@@ -20,6 +20,7 @@ const Task = (props) => {
     onTaskCompletion(data.id);
   };
 
+
   const removeTaskHandler = () => {
     onTaskRemoval(data.id);
   };
