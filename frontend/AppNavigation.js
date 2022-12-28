@@ -13,7 +13,7 @@ import { Home } from "./components/home-component/Home";
 import { Login } from "./components/login-component/LoginScreen";
 import { PasswordRecovery } from "./components/login-component/PasswordRecoveryScreen";
 import { SignUp } from "./components/login-component/SignUpScreen";
-import { Notes } from "./components/notes-component/NotesScreen";
+import { NotesScreen } from "./components/notes-component/NotesScreen";
 import TodoScreen from "./components/todo-component/TodoScreen";
 import MindMapScreen from "./components/mindmap-component/MindMapScreen";
 
@@ -27,10 +27,10 @@ const AppNavigation = () => {
           screenOptions={{ headerShown: false }}
           drawerContent={CustomDrawerContent}
         >
-          <Drawer.Screen name="Mindmap" component={MindMapScreen} />
-          <Drawer.Screen name="Notes" component={Notes} />
           <Drawer.Screen name="Home" component={Home} />
           <Drawer.Screen name="Todo" component={TodoScreen} />
+          <Drawer.Screen name="Mindmap" component={MindMapScreen} />
+          <Drawer.Screen name="Notes" component={NotesScreen} />
         </Drawer.Navigator>
       ) : (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
