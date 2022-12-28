@@ -5,19 +5,17 @@ import SingleLineText from "../../UI/SingleLineText";
 
 const TodoCategoryGroup = ({ categoryName, categoryTasks, ...props }) => {
   return (
-    <VStack w="full" bgColor={"indigo.200"} borderRadius={"lg"}>
-      <Box bg="primary.accent" alignItems="center" borderRadius={"lg"} p={3}>
-        <SingleLineText bold color="white">
+    <VStack w="full" space={2} p={2} borderRadius="lg" bgColor={"dark.600"}>
+      <Box alignItems="center" borderRadius={"lg"} p={2}>
+        <SingleLineText bold color="black" fontSize={'md'}>
           {categoryName}
         </SingleLineText>
       </Box>
-      <VStack space={2} p={2}>
+      <VStack space={2}>
         {categoryTasks.map((task) => (
           <Task
             data={task}
             key={task.id}
-            borderWidth={1}
-            borderColor="white"
             {...props}
           />
         ))}
