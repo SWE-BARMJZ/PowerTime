@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AntDesign,Entypo } from '@expo/vector-icons';
 import { respLgContHeight, respLgFont,respMdFont } from "./CurrentFolderContainer";
-import { Folder } from "../UI-Items/Folder";
+import { Folder } from "./Folder";
 
 
 import {

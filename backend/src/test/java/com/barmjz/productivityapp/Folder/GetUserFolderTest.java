@@ -71,6 +71,7 @@ class GetUserFolderTest {
 
     @Test
     void getNonExistedUserFolders(){
+        userRepo.save(user1);
         folderRepo.save(folder1);
         folderRepo.save(folder2);
         assertThatThrownBy(() -> folderManager.getUserFolders(user1.getId()+3))

@@ -36,10 +36,6 @@ public class TaskService {
         this.repeatedTaskRepo = repeatedTaskRepo;
     }
 
-    @Autowired
-
-
-
     public Task getTask(Long taskId){
         if (oneTimeTaskRepo.existsById(taskId))
             return oneTimeTaskRepo.findById(taskId).orElse(null);

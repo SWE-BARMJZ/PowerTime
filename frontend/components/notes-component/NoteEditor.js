@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { respLgFont,respLgContHeight } from "./CurrentFolderContainer";
 
-import AuthContext from "../../../store/auth-context";
+import AuthContext from "../../store/auth-context";
 
 
 
@@ -30,11 +30,10 @@ import {
     FlatList,
     Pressable
   } from "native-base";
-import { set } from "express/lib/application";
 
 
   export const NoteEditor = ({
-    folders, note, onEdit, onDelete, onStar
+    folders, note, onEdit, onDelete, onStar, onMove
   }) => {
 
     const auth = useContext(AuthContext)
@@ -79,7 +78,7 @@ import { set } from "express/lib/application";
                         />
                         }}>
                             <FlatList data={folders} renderItem={({item}) => 
-                                <Menu.Item>
+                                <Menu.Item  onPress={() => onMove(item.id, note.id)}>
                                     {item.name}
                                 </Menu.Item>} keyExtractor={item => item.id} />
                         </Menu>
@@ -121,7 +120,7 @@ import { set } from "express/lib/application";
                         }}>
             
                             <FlatList data={folders} renderItem={({item}) => 
-                                <Menu.Item>
+                                <Menu.Item  onPress={() => onMove(item.id, note.id)}>
                                     {item.name}
                                 </Menu.Item>} keyExtractor={item => item.id} />
                             </Menu>
