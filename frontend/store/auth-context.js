@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import React from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthContext = React.createContext({
   token: "",
@@ -10,38 +9,16 @@ const AuthContext = React.createContext({
 });
 
 export const AuthContextProvider = (props) => {
-  // const [token, setToken] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState("");
+  const isLoggedIn = token.length !== 0;
 
   const loginHandler = (token) => {
-    setIsLoading(true);
     setToken(token);
-    AsyncStorage.setItem('token',token);
-    setIsLoading(false);
   };
 
   const logoutHandler = () => {
-    setIsLoading(true);
-    setToken(null);
-    AsyncStorage.removeItem('token');
-    setIsLoading(false);
+    setToken("");
   };
-
-  const isLoggedIn = async () => {
-      try {
-        setIsLoading(true);
-        let userToken = AsyncStorage.getItem('token');
-        setToken(userToken);
-        setIsLoading(false);        
-      } catch (error) {
-        console.log('is logged error ${error}');
-      }
-  }
-
-  useEffect(() => {
-    isLoggedIn();
-  },[])
 
   const contextValue = {
     token,
