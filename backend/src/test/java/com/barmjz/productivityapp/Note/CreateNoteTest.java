@@ -3,7 +3,6 @@ package com.barmjz.productivityapp.Note;
 import com.barmjz.productivityapp.Folder.Folder;
 import com.barmjz.productivityapp.Folder.FolderRepo;
 import com.barmjz.productivityapp.user.User;
-import com.barmjz.productivityapp.user.UserRepo;
 import lombok.Data;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,11 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class CreateNoteTest {
-    @Autowired UserRepo userRepo;
     @Autowired FolderRepo folderRepo;
     @Autowired NoteRepo noteRepo;
     NoteManager noteManager;
-    User user;
     Folder folder;
     Note note1;
     Note note2;
@@ -36,16 +33,14 @@ class CreateNoteTest {
         folderRepo.deleteAll();
         noteRepo.deleteAll();
         date = new Date();
-        user = User.builder()
-                .email("user1@gmail.com")
-                .password("pass")
-                .firstName("userFirst")
-                .lastName("userLast")
-                .build();
-        userRepo.save(user);
         folder = Folder.builder()
                 .name("folder")
-                .user(user)
+                .user(User.builder()
+                        .email("user1@gmail.com")
+                        .password("pass")
+                        .firstName("userFirst")
+                        .lastName("userLast")
+                        .build())
                 .CreatedDate(date)
                 .modifiedDate(date)
                 .build();

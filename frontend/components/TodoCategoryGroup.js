@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, VStack } from "native-base";
-import Task from "../Task";
-import SingleLineText from "../../UI/SingleLineText";
+import Task from "./Task";
+import SingleLineText from "../UI/SingleLineText";
 
 const TodoCategoryGroup = ({ categoryName, categoryTasks, ...props }) => {
   return (

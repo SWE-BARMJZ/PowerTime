@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { registerUser } from "../../api/user.api";
+import { registerUser } from "../api/user.api";
 
 import {
   Button,
@@ -15,10 +15,10 @@ import {
   Icon,
   useToast,
 } from "native-base";
-import FormInput from "../../UI/FormInput";
+import FormInput from "../UI/FormInput";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const logoPath = require("../../assets/images/LOGO.png");
+const logoPath = require("../assets/images/LOGO.png");
 
 export const SignUp = ({ navigation }) => {
   const toast = useToast();
@@ -129,7 +129,7 @@ export const SignUp = ({ navigation }) => {
           <Box flex="1" h="full">
 
             <Image
-              source={require("../../assets/images/themeImage.png")}
+              source={require("../assets/images/themeImage.png")}
               resizeMode="contain"
               h="full"
               alt="hero"

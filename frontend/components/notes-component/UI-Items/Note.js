@@ -1,5 +1,8 @@
 import React, { useContext, useState } from "react";
-import { respLgFont,respLgContHeight,respMdFont,respSmFont,respMiniFont } from "./CurrentFolderContainer";
+import { MaterialIcons } from '@expo/vector-icons'; 
+import { Entypo } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
+import { respLgFont,respLgContHeight,respMdFont,respSmFont,respMiniFont } from "../Subcomponents/CurrentFolderContainer";
 
 
 

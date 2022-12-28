@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Heading, HStack, Switch, VStack, Text, ScrollView } from "native-base";
-import Task from "../Task";
+import Task from "./Task";
 import TodoCategoryGroup from "./TodoCategoryGroup";
 
-import { TODO_API } from "../../api/todo.api";
-import { TASK_API } from "../../api/task.api";
+import { TODO_API } from "../api/todo.api";
+import { TASK_API } from "../api/task.api";
 
 const TodoList = (props) => {
   const [data, setData] = useState(DUMMY_TODOS);

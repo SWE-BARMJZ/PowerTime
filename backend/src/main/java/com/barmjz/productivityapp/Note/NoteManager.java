@@ -39,18 +39,24 @@ public class NoteManager {
         return newNote;
     }
 
-    public String modifyNote(Long noteId, String title, String content){
-        if(noteId == null || !noteRepo.existsById(noteId))
+    public Note modifyNote(Note modifiedNote, Long folderId){
+        if(modifiedNote == null || modifiedNote.getId() == null)
+            throw new NullPointerException("note is null");
+        if(!noteRepo.existsById(modifiedNote.getId()))
             throw new NoSuchElementException("note not found");
-        Note existedNote = noteRepo.getReferenceById(noteId);
-        if(    (noteRepo.existsByTitleAndFolder_Id(title,existedNote.getFolder().getId())) &&
-                (!noteRepo.findByTitleAndFolder_Id(title,existedNote.getFolder().getId()).getId().equals(existedNote.getId())))
-            throw new IllegalStateException("note new title already exist");
-        existedNote.setTitle(title);
-        existedNote.setContent(content);
+//        if(!noteRepo.findByTitleAndFolder_Id(modifiedNote.getTitle(),folderId)
+//                .getId().equals(modifiedNote.getId()))
+//            throw new IllegalStateException("note title already exist");
+        Note existedNote = noteRepo.getReferenceById(modifiedNote.getId());
+        // need more efficient way
+        existedNote.setTitle(modifiedNote.getTitle());
+        existedNote.setContent(modifiedNote.getContent());
         existedNote.setModifiedDate(new Date());
+        existedNote.setStarred(modifiedNote.isStarred());
+        existedNote.setColor(modifiedNote.getColor());
+        existedNote.setFontSize(modifiedNote.getFontSize());
         noteRepo.save(existedNote);
-        return "note modified";
+        return existedNote;
     }
 
     public List<Note> getFolderNotes(Long folderId){
@@ -74,8 +80,8 @@ public class NoteManager {
     public Note moveNote(Long newFolderId, Long noteId){
         if(noteId == null || newFolderId == null || !folderRepo.existsFolderById(newFolderId) || !noteRepo.existsById(noteId))
             throw new NoSuchElementException("not found");
-        Note note = noteRepo.findById(noteId).get();
-        note.setFolder(folderRepo.findById(newFolderId).get());
+        Note note = noteRepo.getReferenceById(noteId);
+        note.setFolder(folderRepo.getReferenceById(newFolderId));
         noteRepo.save(note);
         return note;
     }

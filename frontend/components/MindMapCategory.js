@@ -13,10 +13,10 @@ import {
   Modal,
   Button,
 } from "native-base";
-import FormInput from "../../UI/FormInput";
+import FormInput from "../UI/FormInput";
 import { MaterialIcons } from "@expo/vector-icons";
-import Task from "../Task";
-import SingleLineText from "../../UI/SingleLineText";
+import Task from "./Task";
+import SingleLineText from "../UI/SingleLineText";
 
 const color = "black";
 const bgColor = "dark.600";
