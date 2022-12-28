@@ -1,10 +1,10 @@
 package com.barmjz.productivityapp.pomodoro;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Pomodoro {
     int studyTime=25;
     int breakTime=5;

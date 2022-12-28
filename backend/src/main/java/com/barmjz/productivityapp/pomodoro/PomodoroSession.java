@@ -1,11 +1,11 @@
 package com.barmjz.productivityapp.pomodoro;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class PomodoroSession extends Pomodoro {
     private boolean isStudying = true;
     private boolean isPaused = false;
