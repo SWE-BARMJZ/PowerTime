@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Box, HStack, ScrollView, useToast } from "native-base";
 import MindMapCategory from "./MindMapCategory";
 
@@ -11,7 +11,24 @@ const MindMap = (props) => {
   const toast = useToast();
   const auth = useContext(AuthContext);
 
-  const [categories, setCategories] = useState(DUMMY_DATA);
+  const [categories, setCategories] = useState([]);
+
+  useEffect( () => {
+      const fetchTasks = async () => {
+        const categoriesFromServer = await loadTasks()
+        setCategories(categoriesFromServer)
+      }
+
+      fetchTasks()
+    }, [])
+
+    const loadTasks = async () => {
+      const res = await TASK_API.fetchTasks(auth.token)
+      const data = await res
+      console.log(res);
+
+      return data
+    }
 
   const deleteTaskFromState = (taskId) => {
     setCategories((current) => {
@@ -40,12 +57,12 @@ const MindMap = (props) => {
 
   const deleteTaskHandler = async (taskId) => {
     try {
-      // const response = await TASK_API.deleteTask(taskId, auth.token);
-      // const message = await response.text();
-      // toast.show({
-      //   title: message,
-      //   placement: "top",
-      // });
+      const response = await TASK_API.deleteTask(taskId, auth.token);
+      const message = await response.text();
+      toast.show({
+        title: message,
+        placement: "top",
+      });
       deleteTaskFromState(taskId);
     } catch (error) {
       toast.show({
@@ -57,12 +74,12 @@ const MindMap = (props) => {
 
   const completeTaskHandler = async (taskId) => {
     try {
-      // const response = await TASK_API.tickTask(taskId, auth.token);
-      // const message = await response.text();
-      // toast.show({
-      //   title: message,
-      //   placement: "top",
-      // });
+      const response = await TASK_API.tickTask(taskId, auth.token);
+      const message = await response.text();
+      toast.show({
+        title: message,
+        placement: "top",
+      });
       deleteTaskFromState(taskId);
     } catch (error) {
       toast.show({
@@ -74,12 +91,12 @@ const MindMap = (props) => {
 
   const renameCategoryHandler = async (categoryId, newName) => {
     try {
-      // const response = await CATEGORY_API.renameCategory(categoryId, newName, auth.token);
-      // const message = await response.text();
-      // toast.show({
-      //   title: message,
-      //   placement: "top",
-      // });
+      const response = await CATEGORY_API.renameCategory(categoryId, newName, auth.token);
+      const message = await response;
+      toast.show({
+        title: message,
+        placement: "top",
+      });
       renameCategoryInState(categoryId, newName);
     } catch (error) {
       toast.show({
@@ -91,12 +108,12 @@ const MindMap = (props) => {
 
   const deleteCategoryHandler = async (categoryId) => {
     try {
-      // const response = await CATEGORY_API.deleteCategory(categoryId, newName, auth.token);
-      // const message = await response.text();
-      // toast.show({
-      //   title: message,
-      //   placement: "top",
-      // });
+      const response = await CATEGORY_API.deleteCategory(categoryId, auth.token);
+      const message = await response;
+      toast.show({
+        title: message,
+        placement: "top",
+      });
       deleteCategoryFromState(categoryId);
     } catch (error) {
       toast.show({
@@ -108,7 +125,7 @@ const MindMap = (props) => {
 
   const moveToTodoHandler = async (taskId) => {
     try {
-      // const respone = await deleteTaskFromState(taskId, auth.token);
+      const respone = await deleteTaskFromState(taskId, auth.token);
       TODO_API.addToTodo(taskId);
     } catch (error) {
       toast.show({
