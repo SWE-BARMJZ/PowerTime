@@ -26,16 +26,16 @@ export default function App() {
 
           <StatusBar style="dark" />
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {/* <Stack.Screen name="MindMap" component={MindMapScreen} /> */}
             <Stack.Screen name="Todo" component={TodoScreen} />
-            {/* <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="MindMap" component={MindMapScreen} />
+            <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Sign Up" component={SignUp} />
             <Stack.Screen
               name="Password Recovery"
               component={PasswordRecovery}
-            /> */}
-            {/* <Stack.Screen name="Home" component={Home} /> */}
-            {/* <Stack.Screen name="Notes" component={Notes} /> */}
+            />
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Notes" component={Notes} />
           </Stack.Navigator>
         </NavigationContainer>
       </AuthContextProvider>

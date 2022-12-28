@@ -25,8 +25,9 @@ import {
       onTaskRemoval(data.id);
     };
   
-    // TODO
-    const viewTaskDetails = () => {};
+    const viewTaskDetails = (taskId) => {
+          // TODO
+    };
   
     return (
       <HStack
@@ -39,18 +40,6 @@ import {
         {...props}
       >
         <VStack space={3} flex={1} justifyContent="center">
-          {data.type === "repeated" ? (
-            <Text fontSize={"12"} ml={1} color="primary.accent">
-              REPEATED TASK
-            </Text>
-          ) : (
-            data.dueDate && (
-              <Text fontSize={"12"} ml={1} color="primary.accent">
-                {data.dueDate}
-              </Text>
-            )
-          )}
-  
           <HStack space={2} pl={1} alignItems="center" maxW="full">
             <Checkbox
               size={"md"}

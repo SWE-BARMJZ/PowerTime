@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Heading, HStack, Switch, VStack, Text, ScrollView } from "native-base";
 import CompletedTask from "./CompletedTask";
-import TodoCategoryGroup from "./TodoCategoryGroup";
 
 import { TODO_API } from "../api/todo.api";
 import { TASK_API } from "../api/task.api";
@@ -10,20 +9,16 @@ const CompletedList = (props) => {
   const [data, setData] = useState(DUMMY_COMPLETED);
 
   const fetchCompletedTasks = async () => {
-    // const data = await TODO_API.fetchTodoList();
-    // setData((current) => {
-    //   const isGrouped = !current.isGrouped;
-    //   return { isGrouped, data };
-    // });
+    //TODO
   };
 
   useEffect(() => {
-    // fetchTodoList();
+    fetchCompletedTasks()
   }, []);
 
   const removeTask = (taskId) => {
     setData((data) => data.filter((task) => task.id !== taskId));
-    TODO_API.removeFromTodo(taskId);
+    TASK_API.deleteTask(taskId);
   };
 
   const untickTask = (taskId) => {

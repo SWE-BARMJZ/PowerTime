@@ -19,7 +19,7 @@ const TodoScreen = () => {
         <Hidden from="base" till="md">
           {
             showCompleted &&
-            <CompletedList maxW={600} /> 
+            <CompletedList maxW={400} /> 
           }
         </Hidden>
       </Box>
