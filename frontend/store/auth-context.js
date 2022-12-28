@@ -1,18 +1,31 @@
-import { useState } from "react";
-import React from "react";
+import React, { useState } from "react";
+import { getUser } from "../api/user.api";
 
 const AuthContext = React.createContext({
   token: "",
   isLoggedIn: false,
+  userInfo: { firstName: "", lastName: "", email: "" },
   login: (token) => {},
   logout: () => {},
 });
 
 export const AuthContextProvider = (props) => {
   const [token, setToken] = useState("");
+  const [userInfo, setUserInfo] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
   const isLoggedIn = token.length !== 0;
 
-  const loginHandler = (token) => {
+  const loginHandler = async (token) => {
+    const response = await getUser(token);
+    const user = await response.json();
+    setUserInfo({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+    });
     setToken(token);
   };
 
@@ -23,6 +36,7 @@ export const AuthContextProvider = (props) => {
   const contextValue = {
     token,
     isLoggedIn,
+    userInfo,
     login: loginHandler,
     logout: logoutHandler,
   };
