@@ -19,7 +19,7 @@ const TimeSlider = ({onChange}) => {
     const [value, setValue] = useState(25)
     return (
             <Box alignItems="center" w="100%">
-            <Slider maxW="300" defaultValue={25} minValue={0} maxValue={60} accessibilityLabel="hello world" step={1}
+            <Slider maxW="300" defaultValue={25} minValue={0} maxValue={60} accessibilityLabel="" step={1}
             onChange={v => setValue(v)}
             onChangeEnd={onChange}>
                 <Slider.Track>
