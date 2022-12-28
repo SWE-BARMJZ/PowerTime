@@ -64,14 +64,16 @@ public class TaskService {
             repeatedTaskRepo.deleteById(taskId);
     }
 
-    public Task createTask(Task task, String taskType){
+    public Task createTask(Object task, String taskType){
         Task newTask;
         if (taskType.equals("onetime")) {
+            OneTimeTask parsedOnetimeTask = (OneTimeTask) task;
             oneTimeTaskRepo.save((OneTimeTask) task);
-            newTask = oneTimeTaskRepo.getByCreationDate(task.getCreationDate()).orElse(null);
+            newTask = oneTimeTaskRepo.getByCreationDate(parsedOnetimeTask.getCreationDate()).orElse(null);
         } else {
             repeatedTaskRepo.save((RepeatedTask) task);
-            newTask = repeatedTaskRepo.getByCreationDate(task.getCreationDate()).orElse(null);
+            RepeatedTask parsedOnetimeTask = (RepeatedTask) task;
+            newTask = repeatedTaskRepo.getByCreationDate(parsedOnetimeTask.getCreationDate()).orElse(null);
         }
         return newTask;
     }
@@ -79,7 +81,7 @@ public class TaskService {
     public Task tickTask(Long taskId, Long date, String taskType){
         Task newTask;
         Date currentDate = new Date(date);
-        User user = userRepo.getUserByEmail(userAuthentication.getName()).orElse(null);
+        User user = userRepo.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null);
         if (taskType.equals("onetime")) {
             oneTimeTaskRepo.markTaskAsDone(taskId, currentDate);
             newTask = oneTimeTaskRepo.findById(taskId).get();
@@ -122,7 +124,7 @@ public class TaskService {
     }
 
     public List<Task> getCompletedTasks(){
-        User user = userRepo.getUserByEmail(userAuthentication.getName()).orElse(null);
+        User user = userRepo.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null);
         List<OneTimeTask> completedOneTimeTasks = oneTimeTaskRepo.getCompletedTasks(user).orElse(null);
         assert completedOneTimeTasks != null;
         return new ArrayList<>(completedOneTimeTasks);
@@ -130,7 +132,7 @@ public class TaskService {
 
 
     public List<CategoryPair> getCategorizedTasks(){
-        String user = userAuthentication.getName();
+        String user = SecurityContextHolder.getContext().getAuthentication().getName();
         List<CategoryPair> categoryTaskPairs = new ArrayList<>();
         List<Category> categories = categoryRepo
                 .getCategoryByUserId(
@@ -146,7 +148,7 @@ public class TaskService {
             categoryTasks.addAll(repeatedTaskRepo
                     .getAllByCategory(category)
                     .get());
-            categoryTaskPairs.add(new CategoryPair(category, categoryTasks));
+            categoryTaskPairs.add(new CategoryPair(category.getId(), category.getCategory_name(), categoryTasks));
         }
         return categoryTaskPairs;
     }

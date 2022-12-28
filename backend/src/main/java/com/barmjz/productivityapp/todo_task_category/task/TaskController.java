@@ -9,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/task")
+@CrossOrigin
 public class TaskController {
 
     private final TaskService taskService;
@@ -46,7 +47,7 @@ public class TaskController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Task> createTask(@RequestBody Task task, @RequestParam String taskType) {
+    public ResponseEntity<Task> createTask(@RequestBody Object task, @RequestParam String taskType) {
         try {
             return ResponseEntity.ok(taskService.createTask(task, taskType));
         } catch (Exception e) {

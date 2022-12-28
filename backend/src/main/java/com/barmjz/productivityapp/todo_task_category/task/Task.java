@@ -20,7 +20,6 @@ public class Task extends AbstractTask {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    @JsonIgnore
     private Date creationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,7 +28,6 @@ public class Task extends AbstractTask {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "userId", referencedColumnName = "id")
-    @JsonIgnore
     private User user;
 
 }

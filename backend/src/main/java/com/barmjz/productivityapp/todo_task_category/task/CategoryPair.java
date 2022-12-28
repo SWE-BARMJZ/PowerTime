@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class CategoryPair {
-    Category category;
+    long id;
+    String name;
     List<Task> tasks;
 }
