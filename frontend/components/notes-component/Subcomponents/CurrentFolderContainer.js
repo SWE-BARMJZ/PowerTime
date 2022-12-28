@@ -1,13 +1,12 @@
 import { NoteEditor } from "./NoteEditor";
 import React, { useContext, useState, useEffect } from "react";
 import { Ionicons } from '@expo/vector-icons'; 
-import { Note } from "./Note";
-import { getNotes } from "../../api/notes.api";
-import AuthContext from "../../store/auth-context";
-import { createNote } from "../../api/notes.api";
-import { starNote } from "../../api/notes.api";
-import { editNote } from "../../api/notes.api";
-import { MoveNoteToFolder } from "../../api/notes.api";
+import { Note } from "../UI-Items/Note";
+import { getNotes } from "../../../api/notes.api";
+import AuthContext from "../../../store/auth-context";
+import { createNote } from "../../../api/notes.api";
+import { starNote } from "../../../api/notes.api";
+import { editNote } from "../../../api/notes.api";
 
 export const respLgFont = {
     base: "20",
@@ -62,6 +61,7 @@ import {
     Input,
     FormControl,
   } from "native-base";
+import { Pressable } from "react-native";
 
 
   export const CurrentFolderContainer = ({folder, folders,onDelete,onBack}) => {
@@ -104,35 +104,23 @@ import {
     const changeNote = async (note, newTitle, newContent) => {
       setNotes(notes.map((item) => item.id === note.id ? {...item, title: newTitle, content: newContent, } : item) )
 
-      try{
 
-        const res = await editNote(note.id, newTitle, newContent, auth.token)
-        const data = await res.text()
-        console.log("data:", data)
-      }
-      catch(error){
-        toast.show({
-          title: error.message,
-          placement: "top",
-        });
-      }
-    }
+      // try{
+      //   const newNote = note
+      //   newNote.title = newTitle
+      //   newNote.content = newContent
 
-    const MoveNote = async (newFolderId, noteId) => {
-      try{
-        const res = await MoveNoteToFolder(newFolderId, noteId, auth.token)
-        const newNote = await res.json()
-        console.log(newNote)
-        if(newFolderId !== folder.id){
-          setNotes(notes.filter((note) => note.id !== noteId))
-        }
-      }
-      catch(error){
-        toast.show({
-          title: error.message,
-          placement: "top",
-        });
-      }
+      //   const res = await editNote(newNote, folder.id, auth.token)
+      //   const data = await res.json()
+      //   console.log("data:", data)
+      //   setNotes(notes.map((note) => note.id === id ? {...note, title: newTitle, content: newContent, } : note) )
+      // }
+      // catch(error){
+      //   toast.show({
+      //     title: error.message,
+      //     placement: "top",
+      //   });
+      // }
     }
 
 
@@ -154,7 +142,7 @@ import {
 
     const deleteNote = (id) => {
       setNotes(notes.filter((note) => note.id !== id))
-      setSelectedNote(null)
+      selectNote(null)
     }
 
     const alterStar = async (id) => {
@@ -246,8 +234,7 @@ import {
         note = {selectedNote} 
         onEdit={changeNote}
         onDelete={deleteNote}
-        onStar = {alterStar}
-        onMove = {MoveNote}/> 
+        onStar = {alterStar}/> 
         :
         <VStack flex={3}>
             <HStack w="full"></HStack>

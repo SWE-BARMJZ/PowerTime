@@ -1,12 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
-import { FoldersContainer } from "./FoldersContainer";
-import { CurrentFolderContainer } from "./CurrentFolderContainer";
+import { FoldersContainer } from "./Subcomponents/FoldersContainer";
+import { CurrentFolderContainer } from "./Subcomponents/CurrentFolderContainer";
 import { createFolder } from "../../api/notes.api";
 import AuthContext from "../../store/auth-context";
 import { getFolders } from "../../api/notes.api";
 import { renameFolder } from "../../api/notes.api";
-import { NavigationButton } from "../../UI/NavigationButton";
-
 
 import {
     Button,
@@ -109,36 +107,33 @@ import {
     
 
     return (
-      <Box safeArea flex={1} p={2}>
-        <HStack space={2} ml={2} alignItems="center">
-          <NavigationButton />
-          <Heading>Notes</Heading>
-        </HStack>
-        <HStack safeArea h="full" justifyContent="center" bg="primary.bg">
-          {
-          selectedFolder 
-          ?
-          <>
-          <Hidden from='base' till='md'>
-            <FoldersCont/>
-          </Hidden>
-          <CurrentFolderContainer 
-          folder = {selectedFolder} 
-          folders={folders}
-          onDelete = {deleteFolder}
-          onBack = {navigateToFolders}/>
-          </>
-          :
-          <>
+      <HStack safeArea h="full" justifyContent="center" bg="primary.bg">
+        {
+        selectedFolder 
+        ?
+        <>
+        <Hidden from='base' till='md'>
           <FoldersCont/>
-          <Hidden from='base' till='md'>
-            <HStack flex={2}>
-              <VStack h="full"/>
-            </HStack>
-          </Hidden>
-          </>
-          }  
-        </HStack>
-      </Box>
+        </Hidden>
+        <CurrentFolderContainer 
+        folder = {selectedFolder} 
+        folders={folders}
+        onDelete = {deleteFolder}
+        onBack = {navigateToFolders}/>
+        </>
+        :
+        <>
+        <FoldersCont/>
+        <Hidden from='base' till='md'>
+          <HStack flex={2}>
+            <VStack h="full"/>
+          </HStack>
+        </Hidden>
+        </>
+        }
+
+
+          
+      </HStack>
     );
   };

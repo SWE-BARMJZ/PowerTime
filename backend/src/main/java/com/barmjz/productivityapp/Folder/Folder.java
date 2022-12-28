@@ -45,7 +45,11 @@ public class Folder {
     private Date CreatedDate;
     private Date modifiedDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(
+            optional = false,
+            cascade = CascadeType.ALL
+    )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(
             name = "user_id",
             referencedColumnName = "id"

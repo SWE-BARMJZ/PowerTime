@@ -1,10 +1,9 @@
 import { useContext, useState, useEffect } from "react";
-import { Text, View } from "react-native";
-import AuthContext from "../../store/auth-context";
-import { getUser } from "../../api/user.api";
-import { NavigationButton } from "../../UI/NavigationButton";
+import { Button, Text, View } from "react-native";
+import AuthContext from "../store/auth-context";
+import { getUser } from "../api/user.api";
 
-export const Home = () => {
+export const Home = ({ navigation }) => {
   const [name, setName] = useState("");
   const auth = useContext(AuthContext);
 
@@ -22,12 +21,13 @@ export const Home = () => {
 
   return (
     <View style={{ justifyContent: "center" }}>
-      <NavigationButton />
       <Text style={{ fonstSize: 40 }}>Welcome Home 😁</Text>
       {auth.isLoggedIn && <Text style={{ fonstSize: 40 }}>Hello, {name}</Text>}
       {auth.isLoggedIn && (
         <Text style={{ fonstSize: 40 }}>logged in Token = {auth.token}</Text>
       )}
+      <Button title="Log out" onPress={() => navigation.navigate("Login")} />
+      <Button title="Go To Notes" onPress={() => navigation.navigate("Notes")} />
     </View>
   );
 };

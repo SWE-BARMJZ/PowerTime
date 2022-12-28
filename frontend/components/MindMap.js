@@ -2,10 +2,10 @@ import React, { useContext, useState } from "react";
 import { Box, HStack, ScrollView, useToast } from "native-base";
 import MindMapCategory from "./MindMapCategory";
 
-import AuthContext from "../../store/auth-context";
-import { TASK_API } from "../../api/task.api";
-import { TODO_API } from "../../api/todo.api";
-import { CATEGORY_API } from "../../api/category.api";
+import AuthContext from "../store/auth-context";
+import { TASK_API } from "../api/task.api";
+import { TODO_API } from "../api/todo.api";
+import { CATEGORY_API } from "../api/category.api";
 
 const MindMap = (props) => {
   const toast = useToast();
