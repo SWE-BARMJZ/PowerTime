@@ -5,7 +5,6 @@ import { Note } from "./Note";
 import { getNotes } from "../../api/notes.api";
 import AuthContext from "../../store/auth-context";
 import { createNote } from "../../api/notes.api";
-import { starNote } from "../../api/notes.api";
 import { editNote } from "../../api/notes.api";
 import { MoveNoteToFolder } from "../../api/notes.api";
 
@@ -101,6 +100,10 @@ import {
       console.log("Selected Note with ID: ", note.id)
     }
 
+    const starNote = (noteId) => {
+      setNotes(notes.map((item) => item.id === noteId ? {...item, starred: !item.starred, } : item) )
+    }
+
     const changeNote = async (note, newTitle, newContent) => {
       setNotes(notes.map((item) => item.id === note.id ? {...item, title: newTitle, content: newContent, } : item) )
 
@@ -157,12 +160,6 @@ import {
       setSelectedNote(null)
     }
 
-    const alterStar = async (id) => {
-      const res = await starNote(id, auth.token)
-      const data = await res.text()
-      setNotes(notes.map( (note) => note.id === id ? {...note, starred: !note.starred} : note ))
-      console.log(data)
-    }
 
     const backToFolders = () => {
       setSelectedNote(null)
@@ -246,8 +243,8 @@ import {
         note = {selectedNote} 
         onEdit={changeNote}
         onDelete={deleteNote}
-        onStar = {alterStar}
-        onMove = {MoveNote}/> 
+        onMove = {MoveNote}
+        onStar = {starNote}/> 
         :
         <VStack flex={3}>
             <HStack w="full"></HStack>
