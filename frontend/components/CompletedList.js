@@ -30,7 +30,7 @@ const CompletedList = (props) => {
     setData((data) => data.filter((task) => task.id !== taskId));
     TASK_API.untickTask(taskId);
   };
-
+  
   return (
     <VStack w="full" flex={1} px={5} py={5} space={5} {...props}>
       <HStack  justifyContent={"center"}>

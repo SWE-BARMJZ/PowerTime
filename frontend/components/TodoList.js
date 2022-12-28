@@ -7,11 +7,16 @@ import { TODO_API } from "../api/todo.api";
 import { TASK_API } from "../api/task.api";
 
 const TodoList = (props) => {
+  const { showCompleted, setShowCompleted } = props;
   const [data, setData] = useState(DUMMY_TODOS);
   const [isGrouped, setIsGrouped] = useState(false);
 
   const toggleGrouping = () => {
     setIsGrouped((current) => !current);
+  };
+
+  const toggleCompleted = () => {
+    setShowCompleted((current) => !current);
   };
 
   const fetchTodoList = async () => {
@@ -63,10 +68,14 @@ const TodoList = (props) => {
   };
 
   return (
-    <VStack w="full" flex={1} px={5} py={5} space={5} {...props}>
+    <VStack w="full" flex={1} px={5} py={5} space={5} {...props} >
       <HStack justifyContent="space-between">
         <Heading ml={4}>Todo</Heading>
         <HStack alignItems="center" space={2}>
+          <Text fontSize="12" color="gray.600">
+            {!showCompleted ? "Show Completed" : "Hide Completed"}
+          </Text>
+          <Switch onToggle={toggleCompleted} isChecked={showCompleted} />
           <Text fontSize="12" color="gray.600">
             Group by category
           </Text>
@@ -124,11 +133,11 @@ const DUMMY_TODOS = [
     type: "onetime",
     dueDate: "4 days, 5 hours",
   },
-  {
-    id: 6,
-    label: "REALLY Looooooooooooooooooooooooooooooooooong task",
-    type: "repeated",
-    category:
-      "CollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollege",
-  },
+  // {
+  //   id: 6,
+  //   label: "REALLY Looooooooooooooooooooooooooooooooooong task",
+  //   type: "repeated",
+  //   category:
+  //     "CollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollege",
+  // },
 ];
