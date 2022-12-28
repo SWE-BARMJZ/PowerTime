@@ -94,20 +94,20 @@ class GetNoteTest {
         assertThat(folderNotes).isEqualTo(noteManager.getUserNotes(folder.getUser().getId()));
     }
 
-//    @Test
-//    void getStarredNotes(){
-//        folderRepo.save(folder);
-//        folderRepo.save(folder2);
-//        note1 = noteManager.createNote(folder.getId(),"note1");
-//        note2 = noteManager.createNote(folder2.getId(),"note2");
-//        note2.setContent("content2");
-//        noteManager.alterStar(note2.getId());
-//        noteManager.modifyNote(note2, note2.getFolder().getId());
-//        assertThat(note2.isStarred()).isTrue();
-//        assertThat(noteRepo.findById(note2.getId()).get().getContent()).isEqualTo("content2");
-//        List<Note> starredNotes = new ArrayList<>();
-//        starredNotes.add(note2);
-//        assertThat(starredNotes).isEqualTo(noteManager.getUserStarredNotes(folder.getUser().getId()));
-//
-//    }
+    @Test
+    void getStarredNotes(){
+        folderRepo.save(folder);
+        folderRepo.save(folder2);
+        note1 = noteManager.createNote(folder.getId(),"note1");
+        note2 = noteManager.createNote(folder2.getId(),"note2");
+        note2.setContent("content2");
+        noteManager.alterStar(note2.getId());
+        noteManager.modifyNote(note2.getId(), note2.getTitle(), note2.getContent());
+        assertThat(note2.isStarred()).isTrue();
+        assertThat(noteRepo.findById(note2.getId()).get().getContent()).isEqualTo("content2");
+        List<Note> starredNotes = new ArrayList<>();
+        starredNotes.add(note2);
+        assertThat(starredNotes).isEqualTo(noteManager.getUserStarredNotes(folder.getUser().getId()));
+
+    }
 }
