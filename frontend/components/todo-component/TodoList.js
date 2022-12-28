@@ -1,5 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Heading, HStack, Switch, VStack, Text, ScrollView } from "native-base";
+import {
+  Heading,
+  HStack,
+  Switch,
+  VStack,
+  Text,
+  ScrollView,
+  Center,
+} from "native-base";
 import Task from "../Task";
 import TodoCategoryGroup from "./TodoCategoryGroup";
 
@@ -46,9 +54,8 @@ const TodoList = (props) => {
     // sort groups by name to enforce consistency
     arr.sort((a, b) => a[0].localeCompare(b[0]));
     // add uncategorized to the end
-    if (none.length > 0)
-      arr.push(["None", none]);
-      
+    if (none.length > 0) arr.push(["None", none]);
+
     return arr;
   }, [data]);
 
@@ -74,33 +81,42 @@ const TodoList = (props) => {
         </HStack>
       </HStack>
 
-      <ScrollView>
-        {isGrouped ? (
-          <VStack space={6}>
-            {groupedTasks().map(([categoryName, categoryTasks]) => (
-              <TodoCategoryGroup
-                key={categoryName}
-                categoryName={categoryName}
-                categoryTasks={categoryTasks}
-                onTaskRemoval={removeTask}
-                onTaskCompletion={completeTask}
-              />
-            ))}
+      {data.length === 0 ? (
+        <Center w="full" flex={1}>
+          <VStack alignItems="center">
+            <Text italic>Todo list is empty.</Text>
+            <Text italic>Add tasks from mindmap</Text>
           </VStack>
-        ) : (
-          <VStack space={2}>
-            {data.map((item) => (
-              <Task
-                key={item.id}
-                data={item}
-                onTaskRemoval={removeTask}
-                onTaskCompletion={completeTask}
-                showCategory
-              />
-            ))}
-          </VStack>
-        )}
-      </ScrollView>
+        </Center>
+      ) : (
+        <ScrollView>
+          {isGrouped ? (
+            <VStack space={6}>
+              {groupedTasks().map(([categoryName, categoryTasks]) => (
+                <TodoCategoryGroup
+                  key={categoryName}
+                  categoryName={categoryName}
+                  categoryTasks={categoryTasks}
+                  onTaskRemoval={removeTask}
+                  onTaskCompletion={completeTask}
+                />
+              ))}
+            </VStack>
+          ) : (
+            <VStack space={2}>
+              {data.map((item) => (
+                <Task
+                  key={item.id}
+                  data={item}
+                  onTaskRemoval={removeTask}
+                  onTaskCompletion={completeTask}
+                  showCategory
+                />
+              ))}
+            </VStack>
+          )}
+        </ScrollView>
+      )}
     </VStack>
   );
 };
@@ -126,6 +142,13 @@ const DUMMY_TODOS = [
   },
   {
     id: 6,
+    label: "REALLY Looooooooooooooooooooooooooooooooooong task",
+    type: "repeated",
+    category:
+      "CollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollege",
+  },
+  {
+    id: 7,
     label: "REALLY Looooooooooooooooooooooooooooooooooong task",
     type: "repeated",
     category:
