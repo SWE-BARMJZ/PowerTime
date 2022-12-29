@@ -15,31 +15,19 @@ export const AuthContextProvider = (props) => {
 
   const loginHandler = (token) => {
     setToken(token);
-    AuthContext.isLoggedIn = true;
     AsyncStorage.setItem('token',token);
   };
 
   const logoutHandler = () => {
-    setToken(null);
-    AuthContext.isLoggedIn = false;
+    setToken("");
     AsyncStorage.setItem('token',"");
   };
 
   const isLogIn = async () => {
       try {
-        console.log("before:");
-        console.log("LoggedIn state: " + AuthContext.isLoggedIn);
-        console.log("LoggedIn att: " + isLoggedIn);
-        console.log("async LoggedIn: " + AsyncStorage.isLoggedIn);
-        
         let userToken = AsyncStorage.getItem('token');
-        AuthContext.isLoggedIn = (userToken != "");
         console.log("before user token:", userToken);
-        setToken(userToken);
-        console.log("after:");
-        console.log("LoggedIn state: " + AuthContext.isLoggedIn);
-        console.log("LoggedIn att: " + isLoggedIn);
-        console.log("async LoggedIn: " + AsyncStorage.isLoggedIn);
+        setToken(await userToken);
       } catch (error) {
         console.log('is logged error ${error}');
       }
