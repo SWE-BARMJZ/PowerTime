@@ -93,7 +93,7 @@ const MindMapCategory = (props) => {
 
           {isTasksShowing &&
             tasks.map((task) => (
-              <HStack bgColor={"blue.200"} key={task.id}>
+              <HStack key={task.id}>
                 <Task
                   flex={1}
                   data={task}
