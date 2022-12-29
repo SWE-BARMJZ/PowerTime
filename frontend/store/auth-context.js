@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {getUser} from "../api/user.api"
 
 const AuthContext = React.createContext({
   token: "",
@@ -12,6 +13,11 @@ const AuthContext = React.createContext({
 
 export const AuthContextProvider = (props) => {
   const [token, setToken] = useState("");
+  const [userInfo, setUserInfo] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
   const isLoggedIn = token.length !== 0
 
   const loginHandler = async (token) => {
