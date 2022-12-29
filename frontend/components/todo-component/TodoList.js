@@ -65,12 +65,12 @@ const TodoList = (props) => {
   };
 
   const completeTask = (taskId) => {
-    setData((data) => data.filter((task) => task.id !== taskId));
+    // setData((data) => data.filter((task) => task.id !== taskId));
     TASK_API.tickTask(taskId);
   };
 
   return (
-    <VStack w="full" flex={1} px={5} py={5} space={5} {...props}>
+    <VStack w="full" flex={1} space={5} {...props}>
       <HStack justifyContent="space-between">
         <Heading ml={4}>Todo</Heading>
         <HStack alignItems="center" space={2}>

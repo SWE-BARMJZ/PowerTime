@@ -1,33 +1,74 @@
 import { useContext, useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import {
+  Button,
+  Text,
+  Box,
+  HStack,
+  Heading,
+  VStack,
+  Center,
+  Flex,
+  ScrollView,
+  Skeleton,
+  useMediaQuery,
+  Image,
+} from "native-base";
 import AuthContext from "../../store/auth-context";
-import { getUser } from "../../api/user.api";
 import { NavigationButton } from "../../UI/NavigationButton";
+import TodoList from "../todo-component/TodoList";
+import { NotesScreen } from "../notes-component/NotesScreen";
+import StarredNotes from "../notes-component/StarredNotes";
+
+// dummy component
+const Pomodoro = () => (
+  <Box h={[100,100,200,200]} w="full" bgColor={"gray.200"}>
+    <Center flex={1}>
+      <Text>Pomodoro</Text>
+    </Center>
+  </Box>
+);
+
+const contentMaxW = 1000;
 
 export const Home = () => {
-  const [name, setName] = useState("");
   const auth = useContext(AuthContext);
+  const name = `${auth.userInfo.firstName}`;
+  console.log(auth);
 
-  useEffect(() => {
-    if (auth.isLoggedIn) {
-      fetchUserName();
-    }
-  }, [auth, fetchUserName]);
-
-  const fetchUserName = async () => {
-    const response = await getUser(auth.token);
-    const user = await response.json();
-    setName(user.firstName);
-  };
+  const [isSmallScreen] = useMediaQuery({
+    minWidth: 0,
+    maxWidth: 768,
+  });
 
   return (
-    <View style={{ justifyContent: "center" }}>
-      <NavigationButton />
-      <Text style={{ fonstSize: 40 }}>Welcome Home 😁</Text>
-      {auth.isLoggedIn && <Text style={{ fonstSize: 40 }}>Hello, {name}</Text>}
-      {auth.isLoggedIn && (
-        <Text style={{ fonstSize: 40 }}>logged in Token = {auth.token}</Text>
+    <Box safeArea style={{ justifyContent: "center" }} flex={1}>
+      <HStack
+        alignItems="center"
+        p={2}
+        borderBottomColor="gray.200"
+        borderBottomWidth={2}
+        px={[2,4,6,10]}
+      >
+        <NavigationButton />
+        <Heading size={"md"}> Hello, {name} 👋</Heading>
+      </HStack>
+
+      {isSmallScreen ? (
+        <ScrollView>
+          <VStack alignItems="center" space={4}>
+            <Pomodoro/>
+            <TodoList mt={4} />
+          </VStack>
+        </ScrollView>
+      ) : (
+        <HStack flex={1} mt={2} p={4} px={[0,0,8,12]} space={[0,0,8,12]}>
+          <VStack flex={1} space={"lg"}>
+            <Pomodoro />
+            <StarredNotes />
+          </VStack>
+          <TodoList flex={2} />
+        </HStack>
       )}
-    </View>
+    </Box>
   );
 };

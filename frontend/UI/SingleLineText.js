@@ -5,7 +5,7 @@ const SingleLineText = (props) => {
   return (
     <Text
       numberOfLines={1}
-      ellipsizeMode="middle"
+      ellipsizeMode="tail"
       {...props}
       bgColor="indigo.100"
     >

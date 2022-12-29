@@ -14,7 +14,7 @@ const theme = extendTheme({
     primary: {
       main: "#0068F9",
       darkBlue: "#2C406E",
-      accent: "#0068F9",
+      accent: "#06283D",
       accentDark: "#312e81",
       bg: "#dffaef",
     },
