@@ -1,7 +1,9 @@
 import "react-native-gesture-handler";
 import * as React from "react";
 
-import * as eva from '@eva-design/eva';
+import Toast from "react-native-toast-message";
+
+import * as eva from "@eva-design/eva";
 import { ApplicationProvider } from "@ui-kitten/components";
 import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider } from "native-base";
@@ -11,13 +13,16 @@ import AppNavigation from "./AppNavigation";
 
 export default function App() {
   return (
-    <NativeBaseProvider theme={theme}>
-      <AuthContextProvider>
-        <StatusBar style="dark" />
-        <ApplicationProvider {...eva} theme={eva.light}>
-          <AppNavigation />
-        </ApplicationProvider>
-      </AuthContextProvider>
-    </NativeBaseProvider>
+    <>
+      <NativeBaseProvider theme={theme}>
+        <AuthContextProvider>
+          <StatusBar style="dark" />
+          <ApplicationProvider {...eva} theme={eva.light}>
+            <AppNavigation />
+          </ApplicationProvider>
+        </AuthContextProvider>
+      </NativeBaseProvider>
+      <Toast />
+    </>
   );
 }
