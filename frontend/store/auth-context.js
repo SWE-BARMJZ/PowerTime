@@ -26,7 +26,7 @@ export const AuthContextProvider = (props) => {
   const isLogIn = async () => {
       try {
         let savedToken = await AsyncStorage.getItem('token');
-        if (savedToken) setToken(await userToken);
+        if (savedToken) setToken(savedToken);
       } catch (error) {
         console.log('is logged error ${error}');
       }
