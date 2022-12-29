@@ -2,21 +2,18 @@ import React, { useRef, useState } from "react";
 import {
   VStack,
   Box,
-  Text,
-  HStack,
-  Center,
-  Heading,
   FormControl,
   TextArea,
   Button,
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-
 import FormInput from "../../UI/FormInput";
 import Card from "./Card";
 import DatePicker from "./DatePicker";
 import DaysSelector from "./DaysSelector";
+import Toast from "react-native-toast-message";
+import { TASK_API } from "../../api/task.api";
 
 const AddTaskContent = () => {
   const [name, setName] = useState("");
@@ -25,13 +22,29 @@ const AddTaskContent = () => {
   const [dueDate, setDueDate] = useState(null);
   const [repeatOn, setRepeatOn] = useState(null);
 
-  const validteInput = () => {
-    // display error
-    if (name.trim().length === 0) return;
-    if (selectedType === "Repeated" && !repeatOn) return;
+  const validateInput = () => {
+    if (name.trim().length === 0) {
+      Toast.show({
+        type: "error",
+        text1: "Task name can't be empty",
+      });
+      return false;
+    }
+
+    if (selectedType === "Repeated" && !repeatOn) {
+      Toast.show({
+        type: "error",
+        text1: "You must select atleast 1 day to repeat on.",
+      });
+      return false;
+    }
+
+    return true;
   };
 
-  const addTask = () => {
+  const addTask = async () => {
+    if (!validateInput()) return;
+
     const task = {
       name,
       description,
@@ -42,7 +55,21 @@ const AddTaskContent = () => {
     } else {
       task.repeatOn = repeatOn;
     }
-    console.log(task);
+
+    try {
+      await TASK_API.createTask(task);
+      Toast.show({
+        type:"success",
+        text1: "Task added successfully."
+      })
+    } catch (error) {
+      Toast.show({
+        type:"error",
+        text1: "Error connecting with the server",
+        text2: error
+      })
+    }
+
   };
 
   return (
