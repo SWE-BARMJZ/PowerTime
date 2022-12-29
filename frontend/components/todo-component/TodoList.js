@@ -72,7 +72,7 @@ const TodoList = (props) => {
   return (
     <VStack w="full" flex={1} space={5} {...props}>
       <HStack justifyContent="space-between">
-        <Heading ml={4}>Todo</Heading>
+        <Heading ml={2}>Todo</Heading>
         <HStack alignItems="center" space={2}>
           <Text fontSize="12" color="gray.600">
             Group by category
@@ -91,7 +91,7 @@ const TodoList = (props) => {
       ) : (
         <ScrollView>
           {isGrouped ? (
-            <VStack space={6}>
+            <VStack space={4}>
               {groupedTasks().map(([categoryName, categoryTasks]) => (
                 <TodoCategoryGroup
                   key={categoryName}

@@ -21,7 +21,7 @@ import StarredNotes from "../notes-component/StarredNotes";
 
 // dummy component
 const Pomodoro = () => (
-  <Box h={[100,100,200,200]} w="full" bgColor={"gray.200"}>
+  <Box h={[100, 100, 200, 200]} w="full" bgColor={"gray.200"}>
     <Center flex={1}>
       <Text>Pomodoro</Text>
     </Center>
@@ -47,21 +47,19 @@ export const Home = () => {
         p={2}
         borderBottomColor="gray.200"
         borderBottomWidth={2}
-        px={[2,4,6,10]}
+        px={[2, 2, 6, 10]}
       >
         <NavigationButton />
         <Heading size={"md"}> Hello, {name} 👋</Heading>
       </HStack>
 
       {isSmallScreen ? (
-        <ScrollView>
-          <VStack alignItems="center" space={4}>
-            <Pomodoro/>
-            <TodoList mt={4} />
-          </VStack>
-        </ScrollView>
+        <VStack alignItems="center" space={2} flex={1}>
+          <Pomodoro />
+          <TodoList p={4}/>
+        </VStack>
       ) : (
-        <HStack flex={1} mt={2} p={4} px={[0,0,8,12]} space={[0,0,8,12]}>
+        <HStack flex={1} mt={2} p={4} px={[0, 0, 8, 12]} space={[0, 0, 8, 12]}>
           <VStack flex={1} space={"lg"}>
             <Pomodoro />
             <StarredNotes />
