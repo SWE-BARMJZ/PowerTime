@@ -1,6 +1,8 @@
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 import * as React from "react";
 
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider } from "@ui-kitten/components";
 import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider } from "native-base";
 import { AuthContextProvider } from "./store/auth-context";
@@ -12,7 +14,9 @@ export default function App() {
     <NativeBaseProvider theme={theme}>
       <AuthContextProvider>
         <StatusBar style="dark" />
-        <AppNavigation />
+        <ApplicationProvider {...eva} theme={eva.light}>
+          <AppNavigation />
+        </ApplicationProvider>
       </AuthContextProvider>
     </NativeBaseProvider>
   );
