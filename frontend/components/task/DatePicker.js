@@ -1,20 +1,29 @@
 import React from "react";
 import { Datepicker } from "@ui-kitten/components";
-import { FormControl } from "native-base";
+import { Box, HStack, Button, Text } from "native-base";
 
-const DatePicker = () => {
-  const [date, setDate] = React.useState();
-
+const DatePicker = ({ value, setValue }) => {
   return (
-    <FormControl>
-      <FormControl.Label>Deadline</FormControl.Label>
-      <Datepicker
-        date={date}
-        onSelect={(nextDate) => setDate(nextDate)}
-        placeholder={"No deadline set yet."}
-        controlStyle={{backgroundColor:"transperant", borderColor:"#d4d4d8"}}
-      />
-    </FormControl>
+    <HStack space={4}>
+      <Box flex={1}>
+        <Datepicker
+          date={value}
+          onSelect={(v) => setValue(v)}
+          placeholder={"No deadline set yet."}
+          controlStyle={{
+            backgroundColor: "transperant",
+            borderColor: "#d4d4d8",
+          }}
+        />
+      </Box>
+      <Button
+        isDisabled={value === null}
+        onPress={() => setValue(null)}
+        bgColor="gray.600"
+      >
+        Clear
+      </Button>
+    </HStack>
   );
 };
 

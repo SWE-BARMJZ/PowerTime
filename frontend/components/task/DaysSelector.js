@@ -32,7 +32,7 @@ const DaysSelector = ({ onStateChange }) => {
       updatedSet.add(day);
     }
 
-    // onStateChange(Array.from(updatedSet));
+    onStateChange(Array.from(updatedSet));
     setSelectedDays(updatedSet);
   };
 
