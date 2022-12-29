@@ -12,7 +12,7 @@ export const NavigationButton = ({ navigation }) => {
   return (
     <IconButton
       onPress={toggleDrawer}
-      icon={<HamburgerIcon color="primary.accent" size="md" />}
+      icon={<HamburgerIcon color="black" size="md" />}
     >
       Toggle
     </IconButton>
