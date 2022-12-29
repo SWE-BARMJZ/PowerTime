@@ -15,6 +15,7 @@ import { PasswordRecovery } from "./components/login-component/PasswordRecoveryS
 import { SignUp } from "./components/login-component/SignUpScreen";
 import { NotesScreen } from "./components/notes-component/NotesScreen";
 import MindMapScreen from "./components/mindmap-component/MindMapScreen";
+import AddTaskScreen from "./components/task/AddTaskScreen";
 
 const AppNavigation = () => {
   const auth = useContext(AuthContext);
@@ -26,6 +27,7 @@ const AppNavigation = () => {
           screenOptions={{ headerShown: false }}
           drawerContent={CustomDrawerContent}
         >
+          <Drawer.Screen name="addTask" component={AddTaskScreen} />
           <Drawer.Screen name="Home" component={Home} />
           <Drawer.Screen name="Mindmap" component={MindMapScreen} />
           <Drawer.Screen name="Notes" component={NotesScreen} />
