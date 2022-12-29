@@ -8,7 +8,7 @@ const Card = ({ isSelected, setSelected, label, icon, ...props }) => {
   };
   
   return (
-    <Box flex={1} {...props}>
+    <Box flex={1} {...props} >
       <Pressable onPress={select}>
         {({ isHovered }) => {
           const color = isSelected ? "black" :  isHovered ? "primary.main" : "gray.500";

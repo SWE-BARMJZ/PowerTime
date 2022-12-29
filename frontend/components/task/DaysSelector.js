@@ -37,7 +37,7 @@ const DaysSelector = ({ onStateChange }) => {
   };
 
   return (
-    <HStack space={"0.5"} bgColor="gray.300">
+    <HStack space={"0.5"} bgColor="gray.300" my={2}>
       {days.map((day) => {
         const isSelected = selectedDays.has(day);
         const bgColor = isSelected ? "gray.300" : "gray.200";
