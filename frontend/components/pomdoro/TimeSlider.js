@@ -11,15 +11,18 @@ import {
   Hidden,
   useToast,
   View,
-  Slider
+  Slider,
+  Flex
 } from "native-base";
 
 
-const TimeSlider = ({onChange}) => {
-    const [value, setValue] = useState(25)
+const TimeSlider = ({onChange, defaultValue, inputText}) => {
+    const [value, setValue] = useState(defaultValue)
     return (
-            <Box alignItems="center" w="100%">
-            <Slider maxW="300" defaultValue={25} minValue={0} maxValue={60} accessibilityLabel="" step={1}
+            
+            <Box style={[{flexDirection:"row"}]} alignItems="center" w="100%">
+            <Text>{inputText}   </Text>
+            <Slider maxW="300" defaultValue={defaultValue} minValue={0} maxValue={60} accessibilityLabel="" step={1}
             onChange={v => setValue(v)}
             onChangeEnd={onChange}>
                 <Slider.Track>
@@ -27,7 +30,7 @@ const TimeSlider = ({onChange}) => {
                 </Slider.Track>
                 <Slider.Thumb />
             </Slider>
-            <Text>{value} min</Text>
+            <Text>  {value} min</Text>
             </Box>);
 };
 
