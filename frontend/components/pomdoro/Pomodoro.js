@@ -5,6 +5,8 @@ import  {StyleSheet, CircleTimer} from "react-native";
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import { MenuProvider, Menu} from 'react-native-popup-menu';
 import { TouchableOpacity } from "react-native-web";
+import * as api from "../../api/pomodoro.api";
+import AuthContext from "../../store/auth-context";
 import { Audio } from 'expo';
 
 
@@ -28,9 +30,11 @@ export const Pomodoro = ({ navigation }) => {
 //    const [studyDuration, setStudyDuration] = useState(Math.floor(2))
 //    const [breakDuration, setBreakDuration] = useState(1)
 //    const array = [2, 1]
+//    const [duration, setDuration] = useState(array[0])
+
+   const auth = useContext(AuthContext)
    const [array, setArray] = useState([25, 5])
    const [index, setIndex] = useState(0)
-   const [duration, setDuration] = useState(array[0])
    const [isPaused, setIsPaused] = useState(true)
    const [isReplayed, setIsReplayed] = useState(false)
    const [showSettings, setShowSettings] = useState(false)
@@ -40,20 +44,56 @@ export const Pomodoro = ({ navigation }) => {
 
 
    useEffect(() => {
+        const getPomodoro = async () => {
+            const pomodoro = await api.getPomodoro(auth.token)
+            if ('isStudying' in pomodoro) {
+                setIndex(pomodoro.isStudying ? 0 : 1);
+                setIsPaused(pomodoro.isPaused)
+                setTimeRemaining(pomodoro.remainingTimeInSecs);
+            }
+            else 
+                setArray([pomodoro.studyTime, pomodoro.endTime])
+        } 
+        getPomodoro()
    }, [isPaused, timeRemaining]);
 
 
-   const playHandler = () =>  {
+   const playHandler = async () =>  {
+        try {
+            if (timeRemaining == arr[index]) {
+                if (index == 0)
+                    await api.startStudy(auth.token)
+                else 
+                    await api.startBreak(auth.token)
+            }
+            else 
+                await api.resume(auth.token)
+        }
+        catch(error){
+        }
         setIsReplayed(false);
         setIsPaused(false);
    }
 
-   const pauseHandler = () => {
+   const pauseHandler = async () => {
+        try {
+            await api.pause(auth.token, timeRemaining)
+        }
+        catch(error) {
+
+        }
         setIsReplayed(false);
         setIsPaused(true);
     }
 
-   const replayHandler = () => {
+   const replayHandler = async () => {
+        try {
+            await api.resetPomodoro(auth.token)
+            await api.setPomodoro(auth.token, array[0], array[1])
+        }
+        catch(error) {
+
+        }
         setIsReplayed(true)
         setTimeRemaining(array[index])
         console.log("..."+timeRemaining)
@@ -73,10 +113,10 @@ export const Pomodoro = ({ navigation }) => {
     }
 
     const playAudio = async () => {
-        setBackgroundMusic(new Audio.Sound());
-        await backgroundMusic.loadAsync(require("../../assets/music/alarm.mp3"));
-        await backgroundMusic.setIsLoopingAsync(true);
-        await backgroundMusic.playAsync();
+        // setBackgroundMusic(new Audio.Sound());
+        // await backgroundMusic.loadAsync(require("../../assets/music/alarm.mp3"));
+        // await backgroundMusic.setIsLoopingAsync(true);
+        // await backgroundMusic.playAsync();
     }
 
    return (
@@ -89,10 +129,19 @@ export const Pomodoro = ({ navigation }) => {
                 colors={['#004777', '#C70000']}
                 colorsTime={[array[index], 59]}
                 onUpdate={(v) => {updateTimer(v); console.log("update " + v);}}
-                onComplete={() => {
+                onComplete={async () => {
                     setIndex((index + 1) % array.length)
                     setTimeRemaining(array[(index + 1) % array.length])
                     // setDuration(array[(index + 1) % array.length])
+                    try {
+                        if (index == 0) 
+                            await api.endStudy(auth.token)
+                        else
+                            await api.resetPomodoro(auth.token)
+                    }
+                    catch(error) {
+
+                    }
                     pauseHandler()
                     playAudio()
                     return {shouldRepeat: true, delay: 1.5}
@@ -136,4 +185,3 @@ const styles = StyleSheet.create({
     paddingBottom:20
   }
 });
-

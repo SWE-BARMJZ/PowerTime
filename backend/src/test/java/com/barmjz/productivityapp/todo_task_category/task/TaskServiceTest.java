@@ -22,7 +22,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TaskServiceTest {
-//    @InjectMocks
     @Mock
     UserRepo userRepo;
 
@@ -35,13 +34,8 @@ class TaskServiceTest {
     @Mock
     RepeatedTaskRepo repeatedTaskRepo;
 
+    @InjectMocks
     TaskService taskService;
-
-
-    @BeforeEach
-    void setUp() {
-        taskService = new TaskService(userRepo, categoryRepo, oneTimeTaskRepo, repeatedTaskRepo);
-    }
 
     @Test
     void getOneTimeTaskById() {

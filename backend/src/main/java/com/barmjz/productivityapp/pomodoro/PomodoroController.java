@@ -14,6 +14,7 @@ public class PomodoroController {
     @GetMapping("/")
     public ResponseEntity<Pomodoro> get() {
         try {
+            System.out.println("Get pomo called");
             return ResponseEntity.ok(pomoService.get());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
