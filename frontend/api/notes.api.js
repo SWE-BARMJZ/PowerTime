@@ -28,6 +28,20 @@ export const getFolders = async (token) => {
     return response;
   };
 
+  export const getStarredNotes = async (token) => {
+    const url = `${BACKEND_URL}/note/getStarredNotes`;
+  
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  
+    if (response.status !== 200) {
+      throw new Error(response.status);
+    }
+    return response;
+  };
+
   export const createNote = async (folderId, noteTitle, token) => {
     const url = `${BACKEND_URL}/note/create?folderId=${folderId}&noteTitle=${noteTitle}`;
 

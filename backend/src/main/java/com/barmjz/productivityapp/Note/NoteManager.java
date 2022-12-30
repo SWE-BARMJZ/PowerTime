@@ -2,6 +2,7 @@ package com.barmjz.productivityapp.Note;
 
 import com.barmjz.productivityapp.Folder.Folder;
 import com.barmjz.productivityapp.Folder.FolderRepo;
+import com.barmjz.productivityapp.user.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ public class NoteManager {
 
     private final NoteRepo noteRepo;
     private final FolderRepo folderRepo;
+    private final UserRepo userRepo;
 
     public Note createNote(Long folderId, String noteTitle){
         if(folderId == null)
@@ -94,6 +96,10 @@ public class NoteManager {
         note.setStarred(!note.isStarred());
         noteRepo.save(note);
         return note;
+    }
+
+    public Long getUserId(String email){
+        return userRepo.getUserByEmail(email).get().getId();
     }
 
 }

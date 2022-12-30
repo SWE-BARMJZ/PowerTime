@@ -1,26 +1,15 @@
-import React, { useContext, useState } from "react";
-import { MaterialIcons } from '@expo/vector-icons'; 
+import React, {useState } from "react";
 import { Entypo } from '@expo/vector-icons'; 
-import { AntDesign } from '@expo/vector-icons';
-import { respLgFont,respLgContHeight,respMdFont } from "./CurrentFolderContainer";
+import {respMdFont } from "./CurrentFolderContainer";
 
 
 
 import {
     Button,
     Text,
-    Image,
-    Heading,
     HStack,
-    Link,
-    Box,
     VStack,
-    Hidden,
-    useToast,
-    TextArea,
-    Icon,
     Flex,
-    Center,
     Input,
     IconButton,
     Menu,
@@ -31,7 +20,7 @@ import {
 
 
   export const Folder = ({
-    folder, onDelete, onEdit, onSelect}) => {
+    folder, onDelete, onEdit, onSelect, iconsColor}) => {
 
       const [showModal, setShowModal] = useState(false);
       const [newName, setNewName] = useState("")
@@ -40,7 +29,7 @@ import {
     return (
       <Pressable 
         onPress={() => onSelect(folder)}
-        _hover={{bg:"gray.300"}}>
+        _hover={{bg:"primary.evenDarkerBg"}}>
         <HStack 
           py="5"
           w="full" 
@@ -57,7 +46,7 @@ import {
           <VStack flex={1} justifyContent="center" pr="5%" >
             <Menu w="190" trigger={triggerProps => {
                 return <IconButton
-                        icon={<Entypo name="dots-three-horizontal" size={25} color="#5BBA59" />} 
+                        icon={<Entypo name="dots-three-horizontal" size={25} color={iconsColor} />} 
                         accessibilityLabel="More options menu" {...triggerProps}
                 />
                 }}>

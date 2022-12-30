@@ -29,7 +29,7 @@ const Task = (props) => {
 
   return (
     <HStack
-      bgColor="gray.200"
+      bgColor="primary.darkerBg"
       justifyContent="space-between"
       p={2}
       py={3}

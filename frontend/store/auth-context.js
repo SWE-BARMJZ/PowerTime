@@ -20,15 +20,21 @@ export const AuthContextProvider = (props) => {
   });
   const isLoggedIn = token.length !== 0
 
-  const loginHandler = async (token) => {
-    const response = await getUser(token);
-    const user = await response.json();
-    console.log(user);
+  async function fetchUserData(token) {
+    const response = await getUser(token)
+    const user = await response.json()
+    console.log(user)
     setUserInfo({
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
     });
+
+  }
+
+
+  const loginHandler = async (token) => {
+    await fetchUserData(token);
     setToken(token);
     AsyncStorage.setItem('token',token);
   };
@@ -41,7 +47,11 @@ export const AuthContextProvider = (props) => {
   const isLogIn = async () => {
       try {
         let savedToken = await AsyncStorage.getItem('token');
-        if (savedToken) setToken(savedToken);
+        if (savedToken){
+          await fetchUserData(savedToken)
+          setToken(savedToken);
+        }
+        
       } catch (error) {
         console.log('is logged error ${error}');
       }
@@ -67,3 +77,5 @@ export const AuthContextProvider = (props) => {
 };
 
 export default AuthContext;
+
+
