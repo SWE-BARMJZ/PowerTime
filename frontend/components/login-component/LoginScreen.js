@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import { requestToken } from "../api/auth.api";
-import AuthContext from "../store/auth-context";
-import FormInput from "../UI/FormInput";
+import { requestToken } from "../../api/auth.api";
+import AuthContext from "../../store/auth-context";
+import FormInput from "../../UI/FormInput";
 import {
   Button,
   Text,
@@ -15,7 +15,7 @@ import {
   useToast,
 } from "native-base";
 
-const logoPath = require("../assets/images/LOGO.png");
+const logoPath = require("../../assets/images/LOGO.png");
 
 export const Login = ({ navigation }) => {
   const toast = useToast();
@@ -101,7 +101,7 @@ export const Login = ({ navigation }) => {
 
           <Box flex="1" h="full" mx={4}>
             <Image
-              source={require("../assets/images/themeImage.png")}
+              source={require("../../assets/images/themeImage.png")}
               resizeMode="contain"
               h="full"
               alt="hero"

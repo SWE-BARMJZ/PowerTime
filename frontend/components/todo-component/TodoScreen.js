@@ -1,7 +1,7 @@
 import { Box, VStack,Hidden } from "native-base";
 import React from "react";
 import TodoList from "./TodoList";
-import CompletedList from "./CompletedList";
+import CompletedList from "./../CompletedList";
 import { useState } from "react";
 
 
