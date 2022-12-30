@@ -13,10 +13,10 @@ import {
   Modal,
   Button,
 } from "native-base";
-import FormInput from "../UI/FormInput";
+import FormInput from "../../UI/FormInput";
 import { MaterialIcons } from "@expo/vector-icons";
-import Task from "./Task";
-import SingleLineText from "../UI/SingleLineText";
+import Task from "../task/Task";
+import SingleLineText from "../../UI/SingleLineText";
 
 const color = "black";
 const bgColor = "dark.600";
@@ -93,7 +93,7 @@ const MindMapCategory = (props) => {
 
           {isTasksShowing &&
             tasks.map((task) => (
-              <HStack bgColor={"blue.200"} key={task.id}>
+              <HStack key={task.id}>
                 <Task
                   flex={1}
                   data={task}
