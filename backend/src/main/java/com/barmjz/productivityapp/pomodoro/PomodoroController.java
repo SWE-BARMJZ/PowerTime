@@ -1,5 +1,6 @@
 package com.barmjz.productivityapp.pomodoro;
 import com.barmjz.productivityapp.todo_task_category.task.Task;
+import com.barmjz.productivityapp.user.User;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,9 +14,13 @@ import java.util.List;
 public class PomodoroController {
 
     private final PomodoroService pomoService;
+    private final PomodoroRepo pomoRepo;
 
     @GetMapping("/")
     public ResponseEntity<Pomodoro> getPomodoro() {
+//        Pomodoro p = Pomodoro.builder().build();
+//        pomoRepo.save(p);
+//        Pomodoro j = pomoRepo.findById(p.getId()).get();
         return null;
     }
 
@@ -39,9 +44,4 @@ public class PomodoroController {
         return null;
     }
 
-
-//    @DeleteMapping("/{taskId}")
-//    public ResponseEntity<Task> removeFromTodo(@PathVariable Long taskId, @RequestParam String taskType){
-//
-//    }
 }
