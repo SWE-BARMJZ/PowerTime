@@ -1,6 +1,6 @@
 import React from "react";
 import { Datepicker } from "@ui-kitten/components";
-import { Box, HStack, Button, Text } from "native-base";
+import { Box, HStack, Button } from "native-base";
 
 const DatePicker = ({ value, setValue }) => {
   return (
@@ -11,7 +11,6 @@ const DatePicker = ({ value, setValue }) => {
           onSelect={(v) => setValue(v)}
           placeholder={"No deadline set yet."}
           controlStyle={{
-            backgroundColor: "transperant",
             borderColor: "#d4d4d8",
           }}
         />

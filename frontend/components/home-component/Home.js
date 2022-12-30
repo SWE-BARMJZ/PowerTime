@@ -1,22 +1,16 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext } from "react";
 import {
-  Button,
   Text,
   Box,
   HStack,
   Heading,
   VStack,
   Center,
-  Flex,
-  ScrollView,
-  Skeleton,
   useMediaQuery,
-  Image,
 } from "native-base";
 import AuthContext from "../../store/auth-context";
 import { NavigationButton } from "../../UI/NavigationButton";
 import TodoList from "../todo-component/TodoList";
-import { NotesScreen } from "../notes-component/NotesScreen";
 import StarredNotes from "../notes-component/StarredNotes";
 
 // dummy component
@@ -27,8 +21,6 @@ const Pomodoro = () => (
     </Center>
   </Box>
 );
-
-const contentMaxW = 1000;
 
 export const Home = () => {
   const auth = useContext(AuthContext);

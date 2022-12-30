@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Text, Center, Icon, Pressable } from "native-base";
 
-const Card = ({ isSelected, setSelected, label, icon, ...props }) => {
+const SelectableCard = ({ isSelected, setSelected, label, icon, ...props }) => {
 
   const select = () => {
     setSelected(label);
@@ -11,7 +11,7 @@ const Card = ({ isSelected, setSelected, label, icon, ...props }) => {
     <Box flex={1} {...props} >
       <Pressable onPress={select}>
         {({ isHovered }) => {
-          const color = isSelected ? "black" :  isHovered ? "primary.main" : "gray.500";
+          const color = isSelected ? "black" :  isHovered ? "primary.main" : "gray.400";
 
           return (
             <Center py={2} borderRadius="md">
@@ -25,4 +25,4 @@ const Card = ({ isSelected, setSelected, label, icon, ...props }) => {
   );
 };
 
-export default Card;
+export default SelectableCard;

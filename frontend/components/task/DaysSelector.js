@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import {
-  View,
   Text,
   HStack,
-  Flex,
   Box,
   Pressable,
   Center,
-  Icon,
 } from "native-base";
-import Card from "./Card";
 
 const DaysSelector = ({ onStateChange }) => {
   const [selectedDays, setSelectedDays] = useState(new Set());
@@ -37,10 +33,10 @@ const DaysSelector = ({ onStateChange }) => {
   };
 
   return (
-    <HStack space={"0.5"} bgColor="gray.300" my={2}>
+    <HStack space={"0.5"} my={2}>
       {days.map((day) => {
         const isSelected = selectedDays.has(day);
-        const bgColor = isSelected ? "gray.300" : "gray.200";
+        const bgColor = isSelected ? "#3185F9" : "#F8F9FC";
 
         return (
           <Box flex={1} key={day} bgColor={bgColor}>
@@ -51,7 +47,7 @@ const DaysSelector = ({ onStateChange }) => {
             >
               {({ isHovered }) => {
                 const color = isSelected
-                  ? "primary.accent"
+                  ? "white"
                   : isHovered
                   ? "primary.main"
                   : "gray.500";
