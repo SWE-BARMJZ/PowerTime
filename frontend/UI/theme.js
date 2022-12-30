@@ -10,6 +10,12 @@ const theme = extendTheme({
     xl: 1280,
   },
 
+  fonts: {
+    heading: "Montserrat",
+    body: "Montserrat",
+    mono: "Montserrat",
+  },
+
   colors: {
     primary: {
       main: "#0068F9",

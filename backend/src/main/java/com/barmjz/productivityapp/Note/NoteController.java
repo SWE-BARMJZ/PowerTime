@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,8 +58,10 @@ public class NoteController {
     }
 
     @GetMapping("/getStarredNotes")
-    public ResponseEntity<List<Note>> getUserStarredNotes(@RequestParam("userId") Long userId) {
+    public ResponseEntity<List<Note>> getUserStarredNotes() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         try {
+            Long userId = noteManager.getUserId(currentUser.getName());
             return ResponseEntity.status(HttpStatus.OK).body(noteManager.getUserStarredNotes(userId));
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

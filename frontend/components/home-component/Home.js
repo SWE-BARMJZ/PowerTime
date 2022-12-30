@@ -17,7 +17,7 @@ import StarredNotes from "../notes-component/StarredNotes";
 const Pomodoro = () => (
   <Box h={[100, 100, 200, 200]} w="full" bgColor={"gray.200"}>
     <Center flex={1}>
-      <Text>Pomodoro</Text>
+      <Text >Pomodoro</Text>
     </Center>
   </Box>
 );
@@ -42,7 +42,7 @@ export const Home = () => {
         px={[2, 2, 6, 10]}
       >
         <NavigationButton />
-        <Heading size={"md"}> Hello, {name} 👋</Heading>
+        <Heading size={"lg"} fontFamily={"heading"}> Hello, {name} 👋</Heading>
       </HStack>
 
       {isSmallScreen ? (
