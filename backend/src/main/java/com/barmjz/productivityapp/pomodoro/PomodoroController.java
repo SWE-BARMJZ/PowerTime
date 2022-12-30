@@ -17,7 +17,7 @@ public class PomodoroController {
     private final PomodoroRepo pomoRepo;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Pomodoro> getPomodoro(@PathVariable Long userId) {
+    public ResponseEntity<Pomodoro> get(@PathVariable Long userId) {
         return null;
     }
 
@@ -36,8 +36,13 @@ public class PomodoroController {
         return null;
     }
 
-    @PutMapping("/{pomoId}")
-    public ResponseEntity<String> setPomodoro(@PathVariable Long pomoId,@RequestBody ObjectNode newPomo) {
+    @PostMapping("/{pomoId}/resume")
+    public ResponseEntity<String> resume(@PathVariable Long pomoId) {
+        return null;
+    }
+
+    @PutMapping("/")
+    public ResponseEntity<String> set(@RequestBody ObjectNode newPomo) {
         return null;
     }
 

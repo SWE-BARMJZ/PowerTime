@@ -35,7 +35,8 @@ public class Pomodoro {
 
     @OneToOne
     @JoinColumn(
-            name= "userId", referencedColumnName = "id"
+            name = "user_id",
+            referencedColumnName = "id"
     )
     @JsonIgnore
     private User user;

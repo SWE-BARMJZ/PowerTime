@@ -23,6 +23,7 @@ public class PomodoroSession extends Pomodoro {
     private long startTime;
     @Column(nullable = false)
     private long remainingTimeInSecs;
+
 }
 //Pomodoro:
 //id    1   2   usrId   3   4   5   6
