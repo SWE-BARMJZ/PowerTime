@@ -1,22 +1,25 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Heading, HStack, Switch, VStack, Text, ScrollView } from "native-base";
-import Task from "./Task";
+import {
+  Heading,
+  HStack,
+  Switch,
+  VStack,
+  Text,
+  ScrollView,
+  Center,
+} from "native-base";
+import Task from "../task/Task";
 import TodoCategoryGroup from "./TodoCategoryGroup";
 
-import { TODO_API } from "../api/todo.api";
-import { TASK_API } from "../api/task.api";
+import { TODO_API } from "../../api/todo.api";
+import { TASK_API } from "../../api/task.api";
 
 const TodoList = (props) => {
-  const { showCompleted, setShowCompleted } = props;
   const [data, setData] = useState(DUMMY_TODOS);
   const [isGrouped, setIsGrouped] = useState(false);
 
   const toggleGrouping = () => {
     setIsGrouped((current) => !current);
-  };
-
-  const toggleCompleted = () => {
-    setShowCompleted((current) => !current);
   };
 
   const fetchTodoList = async () => {
@@ -51,9 +54,8 @@ const TodoList = (props) => {
     // sort groups by name to enforce consistency
     arr.sort((a, b) => a[0].localeCompare(b[0]));
     // add uncategorized to the end
-    if (none.length > 0)
-      arr.push(["None", none]);
-      
+    if (none.length > 0) arr.push(["None", none]);
+
     return arr;
   }, [data]);
 
@@ -63,19 +65,15 @@ const TodoList = (props) => {
   };
 
   const completeTask = (taskId) => {
-    setData((data) => data.filter((task) => task.id !== taskId));
+    // setData((data) => data.filter((task) => task.id !== taskId));
     TASK_API.tickTask(taskId);
   };
 
   return (
-    <VStack w="full" flex={1} px={5} py={5} space={5} {...props} >
+    <VStack w="full" flex={1} space={5} {...props}>
       <HStack justifyContent="space-between">
-        <Heading ml={4}>Todo</Heading>
+        <Heading ml={2}>Todo</Heading>
         <HStack alignItems="center" space={2}>
-          <Text fontSize="12" color="gray.600">
-            {!showCompleted ? "Show Completed" : "Hide Completed"}
-          </Text>
-          <Switch onToggle={toggleCompleted} isChecked={showCompleted} />
           <Text fontSize="12" color="gray.600">
             Group by category
           </Text>
@@ -83,33 +81,42 @@ const TodoList = (props) => {
         </HStack>
       </HStack>
 
-      <ScrollView>
-        {isGrouped ? (
-          <VStack space={6}>
-            {groupedTasks().map(([categoryName, categoryTasks]) => (
-              <TodoCategoryGroup
-                key={categoryName}
-                categoryName={categoryName}
-                categoryTasks={categoryTasks}
-                onTaskRemoval={removeTask}
-                onTaskCompletion={completeTask}
-              />
-            ))}
+      {data.length === 0 ? (
+        <Center w="full" flex={1}>
+          <VStack alignItems="center">
+            <Text italic>Todo list is empty.</Text>
+            <Text italic>Add tasks from mindmap</Text>
           </VStack>
-        ) : (
-          <VStack space={2}>
-            {data.map((item) => (
-              <Task
-                key={item.id}
-                data={item}
-                onTaskRemoval={removeTask}
-                onTaskCompletion={completeTask}
-                showCategory
-              />
-            ))}
-          </VStack>
-        )}
-      </ScrollView>
+        </Center>
+      ) : (
+        <ScrollView>
+          {isGrouped ? (
+            <VStack space={4}>
+              {groupedTasks().map(([categoryName, categoryTasks]) => (
+                <TodoCategoryGroup
+                  key={categoryName}
+                  categoryName={categoryName}
+                  categoryTasks={categoryTasks}
+                  onTaskRemoval={removeTask}
+                  onTaskCompletion={completeTask}
+                />
+              ))}
+            </VStack>
+          ) : (
+            <VStack space={2}>
+              {data.map((item) => (
+                <Task
+                  key={item.id}
+                  data={item}
+                  onTaskRemoval={removeTask}
+                  onTaskCompletion={completeTask}
+                  showCategory
+                />
+              ))}
+            </VStack>
+          )}
+        </ScrollView>
+      )}
     </VStack>
   );
 };
@@ -133,11 +140,18 @@ const DUMMY_TODOS = [
     type: "onetime",
     dueDate: "4 days, 5 hours",
   },
-  // {
-  //   id: 6,
-  //   label: "REALLY Looooooooooooooooooooooooooooooooooong task",
-  //   type: "repeated",
-  //   category:
-  //     "CollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollege",
-  // },
+  {
+    id: 6,
+    label: "REALLY Looooooooooooooooooooooooooooooooooong task",
+    type: "repeated",
+    category:
+      "CollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollege",
+  },
+  {
+    id: 7,
+    label: "REALLY Looooooooooooooooooooooooooooooooooong task",
+    type: "repeated",
+    category:
+      "CollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollege",
+  },
 ];

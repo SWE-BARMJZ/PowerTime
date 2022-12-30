@@ -2,6 +2,7 @@ package com.barmjz.productivityapp.user;
 import com.barmjz.productivityapp.todo_task_category.category.Category;
 import com.barmjz.productivityapp.todo_task_category.task.OneTimeTask;
 import com.barmjz.productivityapp.todo_task_category.task.RepeatedTask;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,6 +36,7 @@ public class User {
     private String email;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @Column(nullable = false)
