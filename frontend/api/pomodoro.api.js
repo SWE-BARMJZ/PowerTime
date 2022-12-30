@@ -52,12 +52,29 @@ export const pause = async (token,remainingTime) => {
     return response;
 }
 
-export const setPomodoro = async (token, pomo) => {
+export const resume = async (token) => {
+    const url = `${BACKEND_URL}/api/pomo/resume`;
+    const response = await fetch(url,{
+        method:"POST" , vheaders: { Authorization: `Bearer ${token}`}
+    }).catch((error) => {
+        throw new Error("Problem connecting with the server!");
+      });
+    if (response.status !== 200) {
+        throw new Error(response.status);
+    }
+    return response;
+}
+
+export const setPomodoro = async (token, studyTime, breakTime) => {
     const url = `${BACKEND_URL}/api/pomo/`;
+    const stringBody = {
+        studyTime: `${studyTime}`,
+        breakTime: `${breakTime}`
+      }
     const response = await fetch(url,{
         method:"PUT" , vheaders: {"Content-type": "application/json",
         Authorization: `Bearer ${token}`},
-        body:pomo
+        body:JSON.stringify(stringBody)
     }).catch((error) => {
         throw new Error("Problem connecting with the server!");
       });
