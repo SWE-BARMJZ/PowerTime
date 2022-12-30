@@ -1,6 +1,9 @@
 import { extendTheme } from "native-base";
 
+
 const theme = extendTheme({
+
+  
 
   breakpoints: {
     base: 0,

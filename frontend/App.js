@@ -10,8 +10,16 @@ import { NativeBaseProvider } from "native-base";
 import { AuthContextProvider } from "./store/auth-context";
 import { theme } from "./UI/theme";
 import AppNavigation from "./AppNavigation";
+import { useFonts } from 'expo-font';
 
 export default function App() {
+  const [loaded] = useFonts({
+    Montserrat: require('./assets/fonts/Montserrat-VariableFont_wght.ttf'),
+  });
+  
+  if (!loaded) {
+    return null;
+  }
   return (
     <>
       <NativeBaseProvider theme={theme}>

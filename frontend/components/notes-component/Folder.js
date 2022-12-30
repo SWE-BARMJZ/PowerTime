@@ -1,8 +1,6 @@
-import React, { useContext, useState } from "react";
-import { MaterialIcons } from '@expo/vector-icons'; 
+import React, {useState } from "react";
 import { Entypo } from '@expo/vector-icons'; 
-import { AntDesign } from '@expo/vector-icons';
-import { respLgFont,respLgContHeight,respMdFont } from "./CurrentFolderContainer";
+import {respMdFont } from "./CurrentFolderContainer";
 
 
 
