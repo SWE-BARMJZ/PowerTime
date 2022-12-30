@@ -76,7 +76,6 @@ public class FolderManager {
 
     }
 
-    @Transactional
     public void deleteFolder(Long folderId){
         if(folderId == null || !folderRepo.existsFolderById(folderId))
             throw new NoSuchElementException("folder not found");
