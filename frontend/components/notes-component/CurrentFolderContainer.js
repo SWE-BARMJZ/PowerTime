@@ -2,7 +2,7 @@ import { NoteEditor } from "./NoteEditor";
 import React, { useContext, useState, useEffect } from "react";
 import { Ionicons } from '@expo/vector-icons'; 
 import { Note } from "./Note";
-import { getNotes } from "../../api/notes.api";
+import { deleteNote, getNotes } from "../../api/notes.api";
 import AuthContext from "../../store/auth-context";
 import { createNote } from "../../api/notes.api";
 import { starNote } from "../../api/notes.api";
@@ -157,9 +157,20 @@ import {
       }
     }
 
-    const deleteNote = (id) => {
-      setNotes(notes.filter((note) => note.id !== id))
-      setSelectedNote(null)
+    const trashNote = async (id) => {
+      try{
+        const res = await deleteNote(id, auth.token)
+        const data = await res.text()
+        console.log(data)
+        setNotes(notes.filter((note) => note.id !== id))
+        setSelectedNote(null)
+      }
+      catch(error){
+        toast.show({
+          title: error.message,
+          placement: "top",
+        });
+      }
     }
 
     const alterStar = async (id) => {
@@ -250,7 +261,7 @@ import {
         folders={folders} 
         note = {selectedNote} 
         onEdit={changeNote}
-        onDelete={deleteNote}
+        onDelete={trashNote}
         onStar = {alterStar}
         onMove = {MoveNote}/> 
         :

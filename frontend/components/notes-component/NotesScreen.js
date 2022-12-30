@@ -6,6 +6,7 @@ import AuthContext from "../../store/auth-context";
 import { getFolders } from "../../api/notes.api";
 import { renameFolder } from "../../api/notes.api";
 import { NavigationButton } from "../../UI/NavigationButton";
+import { deleteFolder } from "../../api/notes.api";
 
 
 import {
@@ -32,7 +33,7 @@ import {
     const FoldersCont = () => {
       return (<FoldersContainer 
                             folders = {folders} 
-                            onDelete = {deleteFolder} 
+                            onDelete = {deleteFolderCascade} 
                             onEdit = {editFolder} 
                             onAdd = {addFolder} 
                             onSelect = {selectFolder} />)
@@ -58,10 +59,21 @@ import {
     const [selectedFolder, setSelectedFolder] = useState(null)
     
 
-    const deleteFolder = (id) => {
-      setFolders(folders.filter((folder) => folder.id !== id))
-      setSelectedFolder(null)
-      console.log("Deleted Folder with ID: ", id)
+    const deleteFolderCascade = async (id) => {
+      try{
+        const res = await deleteFolder(id, auth.token)
+        const data = await res.text()
+        setFolders(folders.filter((folder) => folder.id !== id))
+        setSelectedFolder(null)
+        console.log("Deleted Folder with ID: ", id)
+      }
+      catch(error){
+        toast.show({
+          title: error.message,
+          placement: "top",
+        });
+      }
+      
     }
 
     const editFolder = async (id, newName) => {
@@ -125,7 +137,7 @@ import {
           <CurrentFolderContainer 
           folder = {selectedFolder} 
           folders={folders}
-          onDelete = {deleteFolder}
+          onDelete = {deleteFolderCascade}
           onBack = {navigateToFolders}/>
           </>
           :
