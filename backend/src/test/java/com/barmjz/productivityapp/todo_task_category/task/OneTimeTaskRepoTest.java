@@ -21,7 +21,6 @@ class OneTimeTaskRepoTest {
     OneTimeTaskRepo oneTimeTaskRepo;
     @Autowired
     UserRepo userRepo;
-
     @Autowired
     CategoryRepo categoryRepo;
 

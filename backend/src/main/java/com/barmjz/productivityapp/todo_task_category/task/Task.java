@@ -8,7 +8,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
