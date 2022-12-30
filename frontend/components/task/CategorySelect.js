@@ -22,7 +22,7 @@ const CategorySelect = ({ onSelect }) => {
 
   const selectCategory = (index) => {
     setSelectedIndex(index);
-    onSelect(categories[selectedIndex.row]);
+    onSelect(categories[index.row]);
   };
 
   const addCategory = () => {
