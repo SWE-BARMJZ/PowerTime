@@ -40,7 +40,6 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST,"/api/user/register").permitAll()
-//                        .requestMatchers(HttpMethod.GET,"/api/pomo/").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .userDetailsService(jpaUserDetailsService)
