@@ -3,6 +3,7 @@ package com.barmjz.productivityapp.Note;
 import com.barmjz.productivityapp.Folder.Folder;
 import com.barmjz.productivityapp.Folder.FolderRepo;
 import com.barmjz.productivityapp.user.User;
+import com.barmjz.productivityapp.user.UserRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class ModifyNoteTest {
 
     @Autowired
+    UserRepo userRepo;
+    @Autowired
     FolderRepo folderRepo;
     @Autowired NoteRepo noteRepo;
     NoteManager noteManager;
+    User user1;
     Folder folder;
     Note note1;
     Note note2;
@@ -33,14 +37,16 @@ class ModifyNoteTest {
         folderRepo.deleteAll();
         noteRepo.deleteAll();
         date = new Date();
+        user1 = User.builder()
+                .email("user1@gmail.com")
+                .password("pass")
+                .firstName("userFirst")
+                .lastName("userLast")
+                .build();
+        userRepo.save(user1);
         folder = Folder.builder()
                 .name("folder")
-                .user(User.builder()
-                        .email("user1@gmail.com")
-                        .password("pass")
-                        .firstName("userFirst")
-                        .lastName("userLast")
-                        .build())
+                .user(user1)
                 .CreatedDate(date)
                 .modifiedDate(date)
                 .build();
