@@ -1,14 +1,22 @@
 package com.barmjz.productivityapp.pomodoro;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@Entity
 public class PomodoroSession extends Pomodoro {
-    private boolean isStudying = true;
-    private boolean isPaused = false;
+    @ColumnDefault("true")
+    private boolean isStudying;
+    @ColumnDefault("false")
+    private boolean isPaused;
     private long startTime;
-    private long remainingTimeInSecs=studyTime * 60L;
+    private long remainingTimeInSecs;
 }
