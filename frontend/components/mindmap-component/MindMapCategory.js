@@ -15,7 +15,7 @@ import {
 } from "native-base";
 import FormInput from "../../UI/FormInput";
 import { MaterialIcons } from "@expo/vector-icons";
-import Task from "../Task";
+import Task from "../task/Task";
 import SingleLineText from "../../UI/SingleLineText";
 
 const color = "black";

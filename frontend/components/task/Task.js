@@ -8,15 +8,15 @@ import {
   Pressable,
 } from "native-base";
 import React, { useState } from "react";
-import SingleLineText from "../UI/SingleLineText";
-import Tag from "../UI/Tag";
+import SingleLineText from "../../UI/SingleLineText";
+import Tag from "../../UI/Tag";
 
 const Task = (props) => {
   const { data, showCategory, onTaskRemoval, onTaskCompletion } = props;
 
   const [isDone, setIsDone] = useState(false);
   const completeTask = () => {
-    setIsDone(current => !current);
+    setIsDone((current) => !current);
     onTaskCompletion(data.id);
   };
 

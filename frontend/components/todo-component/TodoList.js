@@ -8,7 +8,7 @@ import {
   ScrollView,
   Center,
 } from "native-base";
-import Task from "../Task";
+import Task from "../task/Task";
 import TodoCategoryGroup from "./TodoCategoryGroup";
 
 import { TODO_API } from "../../api/todo.api";
