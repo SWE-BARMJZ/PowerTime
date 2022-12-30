@@ -19,18 +19,18 @@ public class Pomodoro {
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "user_seq"
+            generator = "pomo_seq"
     )
     @SequenceGenerator(
-            name = "user_seq",
-            sequenceName = "user_seq",
+            name = "pomo_seq",
+            sequenceName = "pomo_seq",
             allocationSize = 0
     )
     private Long id;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     int studyTime;
-    @Column(nullable = false)
+//    @Column(nullable = false)
     int breakTime;
 
     @OneToOne

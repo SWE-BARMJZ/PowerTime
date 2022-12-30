@@ -1,14 +1,7 @@
 package com.barmjz.productivityapp.pomodoro;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 
 @Service
 @AllArgsConstructor
@@ -16,23 +9,22 @@ public class PomodoroService {
     private final PomodoroRepo pomoRepo;
 
     public Pomodoro get(Long userId) {
-//        if (!pomoRepo.existsByUser(userId)) {
-//            Pomodoro p = Pomodoro
-//                    .builder()
-//                    .studyTime(25)
-//                    .breakTime(5)
-//                    .build();
-//            pomoRepo.save(p);
-//            return p;
-//        }
-//        Pomodoro p = pomoRepo.findPomodoroByUser(userId);
-//        if (p instanceof PomodoroSession && !((PomodoroSession) p).isPaused()){
-//            long curRemainingTime = System.currentTimeMillis()/1000 - ((PomodoroSession) p).getStartTime();
-//            ((PomodoroSession) p).setRemainingTimeInSecs(curRemainingTime);
-//        }
-//        pomoRepo.save(p);
-//        return p;
-        return null;
+        if (!pomoRepo.existsPomodoroByUserId(userId)) {
+            Pomodoro p = Pomodoro
+                    .builder()
+                    .studyTime(25)
+                    .breakTime(5)
+                    .build();
+            pomoRepo.save(p);
+            return p;
+        }
+        Pomodoro p = pomoRepo.getPomodoroByUserId(userId);
+        if (p instanceof PomodoroSession && !((PomodoroSession) p).isPaused()){
+            long curRemainingTime = System.currentTimeMillis()/1000 - ((PomodoroSession) p).getStartTime();
+            ((PomodoroSession) p).setRemainingTimeInSecs(curRemainingTime);
+        }
+        pomoRepo.save(p);
+        return p;
     }
 
     public String startStudy(Long pomoId) {
