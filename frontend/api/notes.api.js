@@ -125,3 +125,22 @@ export const getFolders = async (token) => {
       
       return response;
   }
+
+  export const MoveNoteToFolder = async (newFolderId, noteId, token) => {
+    const url = `${BACKEND_URL}/note/moveNote?newFolderId=${newFolderId}&noteId=${noteId}`;
+
+    const response = await fetch(url, {
+        method: "PUT",
+        headers: { "Content-type": "application/json", Authorization: `Bearer ${token}` },
+      }).catch((error) => {
+        throw new Error("Problem connecting with the server!");
+      });
+
+      console.log(response.headers)
+      if (response.status !== 200) {
+        const message = "I don't know yet.";
+        throw new Error(message);
+      }
+      
+      return response;
+  }
