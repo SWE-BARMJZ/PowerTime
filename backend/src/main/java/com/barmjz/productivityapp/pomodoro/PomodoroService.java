@@ -16,22 +16,23 @@ public class PomodoroService {
     private final PomodoroRepo pomoRepo;
 
     public Pomodoro get(Long userId) {
-        if (!pomoRepo.existsByUser(userId)) {
-            Pomodoro p = Pomodoro
-                    .builder()
-                    .studyTime(25)
-                    .breakTime(5)
-                    .build();
-            pomoRepo.save(p);
-            return p;
-        }
-        Pomodoro p = pomoRepo.findPomodoroByUser(userId);
-        if (p instanceof PomodoroSession && !((PomodoroSession) p).isPaused()){
-            long curRemainingTime = System.currentTimeMillis()/1000 - ((PomodoroSession) p).getStartTime();
-            ((PomodoroSession) p).setRemainingTimeInSecs(curRemainingTime);
-        }
-        pomoRepo.save(p);
-        return p;
+//        if (!pomoRepo.existsByUser(userId)) {
+//            Pomodoro p = Pomodoro
+//                    .builder()
+//                    .studyTime(25)
+//                    .breakTime(5)
+//                    .build();
+//            pomoRepo.save(p);
+//            return p;
+//        }
+//        Pomodoro p = pomoRepo.findPomodoroByUser(userId);
+//        if (p instanceof PomodoroSession && !((PomodoroSession) p).isPaused()){
+//            long curRemainingTime = System.currentTimeMillis()/1000 - ((PomodoroSession) p).getStartTime();
+//            ((PomodoroSession) p).setRemainingTimeInSecs(curRemainingTime);
+//        }
+//        pomoRepo.save(p);
+//        return p;
+        return null;
     }
 
     public String startStudy(Long pomoId) {
