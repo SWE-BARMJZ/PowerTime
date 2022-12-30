@@ -1,56 +1,84 @@
 package com.barmjz.productivityapp.pomodoro;
-import com.barmjz.productivityapp.todo_task_category.task.Task;
-import com.barmjz.productivityapp.user.User;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/pomo")
 @AllArgsConstructor
 public class PomodoroController {
-
     private final PomodoroService pomoService;
-    private final PomodoroRepo pomoRepo;
 
     @GetMapping("/")
     public ResponseEntity<Pomodoro> get() {
-        return null;
+        try {
+            return ResponseEntity.ok(pomoService.get());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @PostMapping("/")
     public ResponseEntity<String> startStudy() {
-        return null;
+        try {
+            return ResponseEntity.ok(pomoService.startStudy());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @PostMapping("/break")
-    public ResponseEntity<String> startBreak() {return null;}
+    public ResponseEntity<String> startBreak() {
+        try {
+            return ResponseEntity.ok(pomoService.startBreak());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
 
     @PostMapping("{remainingTime}/pause")
     public ResponseEntity<String> pause(@PathVariable Long remainingTime) {
-        return null;
+        try {
+            return ResponseEntity.ok(pomoService.pause(remainingTime));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @PostMapping("/resume")
     public ResponseEntity<String> resume() {
-        return null;
+        try {
+            return ResponseEntity.ok(pomoService.resume());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
-    @PostMapping("/end")
+    @PostMapping("/endStudy")
     public ResponseEntity<String> end() {
-        return null;
+        try {
+            return ResponseEntity.ok(pomoService.endStudy());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
-    @PutMapping("/")
-    public ResponseEntity<String> set(@RequestBody ObjectNode newPomo) {
-        return null;
+    @PutMapping("/{studyTime}/{breakTime}")
+    public ResponseEntity<String> set(@PathVariable int studyTime,@PathVariable int breakTime) {
+        try {
+            return ResponseEntity.ok(pomoService.set(studyTime,breakTime));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @PostMapping("/reset")
     public ResponseEntity<String> reset() {
-        return null;
+        try {
+            return ResponseEntity.ok(pomoService.reset());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 }
