@@ -20,8 +20,8 @@ const TimeSlider = ({onChange, defaultValue, inputText}) => {
     const [value, setValue] = useState(defaultValue)
     return (
             
-            <Box style={[{flexDirection:"row"}]} alignItems="center" w="100%">
-            <Text>{inputText}   </Text>
+            <Box style={[{flexDirection:"row", marginBottom:10}]} alignItems="center" w="100%">
+            <Text fontFamily={'Impact'}>{inputText}   </Text>
             <Slider maxW="300" defaultValue={defaultValue} minValue={0} maxValue={60} accessibilityLabel="" step={1}
             onChange={v => setValue(v)}
             onChangeEnd={onChange}>
@@ -30,7 +30,7 @@ const TimeSlider = ({onChange, defaultValue, inputText}) => {
                 </Slider.Track>
                 <Slider.Thumb />
             </Slider>
-            <Text>  {value} min</Text>
+            <Text fontFamily={'Impact'}>  {value} min</Text>
             </Box>);
 };
 

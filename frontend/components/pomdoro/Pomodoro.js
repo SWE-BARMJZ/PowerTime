@@ -4,6 +4,8 @@ import { Ionicons, MaterialIcons, AntDesign } from '@expo/vector-icons';
 import  {StyleSheet, CircleTimer} from "react-native";
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import { MenuProvider, Menu} from 'react-native-popup-menu';
+import { TouchableOpacity } from "react-native-web";
+import { Audio } from 'expo';
 
 
 import {
@@ -25,21 +27,20 @@ import {
 export const Pomodoro = ({ navigation }) => {
 //    const [studyDuration, setStudyDuration] = useState(Math.floor(2))
 //    const [breakDuration, setBreakDuration] = useState(1)
-   const array = [2, 1]
+//    const array = [2, 1]
+   const [array, setArray] = useState([25, 5])
    const [index, setIndex] = useState(0)
    const [duration, setDuration] = useState(array[0])
-//    const [newDuration, setNewDuration] = useState(25)
    const [isPaused, setIsPaused] = useState(true)
    const [isReplayed, setIsReplayed] = useState(false)
    const [showSettings, setShowSettings] = useState(false)
-//    const [showPlayIcon, setShowPlayIcon] = useState(true)
-//    const [isStudying, setIsStudying] = useState(true) 
-   const [timeRemaining, setTimeRemaining] = useState(duration)
+   const [timeRemaining, setTimeRemaining] = useState(array[0])
+   const [backgroundMusic, setBackgroundMusic] = useState()
    const timerRef = useRef()
 
 
    useEffect(() => {
-   }, [isPaused]);
+   }, [isPaused, timeRemaining]);
 
 
    const playHandler = () =>  {
@@ -54,9 +55,7 @@ export const Pomodoro = ({ navigation }) => {
 
    const replayHandler = () => {
         setIsReplayed(true)
-        // console.log("new " + studyDuration)
-        // setDuration(newDuration)
-        // setTimeRemaining(studyDuration * 60);
+        setTimeRemaining(array[index])
         console.log("..."+timeRemaining)
         setIsPaused(true);
    }
@@ -65,70 +64,76 @@ export const Pomodoro = ({ navigation }) => {
  
    const toggleShowSettings = () => setShowSettings(!showSettings)
 
-//    const togglePlayIcon = () => setShowPlayIcon(!showPlayIcon)
+   const setArrayElement = (index, value) => {
+        setArray(items => {
+            return items.map((item, j) => {
+                return j === index ? value : item
+            })
+        })
+    }
 
-//    const toggleIsStudying = () => setIsStudying(!isStudying)
+    const playAudio = async () => {
+        setBackgroundMusic(new Audio.Sound());
+        await backgroundMusic.loadAsync(require("../../assets/music/alarm.mp3"));
+        await backgroundMusic.setIsLoopingAsync(true);
+        await backgroundMusic.playAsync();
+    }
 
-   
-//    const handleComplete = () => {
-//        setIndex((index + 1) % array.length)
-//        setDuration(array[index])
-//    }
-
-//    const getDuration = () => { 
-//         return isStudying ? studyDuration : breakDuration
-//         // if (isStudying) {
-//         //     setTimeRemaining(studyDuration)
-//         //     return studyDuration
-//         // }
-//         // else {
-//         //     setTimeRemaining(breakDuration)
-//         //     return breakDuration
-//         // }
-//     }
-    
    return (
-        <View>
-            <CountdownCircleTimer
+        <View style={styles.centered}>
+            <CountdownCircleTimer size={220}
                 key={index}
                 isPlaying={!isPaused}
-                initialRemainingTime={duration}
-                duration={duration}
+                initialRemainingTime={timeRemaining}
+                duration={array[index]}
                 colors={['#004777', '#C70000']}
-                colorsTime={[duration * 60, 59]}
+                colorsTime={[array[index], 59]}
                 onUpdate={(v) => {updateTimer(v); console.log("update " + v);}}
                 onComplete={() => {
                     setIndex((index + 1) % array.length)
-                    setDuration(array[(index + 1) % array.length])
+                    setTimeRemaining(array[(index + 1) % array.length])
+                    // setDuration(array[(index + 1) % array.length])
                     pauseHandler()
+                    playAudio()
                     return {shouldRepeat: true, delay: 1.5}
                 }}
             >
-                {({ remainingTime }) => <Text fontFamily='Arial' fontSize='20'>{Math.floor(remainingTime / 60) < 10 ? '0' + Math.floor(remainingTime / 60) : Math.floor(remainingTime / 60)}: 
+                {({ remainingTime }) => <Text style={{fontFamily:'Impact', fontWeight:'bold', fontSize:28}}>{Math.floor(remainingTime / 60) < 10 ? '0' + Math.floor(remainingTime / 60) : Math.floor(remainingTime / 60)}: 
                 {remainingTime % 60 < 10 ? '0' + (remainingTime % 60) : (remainingTime % 60)}</Text>}
             </CountdownCircleTimer>
-            <Box style={{flexDirection:"row"}}>
-                <MaterialIcons name="replay" size={24} color="black" onPress={() => {replayHandler()}}/>
-                {isPaused && <MaterialIcons name="play-arrow" size={24} color="black" onPress={() =>  {playHandler()
-                console.log("-----")}}/>}
-                {!isPaused && <MaterialIcons name="pause" size={24} color="black" onPress={() => {pauseHandler()}}/>}
+            <Box style={{flexDirection:"row", paddingTop:25}}>
+                <TouchableOpacity>
+                    <MaterialIcons name="replay" size={30} color="black" onPress={() => {replayHandler()}}/>
+                </TouchableOpacity> 
+                <TouchableOpacity>
+                    {isPaused && <MaterialIcons name="play-arrow" size={30} color="black" onPress={() =>  {playHandler(); setShowSettings(false);
+                    console.log("-----")}}/>}
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    {!isPaused && <MaterialIcons name="pause" size={30} color="black" onPress={() => {pauseHandler()}}/>}
+                </TouchableOpacity> 
             </Box>
-                {isReplayed && <MaterialIcons name="settings" size={24} color="black" onPress={() => toggleShowSettings()}/>}
-                {showSettings && <View>
-                    <TimeSlider inputText={"Study Duration"} defaultValue={25} onChange={v => {setStudyDuration(v);
-                        console.log(studyDuration)
+                <TouchableOpacity>
+                    {isReplayed && <MaterialIcons name="settings" on size={30} color="black" onPress={() => toggleShowSettings()}/>}
+                </TouchableOpacity>
+                {showSettings && <View width={500}>
+                    <TimeSlider inputText={"Study Duration"} defaultValue={array[0]} onChange={v => {setArrayElement(0, v); console.log(array)
                     }}/>
-                    <TimeSlider inputText={"Break Duration"} defaultValue={5} onChange={v => {setBreakDuration(v);
-                        console.log(breakDuration)
+                    <TimeSlider inputText={"Break Duration"} defaultValue={array[1]} onChange={v => {setArrayElement(1, v); console.log(array)
                     }}/>
-            </View>}            
+            </View>}           
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    iconsStyle: {
-        borderColor: '#40759c',
-        width: 300
-    },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  timer: {
+    paddingBottom:20
+  }
 });
+
