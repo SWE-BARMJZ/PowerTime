@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PomodoroRepo extends JpaRepository<Pomodoro,Long> {
-    public boolean existsPomodoroByUserId(Long userId);
-    public Pomodoro getPomodoroByUserId(Long userId);
+    boolean existsPomodoroByUserId(Long userId);
+    Pomodoro getPomodoroByUserId(Long userId);
 }
