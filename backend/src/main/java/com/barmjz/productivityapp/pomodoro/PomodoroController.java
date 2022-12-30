@@ -16,31 +16,28 @@ public class PomodoroController {
     private final PomodoroService pomoService;
     private final PomodoroRepo pomoRepo;
 
-    @GetMapping("/")
-    public ResponseEntity<Pomodoro> getPomodoro() {
-//        Pomodoro p = Pomodoro.builder().build();
-//        pomoRepo.save(p);
-//        Pomodoro j = pomoRepo.findById(p.getId()).get();
+    @GetMapping("/{userId}")
+    public ResponseEntity<Pomodoro> getPomodoro(@PathVariable Long userId) {
         return null;
     }
 
-    @PostMapping("/")
-    public ResponseEntity<String> startStudy() {
+    @PostMapping("/{pomoId}")
+    public ResponseEntity<String> startStudy(@PathVariable Long pomoId) {
         return null;
     }
 
-    @PostMapping("/break")
-    public ResponseEntity<String> startBreak() {
+    @PostMapping("/{pomoId}/break")
+    public ResponseEntity<String> startBreak(@PathVariable Long pomoId) {
         return null;
     }
 
-    @PostMapping("/{remainingTime}/pause")
-    public ResponseEntity<String> pause(@PathVariable Long remainingTime) {
+    @PostMapping("/{pomoId}/pause")
+    public ResponseEntity<String> pause(@PathVariable Long pomoId,@RequestParam Long remainingTime) {
         return null;
     }
 
-    @PutMapping("/")
-    public ResponseEntity<String> setPomodoro(@RequestBody ObjectNode newPomo) {
+    @PutMapping("/{pomoId}")
+    public ResponseEntity<String> setPomodoro(@PathVariable Long pomoId,@RequestBody ObjectNode newPomo) {
         return null;
     }
 
