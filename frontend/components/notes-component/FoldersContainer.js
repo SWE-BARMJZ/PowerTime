@@ -54,7 +54,7 @@ import {
               </Flex>
               <VStack flex={1} justifyContent="center" pr="5%">
               <IconButton 
-                icon={<AntDesign name="addfolder" size={30} color="#5BBA59" />} 
+                icon={<AntDesign name="addfolder" size={30} color="rgb(0, 104, 249)" />} 
                 onPress={() => setShowModal(true)}
                 />
                 <Modal isOpen={showModal} onClose={() => setShowModal(false)}>

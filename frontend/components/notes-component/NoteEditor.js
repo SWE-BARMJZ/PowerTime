@@ -58,6 +58,13 @@ import {
         const data = await res.text()
       }
 
+    const formatDate = (date) => {
+        const dateSplitted = date.split("T")
+        const dateFormatted = dateSplitted[0].split("-").reverse().join("-")
+        const timeFormatted = dateSplitted[1].slice(0, 5)
+        return dateFormatted + " " + timeFormatted
+    }
+
     return (
         <VStack flex={3}>
             <HStack 
@@ -69,7 +76,7 @@ import {
                 borderTopWidth="2"
                 >
                 <Flex px="3" flex={1} alignItems="center" justifyContent="center" h="full">
-                    <Text numberOfLines={1} fontSize={respLgFont}>{note.modifiedDate}</Text>
+                    <Text numberOfLines={1} fontSize={respLgFont}>{formatDate(note.modifiedDate)}</Text>
                 </Flex>
                 <Hidden from="base" till="lg">
                     <HStack w = "200" alignItems="center" justifyContent="space-between" mr="2%" h="full">
@@ -77,10 +84,10 @@ import {
                             onPress={() => {
                                 onEdit(note, titleText, contentText)
                             }}
-                            icon={<FontAwesome name="save" size={30} color="#5BBA59" />} />
+                            icon={<FontAwesome name="save" size={30} color="rgb(0, 104, 249)" />} />
                         <Menu w="190" trigger={triggerProps => {
                             return <IconButton
-                                icon={<MaterialIcons name="drive-file-move" size={30} color="#5BBA59" />}
+                                icon={<MaterialIcons name="drive-file-move" size={30} color="rgb(0, 104, 249)" />}
                                     accessibilityLabel="Move Note" {...triggerProps}
                         />
                         }}>
@@ -104,11 +111,11 @@ import {
                             onPress={() => {
                                 onEdit(note, titleText, contentText)
                             }}
-                            icon={<FontAwesome name="save" size={30} color="#5BBA59" />} />
+                            icon={<FontAwesome name="save" size={30} color="rgb(0, 104, 249)" />} />
 
                     <Menu w="190" trigger={triggerProps => {
                         return <IconButton
-                                icon={<Entypo name="dots-three-horizontal" size={25} color="#5BBA59" />} 
+                                icon={<Entypo name="dots-three-horizontal" size={25} color="rgb(0, 104, 249)" />} 
                                 accessibilityLabel="More options menu" {...triggerProps}
                         />
                         }}>

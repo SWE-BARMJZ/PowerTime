@@ -188,7 +188,7 @@ import {
               <VStack w="50" justifyContent="center">
               <IconButton 
                 onPress={()=> setShowModal(true)}
-                icon={<Ionicons name="add-circle-sharp" size={30} color="#5BBA59" />} />
+                icon={<Ionicons name="add-circle-sharp" size={30} color="rgb(0, 104, 249)" />} />
                 <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
                   <Modal.Content maxWidth="300px">
                     <Modal.CloseButton />
@@ -227,7 +227,7 @@ import {
                 <Note note={item} onSelect={selectNote}/>
               </Box>} keyExtractor={item => item.id} />
           <Hidden from="md">
-            <Button m="3" bgColor="#5BBA59" onPress={() => backToFolders()} size={"lg"}>
+            <Button m="3" bgColor="rgb(0, 104, 249)" onPress={() => backToFolders()} size={"lg"}>
               Back To folders
             </Button>
             <Button m="3" bgColor="#FF5959" onPress={() => onDelete(folder.id)} size={"lg"}>

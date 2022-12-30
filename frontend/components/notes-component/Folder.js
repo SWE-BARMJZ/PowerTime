@@ -57,7 +57,7 @@ import {
           <VStack flex={1} justifyContent="center" pr="5%" >
             <Menu w="190" trigger={triggerProps => {
                 return <IconButton
-                        icon={<Entypo name="dots-three-horizontal" size={25} color="#5BBA59" />} 
+                        icon={<Entypo name="dots-three-horizontal" size={25} color="rgb(0, 104, 249)" />} 
                         accessibilityLabel="More options menu" {...triggerProps}
                 />
                 }}>

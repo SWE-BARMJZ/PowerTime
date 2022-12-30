@@ -28,12 +28,19 @@ import {
     note, onSelect
   }) => {
 
-
+    const formatDate = (date) => {
+        const dateSplitted = date.split("T")
+        const dateFormatted = dateSplitted[0].split("-").reverse().join("-")
+        const timeFormatted = dateSplitted[1].slice(0, 5)
+        return dateFormatted + " " + timeFormatted
+    }
 
     return (
         
         <Pressable 
-            onPress={() => onSelect(note)}
+            onPress={() => {
+                onSelect(note)
+            }}
             _hover={{bg:"gray.300"}}
             w="full" 
             borderColor="black.100"
@@ -44,7 +51,7 @@ import {
                     {note.title} 
                 </Text>
                 <Text numberOfLines={1} ml="20%" fontSize={respSmFont} color="gray.500">   
-                    {note.modifiedDate} 
+                    {formatDate(note.modifiedDate)} 
                 </Text>
             </VStack>
         </Pressable>

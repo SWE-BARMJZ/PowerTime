@@ -100,12 +100,12 @@ export const NotesScreen = () => {
   };
 
   return (
-    <Box safeArea flex={1} p={2}>
-      <HStack space={2} ml={2} alignItems="center">
+    <Box safeArea flex={1} >
+      <HStack space={2} alignItems="center" bg="gray.100">
         <NavigationButton />
         <Heading>Notes</Heading>
       </HStack>
-      <HStack safeArea h="full" justifyContent="center" bg="primary.bg">
+      <HStack safeArea h="full" justifyContent="center" bg="gray.100">
         {selectedFolder ? (
           <>
             <Hidden from="base" till="md">
