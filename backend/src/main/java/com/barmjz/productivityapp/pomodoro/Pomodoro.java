@@ -17,20 +17,12 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 public class Pomodoro {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "pomo_seq"
-    )
-    @SequenceGenerator(
-            name = "pomo_seq",
-            sequenceName = "pomo_seq",
-            allocationSize = 0
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     int studyTime;
-//    @Column(nullable = false)
+    @Column(nullable = false)
     int breakTime;
 
     @OneToOne

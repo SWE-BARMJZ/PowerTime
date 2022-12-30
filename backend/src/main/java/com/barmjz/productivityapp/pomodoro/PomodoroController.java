@@ -16,28 +16,31 @@ public class PomodoroController {
     private final PomodoroService pomoService;
     private final PomodoroRepo pomoRepo;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<Pomodoro> get(@PathVariable Long userId) {
+    @GetMapping("/")
+    public ResponseEntity<Pomodoro> get() {
         return null;
     }
 
-    @PostMapping("/{pomoId}")
-    public ResponseEntity<String> startStudy(@PathVariable Long pomoId) {
+    @PostMapping("/")
+    public ResponseEntity<String> startStudy() {
         return null;
     }
 
-    @PostMapping("/{pomoId}/break")
-    public ResponseEntity<String> startBreak(@PathVariable Long pomoId) {
+    @PostMapping("/break")
+    public ResponseEntity<String> startBreak() {return null;}
+
+    @PostMapping("{remainingTime}/pause")
+    public ResponseEntity<String> pause(@PathVariable Long remainingTime) {
         return null;
     }
 
-    @PostMapping("/{pomoId}/pause")
-    public ResponseEntity<String> pause(@PathVariable Long pomoId,@RequestParam Long remainingTime) {
+    @PostMapping("/resume")
+    public ResponseEntity<String> resume() {
         return null;
     }
 
-    @PostMapping("/{pomoId}/resume")
-    public ResponseEntity<String> resume(@PathVariable Long pomoId) {
+    @PostMapping("/end")
+    public ResponseEntity<String> end() {
         return null;
     }
 
@@ -46,4 +49,8 @@ public class PomodoroController {
         return null;
     }
 
+    @PostMapping("/reset")
+    public ResponseEntity<String> reset() {
+        return null;
+    }
 }

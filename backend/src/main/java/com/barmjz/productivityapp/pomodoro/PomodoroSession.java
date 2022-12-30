@@ -13,15 +13,10 @@ import org.hibernate.annotations.ColumnDefault;
 @SuperBuilder
 @Entity
 public class PomodoroSession extends Pomodoro {
-//    @Column(nullable = false)
     @ColumnDefault("true")
     private boolean isStudying;
-//    @Column(nullable = false)
     @ColumnDefault("false")
     private boolean isPaused;
-//    @Column(nullable = false)
     private long startTime;
-//    @Column(nullable = false)
     private long remainingTimeInSecs;
-
 }
