@@ -1,22 +1,15 @@
-import React, { useContext, useState } from "react";
-import { AntDesign,Entypo } from '@expo/vector-icons';
-import { respLgContHeight, respLgFont,respMdFont } from "./CurrentFolderContainer";
+import React, { useState } from "react";
+import { AntDesign} from '@expo/vector-icons';
+import { respLgContHeight, respLgFont} from "./CurrentFolderContainer";
 import { Folder } from "./Folder";
 
 
 import {
     Button,
     Text,
-    Image,
-    Heading,
     HStack,
-    Link,
     Box,
     VStack,
-    Hidden,
-    useToast,
-    TextArea,
-    Icon,
     Flex,
     IconButton,
     Modal,
@@ -25,9 +18,8 @@ import {
     FlatList,
   } from "native-base";
 
-
   export const FoldersContainer = ({
-    folders, onDelete, onEdit, onAdd, onSelect}) => {
+    folders, onDelete, onEdit, onAdd, onSelect, iconsColor}) => {
     const [showModal, setShowModal] = useState(false)
     const [folderName, setfolderName] = useState("")
     
@@ -54,7 +46,7 @@ import {
               </Flex>
               <VStack flex={1} justifyContent="center" pr="5%">
               <IconButton 
-                icon={<AntDesign name="addfolder" size={30} color="rgb(0, 104, 249)" />} 
+                icon={<AntDesign name="addfolder" size={30} color={iconsColor} />} 
                 onPress={() => setShowModal(true)}
                 />
                 <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
@@ -92,7 +84,7 @@ import {
             </HStack>
             <FlatList data={folders} renderItem={({item}) => 
               <Box>
-                <Folder folder={item} onDelete={onDelete} onEdit={onEdit} onSelect={onSelect}/>
+                <Folder folder={item} onDelete={onDelete} onEdit={onEdit} onSelect={onSelect} iconsColor={iconsColor}/>
               </Box>} keyExtractor={item => item.id} />
           </VStack>
     );

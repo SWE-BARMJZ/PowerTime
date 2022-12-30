@@ -22,6 +22,8 @@ export const NotesScreen = () => {
   const toast = useToast();
   const [folders, setFolders] = useState([]);
 
+  const iconsColor = "#0c5ac7"
+
   const FoldersCont = () => {
     return (
       <FoldersContainer
@@ -30,6 +32,7 @@ export const NotesScreen = () => {
         onEdit={editFolder}
         onAdd={addFolder}
         onSelect={selectFolder}
+        iconsColor = {iconsColor}
       />
     );
   };
@@ -100,12 +103,12 @@ export const NotesScreen = () => {
   };
 
   return (
-    <Box safeArea flex={1} >
-      <HStack space={2} alignItems="center" bg="gray.100">
+    <Box safeArea flex={1} bg={"primary.bg"} >
+      <HStack ml="5" space={2} alignItems="center">
         <NavigationButton />
-        <Heading>Notes</Heading>
+        <Heading size={"lg"}>Notes</Heading>
       </HStack>
-      <HStack safeArea h="full" justifyContent="center" bg="gray.100">
+      <HStack flex={1} justifyContent="center">
         {selectedFolder ? (
           <>
             <Hidden from="base" till="md">
@@ -116,6 +119,7 @@ export const NotesScreen = () => {
               folders={folders}
               onDelete={deleteFolder}
               onBack={navigateToFolders}
+              iconsColor = {iconsColor}
             />
           </>
         ) : (

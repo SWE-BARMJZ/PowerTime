@@ -1,4 +1,4 @@
-import { FlatList, VStack, Heading, Box } from "native-base";
+import { FlatList, VStack, Heading} from "native-base";
 import React from "react";
 import SingleLineText from "../../UI/SingleLineText";
 import { getStarredNotes } from "../../api/notes.api";
@@ -31,14 +31,14 @@ const StarredNotes = (props) => {
 
   return (
     <VStack flex={1} w="full" space={4} {...props}>
-      <Heading ml={2} fontFamily={"heading"}>Starred notes</Heading>
+      <Heading ml={2} >Starred notes</Heading>
 
       <FlatList
         data={starrredNotes}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <VStack p={3} mb={2}  borderWidth={1}
-          borderColor="gray.200">
+          borderColor={"primary.darkerBg"}>
             <SingleLineText fontWeight="bold">{item.title}</SingleLineText>
             <SingleLineText numberOfLines={3}>{item.content}</SingleLineText>
           </VStack>

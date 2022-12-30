@@ -19,7 +19,6 @@ import Task from "../task/Task";
 import SingleLineText from "../../UI/SingleLineText";
 
 const color = "black";
-const bgColor = "dark.600";
 
 const MindMapCategory = (props) => {
   const {
@@ -53,7 +52,7 @@ const MindMapCategory = (props) => {
   return (
     <>
       <Box w={["full", "full", "1/2", "1/3", "1/4", "1/5"]} p={2}>
-        <VStack space={2} p={2} borderRadius="lg" bgColor={bgColor}>
+        <VStack space={2} p={2} borderRadius="lg" bgColor={"primary.evenDarkerBg"}>
           <HStack alignItems="center" justifyContent="space-between">
             <Box flex={1}>
               <Pressable onPress={toggleTasksShowing} p="2">

@@ -8,6 +8,7 @@ import {
   Center,
   useMediaQuery,
 } from "native-base";
+
 import AuthContext from "../../store/auth-context";
 import { NavigationButton } from "../../UI/NavigationButton";
 import TodoList from "../todo-component/TodoList";
@@ -15,7 +16,7 @@ import StarredNotes from "../notes-component/StarredNotes";
 
 // dummy component
 const Pomodoro = () => (
-  <Box h={[100, 100, 200, 200]} w="full" bgColor={"gray.200"}>
+  <Box h={[100, 100, 200, 200]} w="full" bg={"primary.darkerBg"}>
     <Center flex={1}>
       <Text >Pomodoro</Text>
     </Center>
@@ -33,7 +34,7 @@ export const Home = () => {
   });
 
   return (
-    <Box safeArea style={{ justifyContent: "center" }} flex={1}>
+    <Box safeArea style={{ justifyContent: "center" }} flex={1} bg={"primary.bg"}>
       <HStack
         alignItems="center"
         p={2}
@@ -42,7 +43,7 @@ export const Home = () => {
         px={[2, 2, 6, 10]}
       >
         <NavigationButton />
-        <Heading size={"lg"} fontFamily={"heading"}> Hello, {name} 👋</Heading>
+        <Heading size={"lg"}> Hello, {name} 👋</Heading>
       </HStack>
 
       {isSmallScreen ? (

@@ -3,27 +3,20 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
-import { respLgFont,respLgContHeight } from "./CurrentFolderContainer";
+import { respLgFont} from "./CurrentFolderContainer";
 import { starNote } from "../../api/notes.api";
 import AuthContext from "../../store/auth-context";
 
 
 
 import {
-    Button,
     Text,
-    Image,
-    Heading,
     HStack,
-    Link,
-    Box,
     VStack,
     Hidden,
     useToast,
     TextArea,
-    Icon,
     Flex,
-    Center,
     Input,
     IconButton,
     Menu,
@@ -33,8 +26,13 @@ import {
 
 
   export const NoteEditor = ({
-    folders, note, onEdit, onDelete, onMove, onStar
-  }) => {
+    folders,
+    note,
+    onEdit,
+    onDelete,
+    onMove,
+    onStar,
+    iconsColor}) => {
 
     const auth = useContext(AuthContext)
     const toast = useToast()
@@ -84,10 +82,10 @@ import {
                             onPress={() => {
                                 onEdit(note, titleText, contentText)
                             }}
-                            icon={<FontAwesome name="save" size={30} color="rgb(0, 104, 249)" />} />
+                            icon={<FontAwesome name="save" size={30} color={iconsColor} />} />
                         <Menu w="190" trigger={triggerProps => {
                             return <IconButton
-                                icon={<MaterialIcons name="drive-file-move" size={30} color="rgb(0, 104, 249)" />}
+                                icon={<MaterialIcons name="drive-file-move" size={30} color={iconsColor} />}
                                     accessibilityLabel="Move Note" {...triggerProps}
                         />
                         }}>
@@ -111,11 +109,11 @@ import {
                             onPress={() => {
                                 onEdit(note, titleText, contentText)
                             }}
-                            icon={<FontAwesome name="save" size={30} color="rgb(0, 104, 249)" />} />
+                            icon={<FontAwesome name="save" size={30} color={iconsColor} />} />
 
                     <Menu w="190" trigger={triggerProps => {
                         return <IconButton
-                                icon={<Entypo name="dots-three-horizontal" size={25} color="rgb(0, 104, 249)" />} 
+                                icon={<Entypo name="dots-three-horizontal" size={25} color={iconsColor} />} 
                                 accessibilityLabel="More options menu" {...triggerProps}
                         />
                         }}>

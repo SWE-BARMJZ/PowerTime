@@ -67,7 +67,7 @@ export const SignUp = ({ navigation }) => {
   };
 
   return (
-    <Box flex="1" safeArea bgColor={"primary.bg"}>
+    <Box flex="1" safeArea bgColor={"primary.loginBg"}>
       <HStack justifyContent="center" flex="1" w="full">
         <VStack
           flex={1}

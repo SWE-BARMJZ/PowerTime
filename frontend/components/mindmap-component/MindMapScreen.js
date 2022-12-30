@@ -9,10 +9,10 @@ const MindMapScreen = () => {
   const [visible, setVisible] = React.useState(false);
 
   return (
-    <Box safeArea flex={1} px={4}>
-      <HStack space={2} ml={2} alignItems="center" py={4}>
+    <Box safeArea flex={1} p={2}>
+      <HStack space={2} ml={5} alignItems="center">
         <NavigationButton />
-        <Heading>MindMap</Heading>
+        <Heading size={"lg"}>MindMap</Heading>
       </HStack>
       <MindMap />
 
