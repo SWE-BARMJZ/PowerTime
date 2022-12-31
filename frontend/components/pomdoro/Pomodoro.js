@@ -27,10 +27,7 @@ import {
 } from "native-base";
 
 export const Pomodoro = ({ navigation }) => {
-//    const [studyDuration, setStudyDuration] = useState(Math.floor(2))
-//    const [breakDuration, setBreakDuration] = useState(1)
-//    const array = [2, 1]
-//    const [duration, setDuration] = useState(array[0])
+
 
    const auth = useContext(AuthContext)
    const [array, setArray] = useState([3, 1])
