@@ -92,7 +92,7 @@ export const setPomodoro = async (token, studyTime, breakTime) => {
 }
 
 export const resetPomodoro = async (token) => {
-    const url = `${BACKEND_URL/api/pomo/reset}`;
+    const url = `${BACKEND_URL}/api/pomo/reset`;
     const response = await fetch(url,{
         method:"POST" , headers: {Authorization: `Bearer ${token}`}
     }).catch((error) => {

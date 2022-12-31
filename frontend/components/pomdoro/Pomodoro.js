@@ -33,12 +33,13 @@ export const Pomodoro = ({ navigation }) => {
 //    const [duration, setDuration] = useState(array[0])
 
    const auth = useContext(AuthContext)
-   const [array, setArray] = useState([25, 5])
+   const [array, setArray] = useState([3, 1])
    const [index, setIndex] = useState(0)
    const [isPaused, setIsPaused] = useState(true)
    const [isReplayed, setIsReplayed] = useState(false)
    const [showSettings, setShowSettings] = useState(false)
-   const [timeRemaining, setTimeRemaining] = useState(array[0])
+   const [timeRemaining, setTimeRemaining] = useState(array[0] * 60)
+   const [isLoaded, setIsLoaded] = useState(false)
    const [backgroundMusic, setBackgroundMusic] = useState()
    const timerRef = useRef()
 
@@ -46,25 +47,30 @@ export const Pomodoro = ({ navigation }) => {
    useEffect(() => {
         const getPomodoro = async () => {
             const pomodoro = await api.getPomodoro(auth.token)
-            if ('isStudying' in pomodoro) {
-                setIndex(pomodoro.isStudying ? 0 : 1);
-                setIsPaused(pomodoro.isPaused)
+            console.log(pomodoro)
+            if ('studying' in pomodoro) {
+                setArray([pomodoro.studyTime, pomodoro.breakTime])
+                setIndex(pomodoro.studying ? 0 : 1);
+                setIsPaused(pomodoro.paused)
                 setTimeRemaining(pomodoro.remainingTimeInSecs);
+                console.log(pomodoro.remainingTimeInSecs)
             }
-            else 
-                setArray([pomodoro.studyTime, pomodoro.endTime])
+            else {
+                setArray([pomodoro.studyTime, pomodoro.breakTime])
+                setTimeRemaining(pomodoro.studyTime * 60)
+            }
+            setIsLoaded(true)
         } 
         getPomodoro()
-   }, [isPaused]);
+   }, []);
 
 
    const playHandler = async () =>  {
         try {
-            if (timeRemaining == array[index]) {
-                if (index == 0)
-                    await api.startStudy(auth.token)
-                else 
-                    await api.startBreak(auth.token)
+            console.log(timeRemaining)
+            console.log(array[index])
+            if (timeRemaining == array[index] * 60 && index == 0) {
+                await api.startStudy(auth.token)
             }
             else 
                 await api.resume(auth.token)
@@ -83,21 +89,29 @@ export const Pomodoro = ({ navigation }) => {
 
         }
         setIsReplayed(false);
+        console.log("..."+timeRemaining)
         setIsPaused(true);
     }
 
    const replayHandler = async () => {
+        console.log('replay handler called')
+        setIsPaused(true);
         try {
-            await api.resetPomodoro(auth.token)
+            if (!isReplayed) {
+                await api.resetPomodoro(auth.token)
+                console.log('reset pomodoro')
+            }
+            setIsReplayed(true)
+            await api.getPomodoro()
             await api.setPomodoro(auth.token, array[0], array[1])
+            console.log('set pomodoro')
         }
         catch(error) {
-
+            console.log(error.message)
+            console.log('error replaying')
         }
-        setIsReplayed(true)
-        setTimeRemaining(array[index])
+        setTimeRemaining(array[0])
         console.log("..."+timeRemaining)
-        setIsPaused(true);
    }
 
    const updateTimer = (time) => setTimeRemaining(time) 
@@ -120,19 +134,17 @@ export const Pomodoro = ({ navigation }) => {
     }
 
    return (
+        !isLoaded ?  <Text>Loading....</Text> : 
         <View style={styles.centered}>
             <CountdownCircleTimer size={220}
                 key={index}
                 isPlaying={!isPaused}
                 initialRemainingTime={timeRemaining}
-                duration={array[index]}
+                duration={array[index] * 60}
                 colors={['#004777', '#C70000']}
                 colorsTime={[array[index], 59]}
                 onUpdate={(v) => {updateTimer(v); console.log("update " + v);}}
                 onComplete={async () => {
-                    setIndex((index + 1) % array.length)
-                    setTimeRemaining(array[(index + 1) % array.length])
-                    // setDuration(array[(index + 1) % array.length])
                     try {
                         if (index == 0) 
                             await api.endStudy(auth.token)
@@ -142,7 +154,10 @@ export const Pomodoro = ({ navigation }) => {
                     catch(error) {
 
                     }
-                    pauseHandler()
+                    setTimeRemaining(array[(index + 1) % array.length] * 60)
+                    setIndex((index + 1) % array.length)
+                    console.log('time remaining on complete ' + timeRemaining)
+                    setIsPaused(true)
                     playAudio()
                     return {shouldRepeat: true, delay: 1.5}
                 }}

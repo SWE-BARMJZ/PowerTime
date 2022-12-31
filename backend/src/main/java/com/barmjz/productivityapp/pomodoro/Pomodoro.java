@@ -5,6 +5,7 @@ import com.barmjz.productivityapp.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,12 +16,14 @@ import org.hibernate.annotations.ColumnDefault;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
+@EqualsAndHashCode
 @Entity
 
 public class Pomodoro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EqualsAndHashCode.Exclude
+    protected Long id;
 
     @Column(nullable = false)
     int studyTime;
@@ -33,5 +36,5 @@ public class Pomodoro {
             referencedColumnName = "id"
     )
     @JsonIgnore
-    private User user;
+    protected User user;
 }
