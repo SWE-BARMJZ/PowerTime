@@ -1,6 +1,5 @@
 package com.barmjz.productivityapp.Folder;
 
-import com.barmjz.productivityapp.Note.Note;
 import com.barmjz.productivityapp.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -9,7 +8,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Table(
@@ -31,7 +29,15 @@ public class Folder {
         one user -> many folder
     */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "user_seq"
+    )
+    @SequenceGenerator(
+            name = "user_seq",
+            sequenceName = "user_seq",
+            allocationSize = 0
+    )
     private Long id;
 
     @Column(nullable = false)
@@ -39,13 +45,12 @@ public class Folder {
     private Date CreatedDate;
     private Date modifiedDate;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "id"
+    )
     @JsonIgnore
     private User user;
-
-    @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Note> notes;
 }
 
