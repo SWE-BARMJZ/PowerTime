@@ -19,10 +19,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 class ModifyNoteTest {
 
-    @Autowired UserRepo userRepo;
-    @Autowired FolderRepo folderRepo;
+    @Autowired
+    UserRepo userRepo;
+    @Autowired
+    FolderRepo folderRepo;
     @Autowired NoteRepo noteRepo;
     NoteManager noteManager;
+    User user1;
     Folder folder;
     Note note1;
     Note note2;
@@ -34,16 +37,16 @@ class ModifyNoteTest {
         folderRepo.deleteAll();
         noteRepo.deleteAll();
         date = new Date();
-        User user = User.builder()
+        user1 = User.builder()
                 .email("user1@gmail.com")
                 .password("pass")
                 .firstName("userFirst")
                 .lastName("userLast")
                 .build();
-        userRepo.save(user);
+        userRepo.save(user1);
         folder = Folder.builder()
                 .name("folder")
-                .user(user)
+                .user(user1)
                 .CreatedDate(date)
                 .modifiedDate(date)
                 .build();

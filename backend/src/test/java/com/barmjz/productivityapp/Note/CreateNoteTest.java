@@ -24,7 +24,7 @@ class CreateNoteTest {
     @Autowired FolderRepo folderRepo;
     @Autowired NoteRepo noteRepo;
     NoteManager noteManager;
-    User user;
+    User user1;
     Folder folder;
     Note note1;
     Note note2;
@@ -36,16 +36,17 @@ class CreateNoteTest {
         folderRepo.deleteAll();
         noteRepo.deleteAll();
         date = new Date();
-        user = User.builder()
+        user1 = User.builder()
+
                 .email("user1@gmail.com")
                 .password("pass")
                 .firstName("userFirst")
                 .lastName("userLast")
                 .build();
-        userRepo.save(user);
+        userRepo.save(user1);
         folder = Folder.builder()
                 .name("folder")
-                .user(user)
+                .user(user1)
                 .CreatedDate(date)
                 .modifiedDate(date)
                 .build();
