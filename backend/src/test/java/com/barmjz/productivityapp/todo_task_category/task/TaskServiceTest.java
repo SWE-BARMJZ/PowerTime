@@ -22,7 +22,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TaskServiceTest {
-//    @InjectMocks
     @Mock
     UserRepo userRepo;
 

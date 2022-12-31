@@ -12,6 +12,7 @@ import org.hibernate.annotations.ColumnDefault;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
+@EqualsAndHashCode(callSuper = true)
 public class PomodoroSession extends Pomodoro {
     @ColumnDefault("true")
     private boolean isStudying;
