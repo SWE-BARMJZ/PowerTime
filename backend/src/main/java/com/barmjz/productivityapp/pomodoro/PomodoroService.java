@@ -18,19 +18,21 @@ public class PomodoroService {
             return createPomo(25,5,currentUser);
         }
         Pomodoro p = pomoRepo.getPomodoroByUserId(currentUser.getId());
-        if (p instanceof PomodoroSession pSession && !((PomodoroSession) p).isPaused()){
-            long curRemainingTime = System.currentTimeMillis()/1000 - pSession.getStartTime();
+        if (p instanceof PomodoroSession pSession && !pSession.isPaused()){
+            long timeSpent = System.currentTimeMillis()/1000 - pSession.getStartTime();
             long lastRemainingTime = pSession.getRemainingTimeInSecs();
             //Session still running
-            if (curRemainingTime<=lastRemainingTime) {
-                pSession.setRemainingTimeInSecs(curRemainingTime);
-                pomoRepo.save(p);
+            if (timeSpent<lastRemainingTime) {
+                pSession.setRemainingTimeInSecs(lastRemainingTime-timeSpent);
+                pSession.setStartTime(System.currentTimeMillis()/1000);
+                pomoRepo.save(pSession);
+                return pSession;
             //session ended
             }else{
                 if (pSession.isStudying())
                     return endStudyUpdate(pSession);
                 else
-                    return resetUpdate(pSession,currentUser);
+                    return resetUpdate(pSession);
             }
         }
         //Paused Session
@@ -49,7 +51,7 @@ public class PomodoroService {
         return p;
     }
 
-    public String startStudy(User currentUser) {
+    public String start(User currentUser) {
         Pomodoro deletedPomodoro = pomoRepo.getPomodoroByUserId(currentUser.getId());
         pomoRepo.deleteById(deletedPomodoro.getId());
         PomodoroSession p = initSession(deletedPomodoro,currentUser);
@@ -70,14 +72,6 @@ public class PomodoroService {
                 .build();
     }
 
-    public String startBreak(Long userId) {
-        PomodoroSession p = (PomodoroSession) pomoRepo.getPomodoroByUserId(userId);
-        p.setStudying(false);
-        p.setStartTime(System.currentTimeMillis()/1000);
-        p.setRemainingTimeInSecs(p.breakTime*60L);
-        pomoRepo.save(p);
-        return "Pomodoro Break Started";
-    }
 
     public String pause(Long remainingTime, Long userId) {
         PomodoroSession p = (PomodoroSession) pomoRepo.getPomodoroByUserId(userId);
@@ -111,7 +105,7 @@ public class PomodoroService {
     }
 
     public String set(int newStudyTime, int newBreakTime,Long userId) {
-        PomodoroSession p = (PomodoroSession) pomoRepo.getPomodoroByUserId(userId);
+        Pomodoro p = pomoRepo.getPomodoroByUserId(userId);
         p.setStudyTime(newStudyTime);
         p.setBreakTime(newBreakTime);
         pomoRepo.save(p);
@@ -120,12 +114,14 @@ public class PomodoroService {
 
     public String reset(User currentUser){
         Pomodoro deletedSession =  pomoRepo.getPomodoroByUserId(currentUser.getId());
-        resetUpdate(deletedSession,currentUser);
+        resetUpdate(deletedSession);
         return "Pomodoro Reset";
     }
 
-    private Pomodoro resetUpdate(Pomodoro deletedSession,User currentUser) {
+    private Pomodoro resetUpdate(Pomodoro deletedSession) {
         pomoRepo.deleteById(deletedSession.getId());
-        return createPomo(deletedSession.getStudyTime(),deletedSession.getBreakTime(),currentUser);
+        Pomodoro p = ((PomodoroSession) deletedSession).extractPomo();
+        pomoRepo.save(p);
+        return p;
     }
 }

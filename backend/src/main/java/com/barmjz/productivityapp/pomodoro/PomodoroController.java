@@ -21,18 +21,9 @@ public class PomodoroController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> startStudy() {
+    public ResponseEntity<String> start() {
         try {
-            return ResponseEntity.ok(pomoService.startStudy(proxy.getCurrentUser()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-    }
-
-    @PostMapping("/break")
-    public ResponseEntity<String> startBreak() {
-        try {
-            return ResponseEntity.ok(pomoService.startBreak(proxy.getCurrentUserId()));
+            return ResponseEntity.ok(pomoService.start(proxy.getCurrentUser()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
