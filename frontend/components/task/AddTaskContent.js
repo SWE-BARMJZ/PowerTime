@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   VStack,
   Box,
@@ -21,8 +21,9 @@ import DaysSelector from "./DaysSelector";
 import CategorySelect from "./CategorySelect";
 import Toast from "react-native-toast-message";
 
+import AuthContext from "../../store/auth-context";
 import { TASK_API } from "../../api/task.api";
-
+import TaskContext from "../../store/task-context";
 
 const AddTaskContent = ({ onAdd, onClose }) => {
   const [name, setName] = useState("");
@@ -30,7 +31,47 @@ const AddTaskContent = ({ onAdd, onClose }) => {
   const [category, setCategory] = useState(null);
   const [selectedType, setSelectedType] = useState("One time");
   const [dueDate, setDueDate] = useState(null);
-  const [repeatOn, setRepeatOn] = useState(null);
+  const [repeatOn, setRepeatOn] = useState({});
+
+  const auth = useContext(AuthContext);
+  const cxt = useContext(TaskContext);
+
+  const addTask = async () => {
+    if (!validateInput()) return;
+
+    let task = {
+      taskName: name,
+      taskDesc: description,
+      category,
+    };
+
+    if (selectedType === "One time") {
+      task.dueDate = dueDate;
+    } else {
+      task = { ...task, ...repeatOn };
+    }
+    // for comptability with backend
+    const taskType = selectedType.replaceAll(" ", "").toLowerCase();
+
+    try {
+      const id = await TASK_API.createTask(task, taskType, auth.token);
+      Toast.show({
+        type: "success",
+        text1: "Task added successfully.",
+      });
+      cxt.addTask({ id, ...task });
+      console.log(cxt.categories);
+
+      onClose();
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error connecting with the server",
+        text2: error,
+      });
+      console.log(error);
+    }
+  };
 
   const validateInput = () => {
     if (name.trim().length === 0) {
@@ -50,38 +91,6 @@ const AddTaskContent = ({ onAdd, onClose }) => {
     }
 
     return true;
-  };
-
-  const addTask = async () => {
-    if (!validateInput()) return;
-
-    const task = {
-      name,
-      description,
-      category,
-    };
-
-    if (selectedType === "One time") {
-      task.dueDate = dueDate;
-    } else {
-      task.repeatOn = repeatOn;
-    }
-
-    console.log(task)
-
-    try {
-      await TASK_API.createTask(task);
-      Toast.show({
-        type: "success",
-        text1: "Task added successfully.",
-      });
-    } catch (error) {
-      Toast.show({
-        type: "error",
-        text1: "Error connecting with the server",
-        text2: error,
-      });
-    }
   };
 
   return (

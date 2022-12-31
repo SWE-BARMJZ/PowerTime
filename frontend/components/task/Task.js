@@ -20,6 +20,7 @@ const Task = (props) => {
     onTaskCompletion(data.id);
   };
 
+
   const removeTaskHandler = () => {
     onTaskRemoval(data.id);
   };
@@ -58,7 +59,7 @@ const Task = (props) => {
           />
           <Pressable onPress={viewTaskDetails} flex={1}>
             <SingleLineText fontSize="md" strikeThrough={isDone}>
-              {data.label}
+              {data.taskName}
             </SingleLineText>
           </Pressable>
         </HStack>

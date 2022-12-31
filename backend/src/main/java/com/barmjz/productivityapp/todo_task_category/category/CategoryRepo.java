@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,8 +19,9 @@ public interface CategoryRepo extends JpaRepository<Category, Long> {
 
     Optional<List<Category>> getCategoryByUserId(long userId);
 
-    @Modifying
-    @Query("UPDATE Category SET category_name = ?1 WHERE id = ?2")
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query("UPDATE Category c SET c.category_name = ?1 WHERE c.id = ?2")
     void renameCategory(String categoryName, long id);
 
 }

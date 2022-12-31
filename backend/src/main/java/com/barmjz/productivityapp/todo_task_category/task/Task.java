@@ -19,8 +19,8 @@ public class Task extends AbstractTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
-    @JsonIgnore
     private Date creationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
