@@ -27,7 +27,7 @@ public class PomodoroService {
                 pSession.setStartTime(System.currentTimeMillis()/1000);
                 pomoRepo.save(pSession);
                 return pSession;
-                //session ended
+            //session ended
             }else{
                 if (pSession.isStudying())
                     return endStudyUpdate(pSession);
@@ -40,7 +40,6 @@ public class PomodoroService {
         return p;
     }
 
-
     private Pomodoro createPomo(int studytime, int breakTime, User user) {
         Pomodoro p = Pomodoro
                 .builder()
@@ -52,7 +51,7 @@ public class PomodoroService {
         return p;
     }
 
-    public String startStudy(User currentUser) {
+    public String start(User currentUser) {
         Pomodoro deletedPomodoro = pomoRepo.getPomodoroByUserId(currentUser.getId());
         pomoRepo.deleteById(deletedPomodoro.getId());
         PomodoroSession p = initSession(deletedPomodoro,currentUser);
@@ -73,14 +72,6 @@ public class PomodoroService {
                 .build();
     }
 
-    public String startBreak(Long userId) {
-        PomodoroSession p = (PomodoroSession) pomoRepo.getPomodoroByUserId(userId);
-        p.setStudying(false);
-        p.setStartTime(System.currentTimeMillis()/1000);
-        p.setRemainingTimeInSecs(p.breakTime*60L);
-        pomoRepo.save(p);
-        return "Pomodoro Break Started";
-    }
 
     public String pause(Long remainingTime, Long userId) {
         PomodoroSession p = (PomodoroSession) pomoRepo.getPomodoroByUserId(userId);
@@ -114,12 +105,13 @@ public class PomodoroService {
     }
 
     public String set(int newStudyTime, int newBreakTime,Long userId) {
-        PomodoroSession p = (PomodoroSession) pomoRepo.getPomodoroByUserId(userId);
+        Pomodoro p = pomoRepo.getPomodoroByUserId(userId);
         p.setStudyTime(newStudyTime);
         p.setBreakTime(newBreakTime);
         pomoRepo.save(p);
         return "Pomodoro Set";
     }
+
     public String reset(User currentUser){
         Pomodoro deletedSession =  pomoRepo.getPomodoroByUserId(currentUser.getId());
         resetUpdate(deletedSession);

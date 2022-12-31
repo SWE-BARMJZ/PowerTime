@@ -43,9 +43,11 @@ export const Pomodoro = ({ navigation }) => {
    const [backgroundMusic, setBackgroundMusic] = useState()
    const timerRef = useRef()
 
-
    useEffect(() => {
-        const getPomodoro = async () => {
+        getPomodoro()
+   }, []);
+
+   const getPomodoro = async () => {
             const pomodoro = await api.getPomodoro(auth.token)
             console.log(pomodoro)
             if ('studying' in pomodoro) {
@@ -61,8 +63,6 @@ export const Pomodoro = ({ navigation }) => {
             }
             setIsLoaded(true)
         } 
-        getPomodoro()
-   }, []);
 
 
    const playHandler = async () =>  {
@@ -102,9 +102,10 @@ export const Pomodoro = ({ navigation }) => {
                 console.log('reset pomodoro')
             }
             setIsReplayed(true)
-            await api.getPomodoro()
+            console.log('new Durations ' + array)
             await api.setPomodoro(auth.token, array[0], array[1])
             console.log('set pomodoro')
+            window.location.reload();
         }
         catch(error) {
             console.log(error.message)

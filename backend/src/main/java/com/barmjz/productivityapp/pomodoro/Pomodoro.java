@@ -1,14 +1,10 @@
 package com.barmjz.productivityapp.pomodoro;
 
-
 import com.barmjz.productivityapp.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -18,12 +14,12 @@ import org.hibernate.annotations.ColumnDefault;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-
+@ToString
 public class Pomodoro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Exclude
-    protected Long id;
+    Long id;
 
     @Column(nullable = false)
     int studyTime;
@@ -36,5 +32,15 @@ public class Pomodoro {
             referencedColumnName = "id"
     )
     @JsonIgnore
-    protected User user;
+    User user;
+
+    Pomodoro copy() {
+        return Pomodoro
+                .builder()
+                .studyTime(studyTime)
+                .breakTime(breakTime)
+                .user(user)
+                .id(id)
+                .build();
+    }
 }
