@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/pomo")
 @AllArgsConstructor
+@CrossOrigin
 public class PomodoroController {
     private final PomodoroService pomoService;
 
@@ -42,8 +43,12 @@ public class PomodoroController {
     @PostMapping("{remainingTime}/pause")
     public ResponseEntity<String> pause(@PathVariable Long remainingTime) {
         try {
-            return ResponseEntity.ok(pomoService.pause(remainingTime));
+            System.out.println("remaining time: " + remainingTime);
+            String s = pomoService.pause(remainingTime);
+            System.out.println(s);
+            return ResponseEntity.ok(s);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }

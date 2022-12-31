@@ -55,12 +55,12 @@ export const Pomodoro = ({ navigation }) => {
                 setArray([pomodoro.studyTime, pomodoro.endTime])
         } 
         getPomodoro()
-   }, [isPaused, timeRemaining]);
+   }, [isPaused]);
 
 
    const playHandler = async () =>  {
         try {
-            if (timeRemaining == arr[index]) {
+            if (timeRemaining == array[index]) {
                 if (index == 0)
                     await api.startStudy(auth.token)
                 else 

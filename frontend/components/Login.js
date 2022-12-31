@@ -32,7 +32,7 @@ export const Login = ({ navigation }) => {
       const token = await response.text();
       auth.login(token);
       console.log(token)
-      navigation.navigate("Notes");
+      navigation.navigate("Pomodoro");
     } catch (error) {
       toast.show({
         title: error.message,
