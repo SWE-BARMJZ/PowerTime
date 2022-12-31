@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Text,
   Box,
@@ -13,30 +13,43 @@ import {
   Modal,
   Button,
 } from "native-base";
-import FormInput from "../UI/FormInput";
+import FormInput from "../../UI/FormInput";
 import { MaterialIcons } from "@expo/vector-icons";
-import Task from "./Task";
-import SingleLineText from "../UI/SingleLineText";
+import Task from "../task/Task";
+import SingleLineText from "../../UI/SingleLineText";
+import AuthContext from "../../store/auth-context";
+import TaskContext from "../../store/task-context";
 
 const color = "black";
 const bgColor = "dark.600";
 
 const MindMapCategory = (props) => {
+  const cxt = useContext(TaskContext);
+  const auth = useContext(AuthContext);
+
   const {
-    data: { id, name, tasks },
-    onTaskDeletion,
-    onTaskCompletion,
-    onTaskMoveToTodo,
-    onCategoryRename,
-    onCategoryDelete,
+    data: { id, category_name, tasks },
+    editable,
   } = props;
+
+  const deleteTask = (taskId) => {
+    cxt.deleteTask(taskId, auth.token);
+  };
+
+  const tickTask = (taskId) => {
+    cxt.tickTask(taskId, auth.token);
+  };
 
   const [newCategoryName, setNewCategoryName] = useState("");
   const renameCategory = () => {
-    onCategoryRename(id, newCategoryName);
+    cxt.renameCategory(id, newCategoryName, auth.token);
   };
   const deleteCategoryHandler = () => {
-    onCategoryDelete(id);
+    cxt.deleteCategory(id, auth.token);
+  };
+
+  const addToTodo = (taskId) => {
+    cxt.addToTodo(taskId, auth.token);
   };
 
   const [isTasksShowing, setIsTasksShowing] = useState(true);
@@ -64,43 +77,45 @@ const MindMapCategory = (props) => {
                     <ChevronRightIcon color={color} size={4} />
                   )}
                   <SingleLineText color={color} fontSize={18} bold flex={1}>
-                    {name}
+                    {category_name}
                   </SingleLineText>
                 </HStack>
               </Pressable>
             </Box>
 
-            <Menu
-              w="200"
-              trigger={(triggerProps) => (
-                <IconButton
-                  h="10"
-                  w="10"
-                  icon={
-                    <Icon as={MaterialIcons} name="more-vert" color={color} />
-                  }
-                  alignItems="center"
-                  {...triggerProps}
-                />
-              )}
-            >
-              <Menu.Item onPress={() => setIsModalShowing(true)}>
-                Edit
-              </Menu.Item>
-              <Menu.Item onPress={deleteCategoryHandler}>Delete</Menu.Item>
-            </Menu>
+            {editable && (
+              <Menu
+                w="200"
+                trigger={(triggerProps) => (
+                  <IconButton
+                    h="10"
+                    w="10"
+                    icon={
+                      <Icon as={MaterialIcons} name="more-vert" color={color} />
+                    }
+                    alignItems="center"
+                    {...triggerProps}
+                  />
+                )}
+              >
+                <Menu.Item onPress={() => setIsModalShowing(true)}>
+                  Edit
+                </Menu.Item>
+                <Menu.Item onPress={deleteCategoryHandler}>Delete</Menu.Item>
+              </Menu>
+            )}
           </HStack>
 
           {isTasksShowing &&
             tasks.map((task) => (
-              <HStack bgColor={"blue.200"} key={task.id}>
+              <HStack key={task.id}>
                 <Task
                   flex={1}
                   data={task}
-                  onTaskRemoval={onTaskDeletion}
-                  onTaskCompletion={onTaskCompletion}
+                  onTaskRemoval={deleteTask}
+                  onTaskCompletion={tickTask}
                 />
-                <Button onPress={() => onTaskMoveToTodo(task.id)}>Todo</Button>
+                <Button onPress={() => addToTodo(task.id)}>Todo</Button>
               </HStack>
             ))}
         </VStack>

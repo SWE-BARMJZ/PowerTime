@@ -4,8 +4,8 @@ import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { respLgFont,respLgContHeight } from "./CurrentFolderContainer";
-
-import AuthContext from "../../../store/auth-context";
+import { starNote } from "../../api/notes.api";
+import AuthContext from "../../store/auth-context";
 
 
 
@@ -33,22 +33,30 @@ import {
 
 
   export const NoteEditor = ({
-    folders, note, onEdit, onDelete, onStar
+    folders, note, onEdit, onDelete, onMove, onStar
   }) => {
 
     const auth = useContext(AuthContext)
     const toast = useToast()
-    
     const [titleText, setTitleText] = useState("")
     const [contentText, setContentText] = useState("")
-    const [starred, setStarred] = useState(note.starred)                 
-
+    const [starred, setStarred] = useState(note.starred)   
     
+    useEffect( () => {
+        setStarred(note.starred)
+    }, [note])
 
     useEffect( () => {
         setTitleText(note.title)
         setContentText(note.content)
     }, [note])
+
+    const alterStar = async (id) => {
+        setStarred(!starred)
+        onStar(id)
+        const res = await starNote(id, auth.token)
+        const data = await res.text()
+      }
 
     return (
         <VStack flex={3}>
@@ -67,7 +75,6 @@ import {
                     <HStack w = "200" alignItems="center" justifyContent="space-between" mr="2%" h="full">
                         <IconButton
                             onPress={() => {
-                                setStarred(!starred)
                                 onEdit(note, titleText, contentText)
                             }}
                             icon={<FontAwesome name="save" size={30} color="#5BBA59" />} />
@@ -78,14 +85,14 @@ import {
                         />
                         }}>
                             <FlatList data={folders} renderItem={({item}) => 
-                                <Menu.Item>
+                                <Menu.Item  onPress={() => onMove(item.id, note.id)}>
                                     {item.name}
                                 </Menu.Item>} keyExtractor={item => item.id} />
                         </Menu>
                 
                         <IconButton
-                            onPress={() => onStar(note.id)}
-                            icon={<Entypo name={ note.starred ? "star" : "star-outlined"} size={30} color="#D7BE69" />} />
+                            onPress={() => alterStar(note.id)}
+                            icon={<Entypo name={ starred ? "star" : "star-outlined"} size={30} color="#D7BE69" />} />
                         <IconButton 
                             onPress={() => onDelete(note.id)}
                             icon={<AntDesign name="delete" size={30} color="#FF5959" />} />
@@ -95,7 +102,6 @@ import {
                     <HStack w = "70" alignItems="center" justifyContent="center" mr="2%" pr="3%">
                     <IconButton
                             onPress={() => {
-                                setStarred(!starred)
                                 onEdit(note, titleText, contentText)
                             }}
                             icon={<FontAwesome name="save" size={30} color="#5BBA59" />} />
@@ -106,7 +112,7 @@ import {
                                 accessibilityLabel="More options menu" {...triggerProps}
                         />
                         }}>
-                            <Menu.Item onPress={() => onStar(note.id)}>{note.starred ? 'Unstar Note' : 'Star Note' } </Menu.Item>
+                            <Menu.Item onPress={() => alterStar(note.id)}>{starred ? 'Unstar Note' : 'Star Note' } </Menu.Item>
                             <Menu.Item onPress={() => onDelete(note.id)}>Delete Note</Menu.Item>
                             <Menu w="190" trigger={triggerProps => {
                             return <Pressable
@@ -120,7 +126,7 @@ import {
                         }}>
             
                             <FlatList data={folders} renderItem={({item}) => 
-                                <Menu.Item>
+                                <Menu.Item  onPress={() => onMove(item.id, note.id)}>
                                     {item.name}
                                 </Menu.Item>} keyExtractor={item => item.id} />
                             </Menu>

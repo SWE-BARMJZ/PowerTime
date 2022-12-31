@@ -11,31 +11,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoryService {
 
-    private final Authentication userAuthentication;
     private final CategoryRepo categoryRepo;
 
     private final UserRepo userRepo;
 
     @Autowired
     public CategoryService(CategoryRepo categoryRepo, UserRepo userRepo) {
-        this.userAuthentication = SecurityContextHolder.getContext().getAuthentication();
         this.categoryRepo = categoryRepo;
         this.userRepo = userRepo;
     }
 
     public Long createCategory(Category category){
-        User user = userRepo.getUserByEmail(userAuthentication.getName()).orElse(null);
-        category.setUser(user);
-        if (categoryRepo.findAll().contains(category))
-            return -1L;
-        else
-            categoryRepo.save(category);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepo.getUserByEmail(auth.getName()).orElseThrow();
 
-        return categoryRepo
-                .getCategoryByCategoryNameAndUser(category.getCategory_name(), user)
-                .get()
-                .getId();
+        boolean nameAlreadyExists = categoryRepo.getCategoryByCategoryNameAndUser(category.getCategory_name(), user).isPresent();
+        if (nameAlreadyExists)
+            throw new IllegalArgumentException("A Category with the same name already exists");
+
+        category.setUser(user);
+        categoryRepo.save(category);
+
+        return category.getId();
     }
+
     public String editCategory(long categoryId, String category){
         categoryRepo.renameCategory(category, categoryId);
         return "Edited";

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/category")
+@CrossOrigin
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -29,8 +30,6 @@ public class CategoryController {
 
     @DeleteMapping("/{categoryId}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId) {
-        // what is the deletion responsibility ??
-        // on deleting cascade
         try {
             return  ResponseEntity.ok(categoryService.deleteCategory(categoryId));
         } catch (Exception e) {
