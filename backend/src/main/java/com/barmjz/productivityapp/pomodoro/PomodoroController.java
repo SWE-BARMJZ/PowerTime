@@ -1,5 +1,6 @@
 package com.barmjz.productivityapp.pomodoro;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/pomo")
 @AllArgsConstructor
+@CrossOrigin
 public class PomodoroController {
     private final PomodoroService pomoService;
     private final PomodoroUserProxy proxy;
@@ -14,8 +16,10 @@ public class PomodoroController {
     @GetMapping("/")
     public ResponseEntity<Pomodoro> get() {
         try {
+            System.out.println("Get pomo called");
             return ResponseEntity.ok(pomoService.get(proxy.getCurrentUser()));
         } catch (Exception e) {
+            System.out.println("----" + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
@@ -34,6 +38,7 @@ public class PomodoroController {
         try {
             return ResponseEntity.ok(pomoService.pause(remainingTime,proxy.getCurrentUserId()));
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
