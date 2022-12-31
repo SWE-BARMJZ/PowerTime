@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Text,
-  HStack,
-  Box,
-  Pressable,
-  Center,
-} from "native-base";
+import { Text, HStack, Box, Pressable, Center } from "native-base";
 
 const DaysSelector = ({ onStateChange }) => {
   const [selectedDays, setSelectedDays] = useState(new Set());
@@ -28,7 +22,12 @@ const DaysSelector = ({ onStateChange }) => {
       updatedSet.add(day);
     }
 
-    onStateChange(Array.from(updatedSet));
+    const repeatOn = {};
+    updatedSet.forEach((day) => {
+      day = day.toLowerCase();
+      repeatOn[day] = true;
+    });
+    onStateChange(repeatOn);
     setSelectedDays(updatedSet);
   };
 

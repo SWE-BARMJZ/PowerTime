@@ -198,6 +198,10 @@ class TaskServiceTest {
         // given
         User user = new User("basel20ahmed@gmail.com", "Abbdjhd_1099", "Basel", "Ahmed");
         Category category = new Category("Projects", user);
+//        TaskCreationDTO taskCreationDTO = TaskCreationDTO.builder()
+//                .taskName("Milestone 2 SWE")
+//                .dueDate(Date.valueOf("2022-12-21"))
+
         OneTimeTask task = OneTimeTask.builder()
                 .taskName("Milestone 2 SWE")
                 .dueDate(Date.valueOf("2022-12-21"))
@@ -211,7 +215,7 @@ class TaskServiceTest {
         given(oneTimeTaskRepo.getByCreationDate(task.getCreationDate())).willReturn(optionalObject);
 
         // when
-        taskService.createTask(task, "onetime");
+//        taskService.createTask(task, "onetime");
 
         // then
         ArgumentCaptor<OneTimeTask> argumentCaptor = ArgumentCaptor.forClass(OneTimeTask.class);

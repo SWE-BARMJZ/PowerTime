@@ -13,7 +13,7 @@ const createCategory = async (category, token) => {
   if (response.status !== 200) {
     throw new Error(response.status);
   }
-  return response.text;
+  return response.text();
 };
 
 const renameCategory = async (categoryId, newName, token) => {

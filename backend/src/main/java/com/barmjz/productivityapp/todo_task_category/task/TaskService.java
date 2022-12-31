@@ -1,9 +1,10 @@
 package com.barmjz.productivityapp.todo_task_category.task;
 import com.barmjz.productivityapp.todo_task_category.category.Category;
+import com.barmjz.productivityapp.todo_task_category.category.CategoryDTO;
 import com.barmjz.productivityapp.todo_task_category.category.CategoryRepo;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
-import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,13 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
-    private final Authentication userAuthentication;
 
     private final UserRepo userRepo;
 
@@ -29,7 +28,6 @@ public class TaskService {
 
     @Autowired
     public TaskService(UserRepo userRepo, CategoryRepo categoryRepo, OneTimeTaskRepo oneTimeTaskRepo, RepeatedTaskRepo repeatedTaskRepo) {
-        this.userAuthentication = SecurityContextHolder.getContext().getAuthentication();
         this.userRepo = userRepo;
         this.categoryRepo = categoryRepo;
         this.oneTimeTaskRepo = oneTimeTaskRepo;
@@ -64,18 +62,38 @@ public class TaskService {
             repeatedTaskRepo.deleteById(taskId);
     }
 
-    public Task createTask(Object task, String taskType){
-        Task newTask;
-        if (taskType.equals("onetime")) {
-            OneTimeTask parsedOnetimeTask = (OneTimeTask) task;
-            oneTimeTaskRepo.save((OneTimeTask) task);
-            newTask = oneTimeTaskRepo.getByCreationDate(parsedOnetimeTask.getCreationDate()).orElse(null);
-        } else {
-            repeatedTaskRepo.save((RepeatedTask) task);
-            RepeatedTask parsedOnetimeTask = (RepeatedTask) task;
-            newTask = repeatedTaskRepo.getByCreationDate(parsedOnetimeTask.getCreationDate()).orElse(null);
+    public Long createOneTimeTask(TaskCreationDTO taskCreationDTO) {
+        ModelMapper modelMapper = new ModelMapper();
+        OneTimeTask task = modelMapper.map(taskCreationDTO, OneTimeTask.class);
+        initCreatedTaskFromDTO(task, taskCreationDTO);
+        oneTimeTaskRepo.save(task);
+        return task.getId();
+    }
+
+    public Long createRepeatedTask(TaskCreationDTO taskCreationDTO) {
+        ModelMapper modelMapper = new ModelMapper();
+        RepeatedTask task = modelMapper.map(taskCreationDTO, RepeatedTask.class);
+        initCreatedTaskFromDTO(task, taskCreationDTO);
+        repeatedTaskRepo.save(task);
+        return task.getId();
+    }
+
+    private void initCreatedTaskFromDTO(Task task, TaskCreationDTO taskCreationDTO) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = userRepo
+                .getUserByEmail(auth.getName()).orElseThrow();
+        task.setUser(currentUser);
+
+        Date now = new Date();
+        task.setCreationDate(now);
+
+        if (taskCreationDTO.getCategory() != null) {
+            String categoryName = taskCreationDTO.getCategory().getCategory_name();
+            Category category = categoryRepo
+                    .getCategoryByCategoryNameAndUser(categoryName, currentUser)
+                    .orElseThrow();
+            task.setCategory(category);
         }
-        return newTask;
     }
 
     public Task tickTask(Long taskId, Long date, String taskType){
@@ -130,27 +148,23 @@ public class TaskService {
         return new ArrayList<>(completedOneTimeTasks);
     }
 
+    public List<Task> getAllTasks() {
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userRepo.getUserByEmail(userEmail).orElseThrow();
+        Long userId = currentUser.getId();
 
-    public List<CategoryPair> getCategorizedTasks(){
-        String user = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<CategoryPair> categoryTaskPairs = new ArrayList<>();
-        List<Category> categories = categoryRepo
-                .getCategoryByUserId(
-                        userRepo.getUserByEmail(user)
-                                .get()
-                                .getId())
-                .get();
-        List<Task> categoryTasks = new ArrayList<>();
-        for (Category category: categories){
-            categoryTasks.addAll(oneTimeTaskRepo
-                    .getAllByCategory(category)
-                    .get());
-            categoryTasks.addAll(repeatedTaskRepo
-                    .getAllByCategory(category)
-                    .get());
-            categoryTaskPairs.add(new CategoryPair(category.getId(), category.getCategory_name(), categoryTasks));
-        }
-        return categoryTaskPairs;
+        List<OneTimeTask> oneTimeTasks = oneTimeTaskRepo
+                .getAllByUserId(userId)
+                .orElseGet(ArrayList::new);
+        List<RepeatedTask> repeatedTasks = repeatedTaskRepo
+                .getAllByUserId(userId)
+                .orElseGet(ArrayList::new);
+
+        List<Task> tasks = new ArrayList<>();
+        tasks.addAll(oneTimeTasks);
+        tasks.addAll(repeatedTasks);
+
+        return tasks;
     }
 
 }

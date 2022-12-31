@@ -21,6 +21,7 @@ public class OneTimeTask extends Task {
     @ColumnDefault("null")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Date completionDate;
+
     @Column(nullable = false)
     @ColumnDefault("false")
     @JsonIgnore

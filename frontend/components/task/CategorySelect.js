@@ -1,18 +1,24 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { FormControl, Input, AddIcon } from "native-base";
 import { Select, SelectItem } from "@ui-kitten/components";
-import { CATEGORY_API } from "../../api/category.api";
+import TaskContext from "../../store/task-context";
+import AuthContext from "../../store/auth-context";
 
 const CategorySelect = ({ onSelect }) => {
-  const [categories, setCategories] = useState([]);
   const fetchCategories = async () => {};
+
+  const auth = useContext(AuthContext);
+  const cxt = useContext(TaskContext);
+  const categories = cxt.categories;
 
   useEffect(() => {
     fetchCategories();
   }, []);
 
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const selectedCategory = selectedIndex ? categories[selectedIndex.row] : null;
+  const selectedCategory = selectedIndex
+    ? categories[selectedIndex.row]["category_name"]
+    : null;
 
   const [isInputShowing, setIsInputShowing] = useState(false);
   const [NewCategoryName, setNewCategoryName] = useState("");
@@ -30,8 +36,7 @@ const CategorySelect = ({ onSelect }) => {
     const alreadyExists = categories.find((item) => item === NewCategoryName);
 
     if (nonEmpty && !alreadyExists) {
-      setCategories((current) => [...current, NewCategoryName]);
-      // add category api
+      cxt.addCategory({ category_name: NewCategoryName, tasks: [] }, auth.token);
     }
     setIsInputShowing(false);
     setNewCategoryName("");
@@ -47,7 +52,7 @@ const CategorySelect = ({ onSelect }) => {
         onSelect={selectCategory}
       >
         {categories.map((category) => (
-          <SelectItem title={category} key={category} />
+          <SelectItem title={category["category_name"]} key={category.id} />
         ))}
         {isInputShowing && (
           <Input

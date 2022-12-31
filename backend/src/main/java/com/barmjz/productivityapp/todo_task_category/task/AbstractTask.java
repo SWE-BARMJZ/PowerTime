@@ -15,7 +15,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @MappedSuperclass
 public abstract class AbstractTask {
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String taskName;
+
     private String taskDesc;
 }

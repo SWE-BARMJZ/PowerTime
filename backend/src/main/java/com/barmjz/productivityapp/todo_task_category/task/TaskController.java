@@ -1,11 +1,14 @@
 package com.barmjz.productivityapp.todo_task_category.task;
 
+import com.barmjz.productivityapp.todo_task_category.category.Category;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/task")
@@ -15,13 +18,14 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping("/")
-    public ResponseEntity<List<CategoryPair>> getCategorizedTasks() {
+    public ResponseEntity<List<Task>> getAllTasks() {
         try {
-            return ResponseEntity.ok(taskService.getCategorizedTasks());
+            return ResponseEntity.ok(taskService.getAllTasks());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
+
     @GetMapping("/{taskId}")
     public ResponseEntity<Task> getTask(@PathVariable Long taskId) {
         try {
@@ -47,13 +51,18 @@ public class TaskController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Task> createTask(@RequestBody Object task, @RequestParam String taskType) {
+    public ResponseEntity<Long> createTask(@RequestBody TaskCreationDTO taskDTO, @RequestParam String taskType) {
         try {
-            return ResponseEntity.ok(taskService.createTask(task, taskType));
+            Long createdTaskId = taskType.equals("onetime")
+                    ? taskService.createOneTimeTask(taskDTO)
+                    : taskService.createRepeatedTask(taskDTO);
+
+            return ResponseEntity.ok(createdTaskId);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
+
     @PutMapping("/{taskId}/tick")
     public ResponseEntity<Task> tickTask(@PathVariable Long taskId, @RequestParam Long date, @RequestParam String taskType){
         try {
