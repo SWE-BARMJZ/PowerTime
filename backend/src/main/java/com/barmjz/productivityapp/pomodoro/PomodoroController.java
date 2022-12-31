@@ -9,29 +9,21 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class PomodoroController {
     private final PomodoroService pomoService;
+    private final PomodoroUserProxy proxy;
 
     @GetMapping("/")
     public ResponseEntity<Pomodoro> get() {
         try {
-            return ResponseEntity.ok(pomoService.get());
+            return ResponseEntity.ok(pomoService.get(proxy.getCurrentUser()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> startStudy() {
+    public ResponseEntity<String> start() {
         try {
-            return ResponseEntity.ok(pomoService.startStudy());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-    }
-
-    @PostMapping("/break")
-    public ResponseEntity<String> startBreak() {
-        try {
-            return ResponseEntity.ok(pomoService.startBreak());
+            return ResponseEntity.ok(pomoService.start(proxy.getCurrentUser()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -40,7 +32,7 @@ public class PomodoroController {
     @PostMapping("{remainingTime}/pause")
     public ResponseEntity<String> pause(@PathVariable Long remainingTime) {
         try {
-            return ResponseEntity.ok(pomoService.pause(remainingTime));
+            return ResponseEntity.ok(pomoService.pause(remainingTime,proxy.getCurrentUserId()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -49,16 +41,16 @@ public class PomodoroController {
     @PostMapping("/resume")
     public ResponseEntity<String> resume() {
         try {
-            return ResponseEntity.ok(pomoService.resume());
+            return ResponseEntity.ok(pomoService.resume(proxy.getCurrentUserId()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
     @PostMapping("/endStudy")
-    public ResponseEntity<String> end() {
+    public ResponseEntity<String> endStudy() {
         try {
-            return ResponseEntity.ok(pomoService.endStudy());
+            return ResponseEntity.ok(pomoService.endStudy(proxy.getCurrentUserId()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -67,7 +59,7 @@ public class PomodoroController {
     @PutMapping("/{studyTime}/{breakTime}")
     public ResponseEntity<String> set(@PathVariable int studyTime,@PathVariable int breakTime) {
         try {
-            return ResponseEntity.ok(pomoService.set(studyTime,breakTime));
+            return ResponseEntity.ok(pomoService.set(studyTime,breakTime,proxy.getCurrentUserId()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -76,7 +68,7 @@ public class PomodoroController {
     @PostMapping("/reset")
     public ResponseEntity<String> reset() {
         try {
-            return ResponseEntity.ok(pomoService.reset());
+            return ResponseEntity.ok(pomoService.reset(proxy.getCurrentUser()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
