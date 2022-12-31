@@ -1,13 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
 import { FoldersContainer } from "./FoldersContainer";
 import { CurrentFolderContainer } from "./CurrentFolderContainer";
-import { createFolder } from "../../api/notes.api";
+
 import AuthContext from "../../store/auth-context";
 import { getFolders } from "../../api/notes.api";
+import { createFolder } from "../../api/notes.api";
 import { renameFolder } from "../../api/notes.api";
 import { NavigationButton } from "../../UI/NavigationButton";
 import { deleteFolder } from "../../api/notes.api";
-
 
 import {
     Button,
@@ -56,8 +56,14 @@ import {
     }
 
 
-    const [selectedFolder, setSelectedFolder] = useState(null)
-    
+  useEffect(() => {
+    const getFolders = async () => {
+      const foldersFromServer = await loadFolders();
+      setFolders(foldersFromServer);
+    };
+
+    getFolders();
+  }, []);
 
     const deleteFolderCascade = async (id) => {
       try{
@@ -76,60 +82,67 @@ import {
       
     }
 
-    const editFolder = async (id, newName) => {
-      try{
-        const res = await renameFolder(id, newName, auth.token)
-        const data = await res.text()
-        console.log(data)
-        setFolders(folders.map((folder) => folder.id === id ? {...folder, name: newName} : folder) )
-      }
-      catch(error){
-        toast.show({
-          title: error.message,
-          placement: "top",
-        });
-      }
+
+    return data;
+  };
+
+  const [selectedFolder, setSelectedFolder] = useState(null);
+
+  const deleteFolder = (id) => {
+    setFolders(folders.filter((folder) => folder.id !== id));
+    setSelectedFolder(null);
+    console.log("Deleted Folder with ID: ", id);
+  };
+
+  const editFolder = async (id, newName) => {
+    try {
+      const res = await renameFolder(id, newName, auth.token);
+      const data = await res.text();
+      console.log(data);
+      setFolders(
+        folders.map((folder) =>
+          folder.id === id ? { ...folder, name: newName } : folder
+        )
+      );
+    } catch (error) {
+      toast.show({
+        title: error.message,
+        placement: "top",
+      });
     }
+  };
 
-    const addFolder = async (name) => {
-  
-      try{
-        const res = await createFolder(name, auth.token)
-        const newFolder = await res.json()
-        console.log(newFolder)
-        setFolders([...folders, newFolder])
-      }
-      catch(error){
-        toast.show({
-          title: error.message,
-          placement: "top",
-        });
-      }
-      
+  const addFolder = async (name) => {
+    try {
+      const res = await createFolder(name, auth.token);
+      const newFolder = await res.json();
+      console.log(newFolder);
+      setFolders([...folders, newFolder]);
+    } catch (error) {
+      toast.show({
+        title: error.message,
+        placement: "top",
+      });
     }
+  };
 
-    const selectFolder = (folder) => {
-      setSelectedFolder(folder)
-      console.log("Selected Folder with ID: ", folder.id)
-    }
+  const selectFolder = (folder) => {
+    setSelectedFolder(folder);
+    console.log("Selected Folder with ID: ", folder.id);
+  };
 
-    const navigateToFolders = () => {
-      setSelectedFolder(null)
-    }
+  const navigateToFolders = () => {
+    setSelectedFolder(null);
+  };
 
-
-    
-
-    return (
-      <Box safeArea flex={1} p={2}>
-        <HStack space={2} ml={2} alignItems="center">
-          <NavigationButton />
-          <Heading>Notes</Heading>
-        </HStack>
-        <HStack safeArea h="full" justifyContent="center" bg="primary.bg">
-          {
-          selectedFolder 
-          ?
+  return (
+    <Box safeArea flex={1} bg={"primary.bg"} >
+      <HStack ml="5" space={2} alignItems="center">
+        <NavigationButton />
+        <Heading size={"lg"}>Notes</Heading>
+      </HStack>
+      <HStack flex={1} justifyContent="center">
+        {selectedFolder ? (
           <>
           <Hidden from='base' till='md'>
             <FoldersCont/>
@@ -139,18 +152,19 @@ import {
           folders={folders}
           onDelete = {deleteFolderCascade}
           onBack = {navigateToFolders}/>
+
           </>
-          :
+        ) : (
           <>
-          <FoldersCont/>
-          <Hidden from='base' till='md'>
-            <HStack flex={2}>
-              <VStack h="full"/>
-            </HStack>
-          </Hidden>
+            <FoldersCont />
+            <Hidden from="base" till="md">
+              <HStack flex={2}>
+                <VStack h="full" />
+              </HStack>
+            </Hidden>
           </>
-          }  
-        </HStack>
-      </Box>
-    );
-  };
+        )}
+      </HStack>
+    </Box>
+  );
+};

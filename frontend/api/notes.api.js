@@ -28,6 +28,20 @@ export const getFolders = async (token) => {
     return response;
   };
 
+  export const getStarredNotes = async (token) => {
+    const url = `${BACKEND_URL}/note/getStarredNotes`;
+  
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  
+    if (response.status !== 200) {
+      throw new Error(response.status);
+    }
+    return response;
+  };
+
   export const createNote = async (folderId, noteTitle, token) => {
     const url = `${BACKEND_URL}/note/create?folderId=${folderId}&noteTitle=${noteTitle}`;
 
@@ -123,21 +137,24 @@ export const getFolders = async (token) => {
       return response;
   }
 
-  export const editNote = async (note, folderId, token) => {
-    const url = `${BACKEND_URL}/note/modify?folderId=${folderId}`;
+  export const editNote = async (noteId, title, content, token) => {
+    const url = `${BACKEND_URL}/note/modify?noteId=${noteId}`;
 
-    console.log("Note", note)
+    const stringBody = {
+      title: `${title}`,
+      content: `${content}`
+    }
 
     const response = await fetch(url, {
         method: "PUT",
         headers: { "Content-type": "application/json", Authorization: `Bearer ${token}` },
-        body: note,
+        body: JSON.stringify(stringBody),
       }).catch((error) => {
         throw new Error("Problem connecting with the server!");
       });
 
       if (response.status !== 200) {
-        const message = "Folder has the same name as this";
+        const message = "I don't Know Yet";
         throw new Error(message);
       }
       

@@ -1,6 +1,9 @@
 import { extendTheme } from "native-base";
 
+
 const theme = extendTheme({
+
+  
 
   breakpoints: {
     base: 0,
@@ -10,17 +13,39 @@ const theme = extendTheme({
     xl: 1280,
   },
 
+  fonts: {
+    heading: "Montserrat",
+    body: "Montserrat",
+    mono: "Montserrat",
+  },
+
   colors: {
     primary: {
-      main: "#0068F9",
+      main: "#0c5ac7",
+      bg: "#F2F2F2",
+      darkerBg: "#E1E1E1",
+      evenDarkerBg: "#D6D6D6",
+      accent: "#031264",
       darkBlue: "#2C406E",
-      accent: "#4338ca",
       accentDark: "#312e81",
-      bg: "#dffaef",
+      loginBg: "#DFFAEF",
+      
     },
     secondary: "#5BBA59",
   },
   components: {
+    Heading: {
+      baseStyle: {_text: {fontFamily: "Montserrat"}},
+      defaultProps: {
+        fontFamily: "Montserrat"
+      },
+    },
+    Text: {
+      baseStyle: {_text: {fontFamily: "Montserrat"}},
+      defaultProps: {
+        fontFamily: "Montserrat"
+      },
+    },
     Link: {
       baseStyle: {
         _web: {
@@ -29,9 +54,10 @@ const theme = extendTheme({
       },
     },
     Button: {
-      baseStyle: { _text: { fontWeight: "bold" } },
+      baseStyle: { _text: { fontFamily: "Montserrat" } },
       defaultProps: {
         bgColor: "primary.main",
+        fontFamily: "Montserrat",
       },
     },
     Input: {
@@ -46,9 +72,11 @@ const theme = extendTheme({
             borderColor: "primary.main",
           },
         },
+        _text: { fontFamily: "Montserrat" }
       },
       defaultProps: {
         size: "lg",
+        fontFamily: "Montserrat",
       },
     },
     FormControlLabel: {

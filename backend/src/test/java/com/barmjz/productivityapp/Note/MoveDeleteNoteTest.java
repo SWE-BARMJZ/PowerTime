@@ -35,7 +35,7 @@ class MoveDeleteNoteTest {
 
     @BeforeEach
     void setUp() {
-        noteManager = new NoteManager(noteRepo, folderRepo);
+        noteManager = new NoteManager(noteRepo, folderRepo, userRepo);
         folderRepo.deleteAll();
         noteRepo.deleteAll();
         date = new Date();

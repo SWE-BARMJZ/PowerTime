@@ -1,9 +1,12 @@
 package com.barmjz.productivityapp.Note;
 
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,13 +29,13 @@ public class NoteController {
     }
 
     @PutMapping("/modify")
-    public ResponseEntity<Note> modifyNote(@RequestParam("folderId") Long folderId, @RequestBody String modifiedNote) {
+    public ResponseEntity<String> modifyNote(@RequestParam("noteId") Long noteId, @RequestBody ObjectNode objectNode) {
         try {
-            System.out.println(modifiedNote);
-//            return ResponseEntity.status(HttpStatus.OK).body(noteManager.modifyNote(modifiedNote, folderId));
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            String title = objectNode.get("title").asText();
+            String content = objectNode.get("content").asText();
+            return ResponseEntity.status(HttpStatus.OK).body(noteManager.modifyNote(noteId, title, content));
         } catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fuck");
         }
     }
 
@@ -55,8 +58,10 @@ public class NoteController {
     }
 
     @GetMapping("/getStarredNotes")
-    public ResponseEntity<List<Note>> getUserStarredNotes(@RequestParam("userId") Long userId) {
+    public ResponseEntity<List<Note>> getUserStarredNotes() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         try {
+            Long userId = noteManager.getUserId(currentUser.getName());
             return ResponseEntity.status(HttpStatus.OK).body(noteManager.getUserStarredNotes(userId));
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

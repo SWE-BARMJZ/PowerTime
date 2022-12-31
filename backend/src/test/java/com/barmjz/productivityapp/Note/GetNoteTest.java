@@ -33,7 +33,7 @@ class GetNoteTest {
 
     @BeforeEach
     void setUp() {
-        noteManager = new NoteManager(noteRepo, folderRepo);
+        noteManager = new NoteManager(noteRepo, folderRepo, userRepo);
         folderRepo.deleteAll();
         noteRepo.deleteAll();
         date = new Date();
@@ -102,7 +102,7 @@ class GetNoteTest {
         note2 = noteManager.createNote(folder2.getId(),"note2");
         note2.setContent("content2");
         noteManager.alterStar(note2.getId());
-        noteManager.modifyNote(note2, note2.getFolder().getId());
+        noteManager.modifyNote(note2.getId(), note2.getTitle(), note2.getContent());
         assertThat(note2.isStarred()).isTrue();
         assertThat(noteRepo.findById(note2.getId()).get().getContent()).isEqualTo("content2");
         List<Note> starredNotes = new ArrayList<>();

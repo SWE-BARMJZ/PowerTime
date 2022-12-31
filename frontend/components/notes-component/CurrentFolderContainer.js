@@ -5,7 +5,6 @@ import { Note } from "./Note";
 import { deleteNote, getNotes } from "../../api/notes.api";
 import AuthContext from "../../store/auth-context";
 import { createNote } from "../../api/notes.api";
-import { starNote } from "../../api/notes.api";
 import { editNote } from "../../api/notes.api";
 import { MoveNoteToFolder } from "../../api/notes.api";
 
@@ -44,18 +43,12 @@ export const respLgContHeight = {
 import {
     Button,
     Text,
-    Image,
-    Heading,
     HStack,
-    Link,
     Box,
     VStack,
     Hidden,
     useToast,
-    TextArea,
-    Icon,
     Flex,
-    Center,
     IconButton,
     FlatList,
     Modal,
@@ -64,7 +57,11 @@ import {
   } from "native-base";
 
 
-  export const CurrentFolderContainer = ({folder, folders,onDelete,onBack}) => {
+  export const CurrentFolderContainer = ({folder,
+     folders,
+      onDelete,
+      onBack,
+      iconsColor}) => {
     
     const auth = useContext(AuthContext)
     const toast = useToast()
@@ -101,26 +98,25 @@ import {
       console.log("Selected Note with ID: ", note.id)
     }
 
+    const starNote = (noteId) => {
+      setNotes(notes.map((item) => item.id === noteId ? {...item, starred: !item.starred, } : item) )
+    }
+
     const changeNote = async (note, newTitle, newContent) => {
       setNotes(notes.map((item) => item.id === note.id ? {...item, title: newTitle, content: newContent, } : item) )
 
+      try{
 
-      // try{
-      //   const newNote = note
-      //   newNote.title = newTitle
-      //   newNote.content = newContent
-
-      //   const res = await editNote(newNote, folder.id, auth.token)
-      //   const data = await res.json()
-      //   console.log("data:", data)
-      //   setNotes(notes.map((note) => note.id === id ? {...note, title: newTitle, content: newContent, } : note) )
-      // }
-      // catch(error){
-      //   toast.show({
-      //     title: error.message,
-      //     placement: "top",
-      //   });
-      // }
+        const res = await editNote(note.id, newTitle, newContent, auth.token)
+        const data = await res.text()
+        console.log("data:", data)
+      }
+      catch(error){
+        toast.show({
+          title: error.message,
+          placement: "top",
+        });
+      }
     }
 
     const MoveNote = async (newFolderId, noteId) => {
@@ -173,12 +169,6 @@ import {
       }
     }
 
-    const alterStar = async (id) => {
-      const res = await starNote(id, auth.token)
-      const data = await res.text()
-      setNotes(notes.map( (note) => note.id === id ? {...note, starred: !note.starred} : note ))
-      console.log(data)
-    }
 
     const backToFolders = () => {
       setSelectedNote(null)
@@ -207,7 +197,7 @@ import {
               <VStack w="50" justifyContent="center">
               <IconButton 
                 onPress={()=> setShowModal(true)}
-                icon={<Ionicons name="add-circle-sharp" size={30} color="#5BBA59" />} />
+                icon={<Ionicons name="add-circle-sharp" size={30} color={iconsColor} />} />
                 <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
                   <Modal.Content maxWidth="300px">
                     <Modal.CloseButton />
@@ -246,7 +236,7 @@ import {
                 <Note note={item} onSelect={selectNote}/>
               </Box>} keyExtractor={item => item.id} />
           <Hidden from="md">
-            <Button m="3" bgColor="#5BBA59" onPress={() => backToFolders()} size={"lg"}>
+            <Button m="3" onPress={() => backToFolders()} size={"lg"}>
               Back To folders
             </Button>
             <Button m="3" bgColor="#FF5959" onPress={() => onDelete(folder.id)} size={"lg"}>
@@ -264,6 +254,7 @@ import {
         onDelete={trashNote}
         onStar = {alterStar}
         onMove = {MoveNote}/> 
+
         :
         <VStack flex={3}>
             <HStack w="full"></HStack>

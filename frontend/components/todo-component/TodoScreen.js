@@ -5,7 +5,7 @@ import TodoList from "./TodoList";
 
 const TodoScreen = () => {
   return (
-    <Box safeArea flex={1} bgColor={"white"} alignItems="center">
+    <Box safeArea flex={1}  alignItems="center">
       <NavigationButton />
       <TodoList maxW={600} />
     </Box>

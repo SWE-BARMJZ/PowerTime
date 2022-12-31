@@ -2,6 +2,7 @@ package com.barmjz.productivityapp.Note;
 
 import com.barmjz.productivityapp.Folder.Folder;
 import com.barmjz.productivityapp.Folder.FolderRepo;
+import com.barmjz.productivityapp.user.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ public class NoteManager {
 
     private final NoteRepo noteRepo;
     private final FolderRepo folderRepo;
+    private final UserRepo userRepo;
 
     public Note createNote(Long folderId, String noteTitle){
         if(folderId == null)
@@ -39,24 +41,18 @@ public class NoteManager {
         return newNote;
     }
 
-    public Note modifyNote(Note modifiedNote, Long folderId){
-        if(modifiedNote == null || modifiedNote.getId() == null)
-            throw new NullPointerException("note is null");
-        if(!noteRepo.existsById(modifiedNote.getId()))
+    public String modifyNote(Long noteId, String title, String content){
+        if(noteId == null || !noteRepo.existsById(noteId))
             throw new NoSuchElementException("note not found");
-//        if(!noteRepo.findByTitleAndFolder_Id(modifiedNote.getTitle(),folderId)
-//                .getId().equals(modifiedNote.getId()))
-//            throw new IllegalStateException("note title already exist");
-        Note existedNote = noteRepo.getReferenceById(modifiedNote.getId());
-        // need more efficient way
-        existedNote.setTitle(modifiedNote.getTitle());
-        existedNote.setContent(modifiedNote.getContent());
+        Note existedNote = noteRepo.getReferenceById(noteId);
+        if(    (noteRepo.existsByTitleAndFolder_Id(title,existedNote.getFolder().getId())) &&
+                (!noteRepo.findByTitleAndFolder_Id(title,existedNote.getFolder().getId()).getId().equals(existedNote.getId())))
+            throw new IllegalStateException("note new title already exist");
+        existedNote.setTitle(title);
+        existedNote.setContent(content);
         existedNote.setModifiedDate(new Date());
-        existedNote.setStarred(modifiedNote.isStarred());
-        existedNote.setColor(modifiedNote.getColor());
-        existedNote.setFontSize(modifiedNote.getFontSize());
         noteRepo.save(existedNote);
-        return existedNote;
+        return "note modified";
     }
 
     public List<Note> getFolderNotes(Long folderId){
@@ -100,6 +96,10 @@ public class NoteManager {
         note.setStarred(!note.isStarred());
         noteRepo.save(note);
         return note;
+    }
+
+    public Long getUserId(String email){
+        return userRepo.getUserByEmail(email).get().getId();
     }
 
 }

@@ -33,7 +33,7 @@ class ModifyNoteTest {
 
     @BeforeEach
     void setUp() {
-        noteManager = new NoteManager(noteRepo, folderRepo);
+        noteManager = new NoteManager(noteRepo, folderRepo, userRepo);
         folderRepo.deleteAll();
         noteRepo.deleteAll();
         date = new Date();
@@ -64,19 +64,16 @@ class ModifyNoteTest {
                 .folder(folder)
                 .createdDate(date)
                 .modifiedDate(date)
-                .fontSize(8)
                 .build();
-        noteManager.modifyNote(note2, folder.getId());
+        noteManager.modifyNote(note2.getId(), note2.getTitle(), note2.getContent());
         assertThat(noteRepo.findById(note1.getId()).get().getContent()).isEqualTo("note 1 content");
-        assertThat(noteRepo.findById(note1.getId()).get().getFontSize()).isEqualTo(8);
-//        assertThat(noteRepo.findById(note1.getId()).get()).isEqualTo(note2);
     }
 
     @Test
     void invalidModifiedNote(){
-        assertThatThrownBy(() -> noteManager.modifyNote(null, folder.getId()))
-                .isInstanceOf(NullPointerException.class)
-                .hasMessageContaining("note is null");
+        assertThatThrownBy(() -> noteManager.modifyNote(null, "new title", "new content"))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining("note not found");
     }
 
     @Test
@@ -91,9 +88,8 @@ class ModifyNoteTest {
                 .folder(folder)
                 .createdDate(date)
                 .modifiedDate(date)
-                .fontSize(8)
                 .build();
-        assertThatThrownBy(() -> noteManager.modifyNote(note2,folder.getId()))
+        assertThatThrownBy(() -> noteManager.modifyNote(note2.getId(),note2.getTitle(), note2.getContent()))
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessageContaining("note not found");
     }

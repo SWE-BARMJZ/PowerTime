@@ -41,6 +41,7 @@ public class Folder {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    
     @JsonIgnore
     private User user;
 
