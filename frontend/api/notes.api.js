@@ -81,24 +81,6 @@ export const getFolders = async (token) => {
       return response;
   }
 
-  export const deleteFolder = async (folderId, token) => {
-    const url = `${BACKEND_URL}/folder/delete?folderId=${folderId}`;
-
-    const response = await fetch(url, {
-        method: "DELETE",
-        headers: { "Content-type": "application/json" , Authorization: `Bearer ${token}`},
-      }).catch((error) => {
-        throw new Error("Problem connecting with the server!");
-      });
-
-      if (response.status !== 200) {
-        const message = "I don't know yet";
-        throw new Error(message);
-      }
-      
-      return response;
-  }
-
   export const renameFolder = async (folderId, newName, token) => {
     const url = `${BACKEND_URL}/folder/modify?folderId=${folderId}&folderName=${newName}`;
 
@@ -174,24 +156,6 @@ export const getFolders = async (token) => {
       console.log(response.headers)
       if (response.status !== 200) {
         const message = "I don't know yet.";
-        throw new Error(message);
-      }
-      
-      return response;
-  }
-
-  export const deleteNote = async (noteId, token) => {
-    const url = `${BACKEND_URL}/note/deleteNote?noteId=${noteId}`;
-
-    const response = await fetch(url, {
-        method: "DELETE",
-        headers: { "Content-type": "application/json" , Authorization: `Bearer ${token}`},
-      }).catch((error) => {
-        throw new Error("Problem connecting with the server!");
-      });
-
-      if (response.status !== 200) {
-        const message = "I don't know yet";
         throw new Error(message);
       }
       

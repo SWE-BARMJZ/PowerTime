@@ -2,7 +2,7 @@ import { NoteEditor } from "./NoteEditor";
 import React, { useContext, useState, useEffect } from "react";
 import { Ionicons } from '@expo/vector-icons'; 
 import { Note } from "./Note";
-import { deleteNote, getNotes } from "../../api/notes.api";
+import { getNotes } from "../../api/notes.api";
 import AuthContext from "../../store/auth-context";
 import { createNote } from "../../api/notes.api";
 import { editNote } from "../../api/notes.api";
@@ -153,20 +153,9 @@ import {
       }
     }
 
-    const trashNote = async (id) => {
-      try{
-        const res = await deleteNote(id, auth.token)
-        const data = await res.text()
-        console.log(data)
-        setNotes(notes.filter((note) => note.id !== id))
-        setSelectedNote(null)
-      }
-      catch(error){
-        toast.show({
-          title: error.message,
-          placement: "top",
-        });
-      }
+    const deleteNote = (id) => {
+      setNotes(notes.filter((note) => note.id !== id))
+      setSelectedNote(null)
     }
 
 
@@ -251,10 +240,11 @@ import {
         folders={folders} 
         note = {selectedNote} 
         onEdit={changeNote}
-        onDelete={trashNote}
-        onStar = {alterStar}
-        onMove = {MoveNote}/> 
-
+        onDelete={deleteNote}
+        onMove = {MoveNote}
+        onStar = {starNote}
+        iconsColor = {iconsColor}
+        /> 
         :
         <VStack flex={3}>
             <HStack w="full"></HStack>

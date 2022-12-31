@@ -7,54 +7,35 @@ import { getFolders } from "../../api/notes.api";
 import { createFolder } from "../../api/notes.api";
 import { renameFolder } from "../../api/notes.api";
 import { NavigationButton } from "../../UI/NavigationButton";
-import { deleteFolder } from "../../api/notes.api";
 
 import {
-    Button,
-    Text,
-    Image,
-    Heading,
-    HStack,
-    Link,
-    Box,
-    VStack,
-    Hidden,
-    useToast,
-    Center
-  } from "native-base";
+  Heading,
+  HStack,
+  Box,
+  VStack,
+  Hidden,
+  useToast,
+} from "native-base";
 
+export const NotesScreen = () => {
+  const auth = useContext(AuthContext);
+  const toast = useToast();
+  const [folders, setFolders] = useState([]);
 
-  
-  export const Notes = () => {
-    const auth = useContext(AuthContext);
-    const toast = useToast();
-    const [folders, setFolders] = useState([])
+  const iconsColor = "#0c5ac7"
 
-    const FoldersCont = () => {
-      return (<FoldersContainer 
-                            folders = {folders} 
-                            onDelete = {deleteFolderCascade} 
-                            onEdit = {editFolder} 
-                            onAdd = {addFolder} 
-                            onSelect = {selectFolder} />)
-      }
-
-    useEffect( () => {
-      const getFolders = async () => {
-        const foldersFromServer = await loadFolders()
-        setFolders(foldersFromServer)
-      }
-
-      getFolders()
-    }, [])
-
-    const loadFolders = async () => {
-      const res = await getFolders(auth.token)
-      const data = await res.json()
-
-      return data
-    }
-
+  const FoldersCont = () => {
+    return (
+      <FoldersContainer
+        folders={folders}
+        onDelete={deleteFolder}
+        onEdit={editFolder}
+        onAdd={addFolder}
+        onSelect={selectFolder}
+        iconsColor = {iconsColor}
+      />
+    );
+  };
 
   useEffect(() => {
     const getFolders = async () => {
@@ -65,23 +46,9 @@ import {
     getFolders();
   }, []);
 
-    const deleteFolderCascade = async (id) => {
-      try{
-        const res = await deleteFolder(id, auth.token)
-        const data = await res.text()
-        setFolders(folders.filter((folder) => folder.id !== id))
-        setSelectedFolder(null)
-        console.log("Deleted Folder with ID: ", id)
-      }
-      catch(error){
-        toast.show({
-          title: error.message,
-          placement: "top",
-        });
-      }
-      
-    }
-
+  const loadFolders = async () => {
+    const res = await getFolders(auth.token);
+    const data = await res.json();
 
     return data;
   };
@@ -144,15 +111,16 @@ import {
       <HStack flex={1} justifyContent="center">
         {selectedFolder ? (
           <>
-          <Hidden from='base' till='md'>
-            <FoldersCont/>
-          </Hidden>
-          <CurrentFolderContainer 
-          folder = {selectedFolder} 
-          folders={folders}
-          onDelete = {deleteFolderCascade}
-          onBack = {navigateToFolders}/>
-
+            <Hidden from="base" till="md">
+              <FoldersCont />
+            </Hidden>
+            <CurrentFolderContainer
+              folder={selectedFolder}
+              folders={folders}
+              onDelete={deleteFolder}
+              onBack={navigateToFolders}
+              iconsColor = {iconsColor}
+            />
           </>
         ) : (
           <>
