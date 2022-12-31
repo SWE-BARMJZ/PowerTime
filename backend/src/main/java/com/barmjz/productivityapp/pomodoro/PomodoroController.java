@@ -57,7 +57,7 @@ public class PomodoroController {
     }
 
     @PostMapping("/endStudy")
-    public ResponseEntity<String> end() {
+    public ResponseEntity<String> endStudy() {
         try {
             return ResponseEntity.ok(pomoService.endStudy(proxy.getCurrentUserId()));
         } catch (Exception e) {

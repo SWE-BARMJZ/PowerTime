@@ -44,7 +44,7 @@ class PomodoroServiceTest {
 
     //Testing get
     @Test
-    void checkPomodoroRetrievedWhenFirstTime(){
+    void CheckPomodoroRetrievedWhenFirstTime(){
         //given
         Pomodoro firstPomo = Pomodoro.builder().id(1L).studyTime(25).breakTime(5).user(user).build();
 
@@ -58,7 +58,7 @@ class PomodoroServiceTest {
     }
 
     @Test
-    void checkPomodoroRetrievedWhenNthTime(){
+    void CheckPomodoroRetrievedWhenNthTime(){
         //given
         Pomodoro p = Pomodoro.builder().id(1L).studyTime(25).breakTime(5).user(user).build();
         given(pomoRepo.existsPomodoroByUserId(user.getId())).willReturn(true);
@@ -72,7 +72,7 @@ class PomodoroServiceTest {
     }
 
     @Test
-    void checkPSessionRetrievedWhenPaused(){
+    void CheckSessionRetrievedWhenPaused(){
         //given
         PomodoroSession p = PomodoroSession
                 .builder()
@@ -92,7 +92,7 @@ class PomodoroServiceTest {
     }
 
     @Test
-    void checkPSessionRunningInBackground(){
+    void CheckSessionRunningInBackground(){
         //given
         PomodoroSession p = PomodoroSession
                 .builder()
@@ -110,9 +110,333 @@ class PomodoroServiceTest {
         //when
         PomodoroSession returnedP = (PomodoroSession) underTest.get(user);
 
-        //then
+        //setting expected
         p.setRemainingTimeInSecs(5*60L);
+
+        //then
         assertThat(returnedP).isEqualTo(p);
     }
 
+    //Testing endStudy
+    @Test
+    void CheckStudySessionEndedWithoutPause(){
+        //given
+        PomodoroSession p = PomodoroSession
+                .builder()
+                .id(1L)
+                .studyTime(25)
+                .breakTime(5)
+                .isPaused(false)
+                .isStudying(true)
+                .startTime(System.currentTimeMillis()/1000 - 25*60L)
+                .remainingTimeInSecs(25*60L)
+                .user(user).build();
+        given(pomoRepo.getPomodoroByUserId(user.getId())).willReturn(p);
+
+        //when
+        underTest.endStudy(user.getId());
+
+        //setting expected
+        p.setPaused(true);
+        p.setRemainingTimeInSecs(p.breakTime*60L);
+        p.setStudying(false);
+        p.setStartTime(System.currentTimeMillis()/1000);
+
+        //then
+        ArgumentCaptor<Pomodoro> pomodoroArgumentCaptor = ArgumentCaptor.forClass(Pomodoro.class);
+        verify(pomoRepo).save(pomodoroArgumentCaptor.capture());
+        assertThat(pomodoroArgumentCaptor.getValue()).isEqualTo(p);
+    }
+
+    @Test
+    void CheckStudySessionEndedWithPauses(){
+        //given
+        PomodoroSession p = PomodoroSession
+                .builder()
+                .id(1L)
+                .studyTime(25)
+                .breakTime(5)
+                .isPaused(false)
+                .isStudying(true)
+                .startTime(System.currentTimeMillis()/1000 - 15*60L)
+                .remainingTimeInSecs(15*60L)
+                .user(user).build();
+        given(pomoRepo.getPomodoroByUserId(user.getId())).willReturn(p);
+
+        //when
+        underTest.endStudy(user.getId());
+
+        //setting expected
+        p.setPaused(true);
+        p.setRemainingTimeInSecs(p.breakTime*60L);
+        p.setStudying(false);
+        p.setStartTime(System.currentTimeMillis()/1000);
+
+        //then
+        ArgumentCaptor<Pomodoro> pomodoroArgumentCaptor = ArgumentCaptor.forClass(Pomodoro.class);
+        verify(pomoRepo).save(pomodoroArgumentCaptor.capture());
+        assertThat(pomodoroArgumentCaptor.getValue()).isEqualTo(p);
+    }
+
+    @Test
+    void CheckStudySessionEndedLate(){
+        //given
+        PomodoroSession p = PomodoroSession
+                .builder()
+                .id(1L)
+                .studyTime(25)
+                .breakTime(5)
+                .isPaused(false)
+                .isStudying(true)
+                .startTime(System.currentTimeMillis()/1000 - 30*60L)
+                .remainingTimeInSecs(25*60L)
+                .user(user).build();
+        given(pomoRepo.getPomodoroByUserId(user.getId())).willReturn(p);
+
+        //when
+        underTest.endStudy(user.getId());
+
+        //setting expected
+        p.setPaused(true);
+        p.setRemainingTimeInSecs(p.breakTime*60L);
+        p.setStudying(false);
+        p.setStartTime(System.currentTimeMillis()/1000);
+
+        //then
+        ArgumentCaptor<Pomodoro> pomodoroArgumentCaptor = ArgumentCaptor.forClass(Pomodoro.class);
+        verify(pomoRepo).save(pomodoroArgumentCaptor.capture());
+        assertThat(pomodoroArgumentCaptor.getValue()).isEqualTo(p);
+    }
+
+    //Testing reset
+    @Test
+    void CheckResetWhileStudying(){
+        //given
+        PomodoroSession p = PomodoroSession
+                .builder()
+                .id(1L)
+                .studyTime(25)
+                .breakTime(5)
+                .isPaused(false)
+                .isStudying(true)
+                .startTime(System.currentTimeMillis()/1000 - 25*60L)
+                .remainingTimeInSecs(25*60L)
+                .user(user).build();
+        given(pomoRepo.getPomodoroByUserId(user.getId())).willReturn(p);
+
+        //when
+        underTest.reset(user);
+
+        //setting expected
+        Pomodoro expected = Pomodoro.builder().id(1L).studyTime(25).breakTime(5).user(user).build();
+
+        //then
+        ArgumentCaptor<Pomodoro> pomodoroArgumentCaptor = ArgumentCaptor.forClass(Pomodoro.class);
+        verify(pomoRepo).deleteById(1L);
+        verify(pomoRepo).save(pomodoroArgumentCaptor.capture());
+        assertThat(pomodoroArgumentCaptor.getValue()).isEqualTo(expected);
+    }
+
+    @Test
+    void CheckResetWhileInBreak(){
+        //given
+        PomodoroSession p = PomodoroSession
+                .builder()
+                .id(1L)
+                .studyTime(25)
+                .breakTime(5)
+                .isPaused(false)
+                .isStudying(false)
+                .startTime(System.currentTimeMillis()/1000 - 5*60L)
+                .remainingTimeInSecs(55*60L)
+                .user(user).build();
+        given(pomoRepo.getPomodoroByUserId(user.getId())).willReturn(p);
+
+        //when
+        underTest.reset(user);
+
+        //setting expected
+        Pomodoro expected = Pomodoro.builder().id(1L).studyTime(25).breakTime(5).user(user).build();
+
+        //then
+        ArgumentCaptor<Pomodoro> pomodoroArgumentCaptor = ArgumentCaptor.forClass(Pomodoro.class);
+        verify(pomoRepo).deleteById(1L);
+        verify(pomoRepo).save(pomodoroArgumentCaptor.capture());
+        assertThat(pomodoroArgumentCaptor.getValue()).isEqualTo(expected);
+    }
+
+    @Test
+    void CheckResetWhenPausedInStudy(){
+        //given
+        PomodoroSession p = PomodoroSession
+                .builder()
+                .id(1L)
+                .studyTime(25)
+                .breakTime(5)
+                .isPaused(true)
+                .isStudying(true)
+                .startTime(System.currentTimeMillis()/1000 - 400*60L)
+                .remainingTimeInSecs(20*60L)
+                .user(user).build();
+        given(pomoRepo.getPomodoroByUserId(user.getId())).willReturn(p);
+
+        //when
+        underTest.reset(user);
+
+        //setting expected
+        Pomodoro expected = Pomodoro.builder().id(1L).studyTime(25).breakTime(5).user(user).build();
+
+        //then
+        ArgumentCaptor<Pomodoro> pomodoroArgumentCaptor = ArgumentCaptor.forClass(Pomodoro.class);
+        verify(pomoRepo).deleteById(1L);
+        verify(pomoRepo).save(pomodoroArgumentCaptor.capture());
+        assertThat(pomodoroArgumentCaptor.getValue()).isEqualTo(expected);
+    }
+
+    @Test
+    void CheckResetWhenPausedInBreak(){
+        //given
+        PomodoroSession p = PomodoroSession
+                .builder()
+                .id(1L)
+                .studyTime(25)
+                .breakTime(5)
+                .isPaused(true)
+                .isStudying(false)
+                .startTime(System.currentTimeMillis()/1000 - 400*60L)
+                .remainingTimeInSecs(3*60L)
+                .user(user).build();
+        given(pomoRepo.getPomodoroByUserId(user.getId())).willReturn(p);
+
+        //when
+        underTest.reset(user);
+
+        //setting expected
+        Pomodoro expected = Pomodoro.builder().id(1L).studyTime(25).breakTime(5).user(user).build();
+
+        //then
+        ArgumentCaptor<Pomodoro> pomodoroArgumentCaptor = ArgumentCaptor.forClass(Pomodoro.class);
+        verify(pomoRepo).deleteById(1L);
+        verify(pomoRepo).save(pomodoroArgumentCaptor.capture());
+        assertThat(pomodoroArgumentCaptor.getValue()).isEqualTo(expected);
+    }
+
+    @Test
+    void CheckResetWhenDoneStudying(){
+        //given
+        PomodoroSession p = PomodoroSession
+                .builder()
+                .id(1L)
+                .studyTime(25)
+                .breakTime(5)
+                .isPaused(false)
+                .isStudying(true)
+                .startTime(System.currentTimeMillis()/1000 - 400*60L)
+                .remainingTimeInSecs(25*60L)
+                .user(user).build();
+        given(pomoRepo.getPomodoroByUserId(user.getId())).willReturn(p);
+
+        //when
+        underTest.reset(user);
+
+        //setting expected
+        Pomodoro expected = Pomodoro.builder().id(1L).studyTime(25).breakTime(5).user(user).build();
+
+        //then
+        ArgumentCaptor<Pomodoro> pomodoroArgumentCaptor = ArgumentCaptor.forClass(Pomodoro.class);
+        verify(pomoRepo).deleteById(1L);
+        verify(pomoRepo).save(pomodoroArgumentCaptor.capture());
+        assertThat(pomodoroArgumentCaptor.getValue()).isEqualTo(expected);
+    }
+
+    @Test
+    void CheckResetWhenSessionEnds(){
+        //given
+        PomodoroSession p = PomodoroSession
+                .builder()
+                .id(1L)
+                .studyTime(25)
+                .breakTime(5)
+                .isPaused(false)
+                .isStudying(false)
+                .startTime(System.currentTimeMillis()/1000 - 400*60L)
+                .remainingTimeInSecs(3*60L)
+                .user(user).build();
+        given(pomoRepo.getPomodoroByUserId(user.getId())).willReturn(p);
+
+        //when
+        underTest.reset(user);
+
+        //setting expected
+        Pomodoro expected = Pomodoro.builder().id(1L).studyTime(25).breakTime(5).user(user).build();
+
+        //then
+        ArgumentCaptor<Pomodoro> pomodoroArgumentCaptor = ArgumentCaptor.forClass(Pomodoro.class);
+        verify(pomoRepo).deleteById(1L);
+        verify(pomoRepo).save(pomodoroArgumentCaptor.capture());
+        assertThat(pomodoroArgumentCaptor.getValue()).isEqualTo(expected);
+    }
+
+    //Testing get cont.
+    @Test
+    void CheckStudySessionRetrievedWhenEndedLate(){
+        //given
+        PomodoroSession p = PomodoroSession
+                .builder()
+                .id(1L)
+                .studyTime(25)
+                .breakTime(5)
+                .isPaused(false)
+                .isStudying(true)
+                .startTime(System.currentTimeMillis()/1000 - 400*60L)
+                .remainingTimeInSecs(25*60L)
+                .user(user).build();
+        given(pomoRepo.existsPomodoroByUserId(user.getId())).willReturn(true);
+        given(pomoRepo.getPomodoroByUserId(user.getId())).willReturn(p);
+
+        //when
+        underTest.get(user);
+
+        //setting expected
+        p.setStartTime(System.currentTimeMillis()/1000);
+        p.setPaused(true);
+        p.setStudying(false);
+        p.setRemainingTimeInSecs(p.breakTime*60L);
+
+        //then
+        ArgumentCaptor<Pomodoro> pomodoroArgumentCaptor = ArgumentCaptor.forClass(Pomodoro.class);
+        verify(pomoRepo).save(pomodoroArgumentCaptor.capture());
+        assertThat(pomodoroArgumentCaptor.getValue()).isEqualTo(p);
+    }
+
+    @Test
+    void CheckSessionResetWhenEndedLate(){
+        //given
+        PomodoroSession p = PomodoroSession
+                .builder()
+                .id(1L)
+                .studyTime(25)
+                .breakTime(5)
+                .isPaused(false)
+                .isStudying(false)
+                .startTime(System.currentTimeMillis()/1000 - 400*60L)
+                .remainingTimeInSecs(5*60L)
+                .user(user).build();
+        given(pomoRepo.existsPomodoroByUserId(user.getId())).willReturn(true);
+        given(pomoRepo.getPomodoroByUserId(user.getId())).willReturn(p);
+
+        //when
+        underTest.get(user);
+
+        //setting expected
+        Pomodoro expected = Pomodoro.builder().id(1L).studyTime(25).breakTime(5).user(user).build();
+
+        //then
+        ArgumentCaptor<Pomodoro> pomodoroArgumentCaptor = ArgumentCaptor.forClass(Pomodoro.class);
+        verify(pomoRepo).deleteById(1L);
+        verify(pomoRepo).save(pomodoroArgumentCaptor.capture());
+        assertThat(pomodoroArgumentCaptor.getValue()).isEqualTo(expected);
+    }
+
+    
 }

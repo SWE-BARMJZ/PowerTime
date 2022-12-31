@@ -50,13 +50,14 @@ public class PomodoroService {
     }
 
     public String startStudy(User currentUser) {
-        Pomodoro p = pomoRepo.getPomodoroByUserId(currentUser.getId());
-        p = initSession(p,currentUser);
+        Pomodoro deletedPomodoro = pomoRepo.getPomodoroByUserId(currentUser.getId());
+        pomoRepo.deleteById(deletedPomodoro.getId());
+        PomodoroSession p = initSession(deletedPomodoro,currentUser);
         pomoRepo.save(p);
         return "Pomodoro Session Started";
     }
 
-    private Pomodoro initSession(Pomodoro p,User user) {
+    private PomodoroSession initSession(Pomodoro p,User user) {
         return PomodoroSession
                 .builder()
                 .id(p.getId())
