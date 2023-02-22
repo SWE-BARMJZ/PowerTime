@@ -1,22 +1,26 @@
-import React, { useContext, useState, useEffect } from "react";
-import { Box, HStack, ScrollView, useToast } from "native-base";
+import React, { useEffect } from "react";
+import { Box, HStack, ScrollView } from "native-base";
 import MindMapCategory from "./MindMapCategory";
-
-import TaskContext from "../../store/task-context";
+import { TASK_API } from "../../api/task.api";
+import { useAPI } from "../../hooks/useAPI";
 
 const MindMap = (props) => {
-  const { categories, unCategorized } = useContext(TaskContext);
+  const [fetchData, data] = useAPI(TASK_API.fetchTasks);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <Box flex={1} {...props}>
       <ScrollView>
         <HStack flexWrap="wrap">
-          {categories.map((category) => (
-            <MindMapCategory data={category} key={category.id} editable />
+          {data.map((element, index) => (
+            <MindMapCategory
+              data={element}
+              key={element.category ? element.category.id : -1}
+            />
           ))}
-          {unCategorized.length > 0 && (
-            <MindMapCategory data={{ category_name: "None", tasks: unCategorized }} />
-          )}
         </HStack>
       </ScrollView>
     </Box>

@@ -90,7 +90,7 @@ const deleteTask = async (id, token) => {
 };
 
 
-const tickTask = async (id, token, date, taskType) => {
+const tickTask = async (id, date, taskType, token) => {
   const response = await fetch(
     `${endpoint}/${id}/tick?date=${date}&taskType=${taskType}`,
     {
@@ -106,7 +106,7 @@ const tickTask = async (id, token, date, taskType) => {
 };
 
 
-const untickTask = async (id, token, date) => {
+const untickTask = async (id, date, token) => {
   const response = await fetch(`${endpoint}/${id}/untick?date=${date}`, {
     method: "PUT",
     headers: { Authorization: `Bearer ${token}` },

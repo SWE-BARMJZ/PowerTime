@@ -179,7 +179,9 @@ public class TaskService {
         });
 
         List<CategorisedTasks> categorisedTasksList = new ArrayList<>(map.values());
-        categorisedTasksList.add(new CategorisedTasks(null, nonCategorised));
+        if (!nonCategorised.isEmpty()) {
+            categorisedTasksList.add(new CategorisedTasks(null, nonCategorised));
+        }
 
         return categorisedTasksList;
     }
