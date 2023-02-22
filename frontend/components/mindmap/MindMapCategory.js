@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import {
-  Text,
   Box,
   Pressable,
   HStack,

@@ -9,12 +9,12 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
-import { Home } from "./components/home-component/Home";
-import { Login } from "./components/login-component/LoginScreen";
-import { PasswordRecovery } from "./components/login-component/PasswordRecoveryScreen";
-import { SignUp } from "./components/login-component/SignUpScreen";
-import { NotesScreen } from "./components/notes-component/NotesScreen";
-import MindMapScreen from "./components/mindmap-component/MindMapScreen";
+import { Home } from "./components/home/Home";
+import { Login } from "./components/login/LoginScreen";
+import { PasswordRecovery } from "./components/login/PasswordRecoveryScreen";
+import { SignUp } from "./components/login/SignUpScreen";
+import { NotesScreen } from "./components/notes/NotesScreen";
+import MindMapScreen from "./components/mindmap/MindMapScreen";
 
 const AppNavigation = () => {
   const auth = useContext(AuthContext);

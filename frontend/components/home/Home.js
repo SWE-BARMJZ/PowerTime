@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import AuthContext from "../../store/auth-context";
 import {
   Text,
   Box,
@@ -8,11 +9,10 @@ import {
   Center,
   useMediaQuery,
 } from "native-base";
-
-import AuthContext from "../../store/auth-context";
 import { NavigationButton } from "../../UI/NavigationButton";
-import TodoList from "../todo-component/TodoList";
-import StarredNotes from "../notes-component/StarredNotes";
+
+import TodoList from "../todo/TodoList";
+import StarredNotes from "../notes/StarredNotes";
 
 // dummy component
 const Pomodoro = () => (

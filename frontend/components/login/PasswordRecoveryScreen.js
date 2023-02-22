@@ -2,10 +2,6 @@ import {
   Button,
   Text,
   View,
-  StyleSheet,
-  Image,
-  TextInput,
-  Pressable,
 } from "react-native";
 import React from "react";
 
