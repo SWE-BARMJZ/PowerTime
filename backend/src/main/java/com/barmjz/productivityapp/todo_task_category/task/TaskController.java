@@ -1,13 +1,11 @@
 package com.barmjz.productivityapp.todo_task_category.task;
 
-import com.barmjz.productivityapp.todo_task_category.category.Category;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @AllArgsConstructor
 @RestController
@@ -18,12 +16,8 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Task>> getAllTasks() {
-        try {
-            return ResponseEntity.ok(taskService.getAllTasks());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+    public List<CategorisedTasks> getAllCategorisedTasks() {
+        return taskService.getAllTasksCategorised();
     }
 
     @GetMapping("/{taskId}")
@@ -64,15 +58,16 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}/tick")
-    public ResponseEntity<Task> tickTask(@PathVariable Long taskId, @RequestParam Long date, @RequestParam String taskType){
+    public ResponseEntity<Task> tickTask(@PathVariable Long taskId, @RequestParam Long date, @RequestParam String taskType) {
         try {
             return ResponseEntity.ok(taskService.tickTask(taskId, date, taskType));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
+
     @PutMapping("/{taskId}/untick")
-    public ResponseEntity<Task> untickTask(@PathVariable Long taskId, @RequestParam Long date){
+    public ResponseEntity<Task> untickTask(@PathVariable Long taskId, @RequestParam Long date) {
         try {
             return ResponseEntity.ok(taskService.untickTask(taskId, date));
         } catch (Exception e) {
@@ -81,7 +76,7 @@ public class TaskController {
     }
 
     @GetMapping("/completed")
-    public ResponseEntity<List<Task>> getCompletedTasks(){
+    public ResponseEntity<List<Task>> getCompletedTasks() {
         try {
             return ResponseEntity.ok(taskService.getCompletedTasks());
         } catch (Exception e) {

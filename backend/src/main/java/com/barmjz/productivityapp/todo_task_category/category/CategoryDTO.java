@@ -1,17 +1,11 @@
 package com.barmjz.productivityapp.todo_task_category.category;
 
-import com.barmjz.productivityapp.todo_task_category.task.Task;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import java.util.List;
-
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 public class CategoryDTO {
-    long id;
-    String category_name;
-    List<Task> tasks;
+    private long id;
+    private String name;
 }

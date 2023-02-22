@@ -2,11 +2,12 @@ package com.barmjz.productivityapp.todo_task_category.category;
 
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CategoryService {
@@ -21,7 +22,7 @@ public class CategoryService {
         this.userRepo = userRepo;
     }
 
-    public Long createCategory(Category category){
+    public Long createCategory(Category category) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepo.getUserByEmail(auth.getName()).orElseThrow();
 
@@ -35,13 +36,21 @@ public class CategoryService {
         return category.getId();
     }
 
-    public String editCategory(long categoryId, String category){
+    public String editCategory(long categoryId, String category) {
         categoryRepo.renameCategory(category, categoryId);
         return "Edited";
     }
 
-    public String deleteCategory(long categoryId){
+    public String deleteCategory(long categoryId) {
         categoryRepo.deleteById(categoryId);
         return "Deleted";
+    }
+
+    public List<Category> getAllUserCategories() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepo.getUserByEmail(auth.getName()).orElseThrow();
+
+        return categoryRepo.getCategoriesByUserId(user.getId())
+                .orElseThrow();
     }
 }
