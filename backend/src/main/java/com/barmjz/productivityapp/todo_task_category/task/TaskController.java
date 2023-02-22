@@ -9,7 +9,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/task")
+@RequestMapping("/api/tasks")
 @CrossOrigin
 public class TaskController {
 

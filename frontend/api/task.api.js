@@ -1,10 +1,23 @@
-import { async } from "q";
 import { BACKEND_URL } from "./const";
 
-const fetchTask = async (id, token) => {
-  const url = `${BACKEND_URL}/api/task/${id}`;
+const endpoint = `${BACKEND_URL}/api/tasks/`;
 
-  const response = await fetch(url, {
+
+const fetchTasks = async (token) => {
+  const response = await fetch(`${endpoint}`, {
+    method: "GET",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (response.status !== 200) {
+    throw new Error(response.status);
+  }
+  return await response.json();
+};
+
+
+const fetchCompletedTasks = async (token) => {
+  const response = await fetch(`${endpoint}/completed`, {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -16,44 +29,8 @@ const fetchTask = async (id, token) => {
 };
 
 
-const updateTask = async (id, updates, token) => {
-  const url = `${BACKEND_URL}/api/task/${id}`;
-
-  const response = await fetch(url, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify(updates),
-  });
-
-  if (response.status !== 200) {
-    throw new Error(response.status);
-  }
-  return response.json();
-};
-
-
-const deleteTask = async (id, token) => {
-  const url = `${BACKEND_URL}/api/task/${id}`;
-
-  const response = await fetch(url, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  if (response.status !== 200) {
-    throw new Error(response.status);
-  }
-  return response.text();
-};
-
-
 const createTask = async (task, taskType, token) => {
-  const url = `${BACKEND_URL}/api/task/?taskType=${taskType}`;
-
-  const response = await fetch(url, {
+  const response = await fetch(`${endpoint}/?taskType=${taskType}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -70,13 +47,57 @@ const createTask = async (task, taskType, token) => {
 };
 
 
-const tickTask = async (id, token, date, taskType) => {
-  const url = `${BACKEND_URL}/api/task/${id}/tick?date=${date}&taskType=${taskType}`;
-
-  const response = await fetch(url, {
-    method: "PUT",
+const fetchTask = async (id, token) => {
+  const response = await fetch(`${endpoint}/${id}`, {
+    method: "GET",
     headers: { Authorization: `Bearer ${token}` },
   });
+
+  if (response.status !== 200) {
+    throw new Error(response.status);
+  }
+  return response.json();
+};
+
+
+const updateTask = async (id, updates, token) => {
+  const response = await fetch(`${endpoint}/${id}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(updates),
+  });
+
+  if (response.status !== 200) {
+    throw new Error(response.status);
+  }
+  return response.json();
+};
+
+
+const deleteTask = async (id, token) => {
+  const response = await fetch(`${endpoint}/${id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (response.status !== 200) {
+    throw new Error(response.status);
+  }
+  return response.text();
+};
+
+
+const tickTask = async (id, token, date, taskType) => {
+  const response = await fetch(
+    `${endpoint}/${id}/tick?date=${date}&taskType=${taskType}`,
+    {
+      method: "PUT",
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
 
   if (response.status !== 200) {
     throw new Error(response.status);
@@ -86,9 +107,7 @@ const tickTask = async (id, token, date, taskType) => {
 
 
 const untickTask = async (id, token, date) => {
-  const url = `${BACKEND_URL}/api/task/${id}/untick?date=${date}`;
-
-  const response = await fetch(url, {
+  const response = await fetch(`${endpoint}/${id}/untick?date=${date}`, {
     method: "PUT",
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -99,35 +118,6 @@ const untickTask = async (id, token, date) => {
   return response.json();
 };
 
-
-const fetchTasks = async (token) => {
-  const url = `${BACKEND_URL}/api/task/`;
-
-  const response = await fetch(url, {
-    method: "GET",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  if (response.status !== 200) {
-    throw new Error(response.status);
-  }
-  return await response.json();
-};
-
-
-const fetchCompletedTasks = async (token) => {
-  const url = `${BACKEND_URL}/api/task/completed`;
-
-  const response = await fetch(url, {
-    method: "GET",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  if (response.status !== 200) {
-    throw new Error(response.status);
-  }
-  return response.json();
-};
 
 export const TASK_API = {
   fetchTask,
