@@ -26,11 +26,14 @@ const addToTodo = async (taskId, token) => {
 const removeFromTodo = async (task, token) => {
   const taskType = "dueDate" in task ? "onetime" : "repeated";
 
-  return sendRequest(
-    "DELETE",
-    `${endpoint}/${task.id}?taskType=${taskType}`,
-    token
-  );
+  const response = await fetch(`${endpoint}/${task.id}?taskType=${taskType}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (response.status !== 200) {
+    throw new Error(response.status);
+  }
 };
 
 export const TODO_API = { fetchTodoList, addToTodo, removeFromTodo };

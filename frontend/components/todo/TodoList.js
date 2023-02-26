@@ -13,63 +13,70 @@ import TodoCategoryGroup from "./TodoCategoryGroup";
 
 import { TODO_API } from "../../api/todo.api";
 import { TASK_API } from "../../api/task.api";
-import { useAPI, useFetch } from "../../hooks/useAPI";
+import { useFetch } from "../../hooks/useAPI";
 import { useFocusEffect } from "@react-navigation/native";
 
 const TodoList = (props) => {
   const [isGrouped, setIsGrouped] = useState(false);
   const [callAPI] = useFetch();
-  // const [callFetchData, { data }] = useAPI(TODO_API.fetchTodoList);
-  // const [callRemoveFromTodo] = useAPI(TODO_API.removeFromTodo);
-  // const [callTickTask] = useAPI(TASK_API.tickTask);
+  const [todos, setTodos] = useState([]);
 
-  const toggleGrouping = () => {
-    setIsGrouped((current) => !current);
+  const updateTodos = async (promise) => {
+    setTodos(await promise);
   };
 
   const fetchData = useCallback(() => {
-    callFetchData();
+    updateTodos(callAPI(TODO_API.fetchTodoList));
   }, []);
 
   useFocusEffect(fetchData);
 
   const removeTask = (task) => {
-    // setData((data) => data.filter((task) => task.id !== taskId));
-    // TODO_API.removeFromTodo(taskId);
-    callRemoveFromTodo(task);
-    fetchData();
+    callAPI(TODO_API.removeFromTodo, task);
+    setTodos((data) => data.filter((curTask) => curTask.id !== task.id));
   };
 
   const completeTask = (task) => {
-    // setData((data) => data.filter((task) => task.id !== taskId));
-    callTickTask(task);
-    fetchData();
+    setData((data) => data.filter((task) => task.id !== taskId));
+    callAPI(TASK_API.tickTask, task);
   };
 
-  const groupedTasks = useCallback(() => {
-    const none = [];
+  const toggleGrouping = () => {
+    setIsGrouped((current) => !current);
+  };
 
-    const obj = data.reduce((groups, task) => {
-      if (!task.category) {
-        none.push(task);
+  const groupByCategory = useCallback(
+    (data) => {
+      const none = [];
+
+      const obj = data.reduce((groups, task) => {
+        if (!task.category) {
+          none.push(task);
+          return groups;
+        }
+
+        groups[task.category.name] = [
+          ...(groups[task.category.name] || []),
+          task,
+        ];
         return groups;
-      }
+      }, {});
 
-      groups[task.category] = [...(groups[task.category] || []), task];
-      return groups;
-    }, {});
+      // arr will be in an array of pairs in the format
+      //    [ [category, categoryTasks], [.., ..], [.., ..] ]
+      const arr = Object.entries(obj);
 
-    // arr will be in an array of pairs in the format
-    //    [ [categoryName, categoryTasks], [.., ..], [.., ..] ]
-    const arr = Object.entries(obj);
+      // sort groups by name to enforce consistency
+      arr.sort((a, b) => a[0].localeCompare(b[0]));
+      // add uncategorized to the end
+      if (none.length > 0) arr.push([null, none]);
 
-    // sort groups by name to enforce consistency
-    arr.sort((a, b) => a[0].localeCompare(b[0]));
-    // add uncategorized to the end
-    if (none.length > 0) arr.push(["None", none]);
+      return arr;
+    },
+    [todos]
+  );
 
-    return arr;
-  }, [data]);
+  console.log(groupByCategory(todos));
 
   return (
     <VStack w="full" flex={1} space={5} {...props}>
@@ -83,7 +90,7 @@ const TodoList = (props) => {
         </HStack>
       </HStack>
 
-      {data.length === 0 ? (
+      {todos.length === 0 ? (
         <Center w="full" flex={1}>
           <VStack alignItems="center">
             <Text italic>Todo list is empty.</Text>
@@ -94,7 +101,7 @@ const TodoList = (props) => {
         <ScrollView>
           {isGrouped ? (
             <VStack space={4}>
-              {groupedTasks().map(([categoryName, categoryTasks]) => (
+              {groupByCategory(todos).map(([categoryName, categoryTasks]) => (
                 <TodoCategoryGroup
                   key={categoryName}
                   categoryName={categoryName}
@@ -106,12 +113,16 @@ const TodoList = (props) => {
             </VStack>
           ) : (
             <VStack space={2}>
-              {data.map((item) => (
+              {todos.map((todo) => (
                 <Task
-                  key={item.id}
-                  data={item}
-                  onTaskRemoval={removeTask}
-                  onTaskCompletion={completeTask}
+                  key={todo.id}
+                  data={todo}
+                  onTaskRemoval={() => {
+                    removeTask(todo);
+                  }}
+                  onTaskCompletion={() => {
+                    completeTask(todo);
+                  }}
                   showCategory
                 />
               ))}
@@ -124,36 +135,3 @@ const TodoList = (props) => {
 };
 
 export default TodoList;
-
-const DUMMY_TODOS = [
-  { id: 1, label: "Random task", type: "repeated" },
-  { id: 2, label: "Study algorithms", type: "repeated", category: "College" },
-  { id: 3, label: "Simple task", type: "onetime" },
-  {
-    id: 4,
-    label: "SWE Sheet",
-    type: "onetime",
-    dueDate: "2 days, 23 hours, 59 mins left",
-    category: "College",
-  },
-  {
-    id: 5,
-    label: "Pay internet bills",
-    type: "onetime",
-    dueDate: "4 days, 5 hours",
-  },
-  {
-    id: 6,
-    label: "REALLY Looooooooooooooooooooooooooooooooooong task",
-    type: "repeated",
-    category:
-      "CollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollege",
-  },
-  {
-    id: 7,
-    label: "REALLY Looooooooooooooooooooooooooooooooooong task",
-    type: "repeated",
-    category:
-      "CollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollegeCollege",
-  },
-];

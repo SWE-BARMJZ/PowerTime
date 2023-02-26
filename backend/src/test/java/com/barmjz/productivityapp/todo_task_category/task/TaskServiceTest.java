@@ -2,6 +2,7 @@ package com.barmjz.productivityapp.todo_task_category.task;
 
 import com.barmjz.productivityapp.todo_task_category.category.Category;
 import com.barmjz.productivityapp.todo_task_category.category.CategoryRepo;
+import com.barmjz.productivityapp.todo_task_category.category.CategoryService;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,12 +36,15 @@ class TaskServiceTest {
     @Mock
     RepeatedTaskRepo repeatedTaskRepo;
 
+    @Mock
+    CategoryService categoryService;
+
     TaskService taskService;
 
 
     @BeforeEach
     void setUp() {
-        taskService = new TaskService(userRepo, categoryRepo, oneTimeTaskRepo, repeatedTaskRepo);
+        taskService = new TaskService(userRepo, categoryRepo, oneTimeTaskRepo, repeatedTaskRepo, categoryService);
     }
 
     @Test

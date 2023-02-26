@@ -65,7 +65,7 @@ class TodoServiceTest {
         given(oneTimeTaskRepo.findById(id)).willReturn(Optional.of(new OneTimeTask()));
 
         // when
-        Task task = todoService.removeTaskFromTodo(id, taskType);
+        todoService.removeTaskFromTodo(id, taskType);
 
         // then
         ArgumentCaptor<Long> argumentCaptor = ArgumentCaptor.forClass(Long.class);
@@ -73,6 +73,5 @@ class TodoServiceTest {
         assertThat(argumentCaptor.getValue()).isEqualTo(id);
         verify(oneTimeTaskRepo, times(1)).findById(argumentCaptor.capture());
         assertThat(argumentCaptor.getValue()).isEqualTo(id);
-        assertThat(task).isNotNull();
     }
 }

@@ -37,13 +37,9 @@ public class TodoController {
     }
 
     @DeleteMapping("/{taskId}")
-    public ResponseEntity<Task> removeFromTodo(@PathVariable Long taskId, @RequestParam String taskType){
+    public void removeFromTodo(@PathVariable Long taskId, @RequestParam String taskType){
         // if task is one time task, we only update the isToDo flag to false
         // if task is repeated task, we update the value of lastRemovalDate to today.
-        try {
-            return ResponseEntity.ok(todoService.removeTaskFromTodo(taskId, taskType));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+        todoService.removeTaskFromTodo(taskId, taskType);
     }
 }

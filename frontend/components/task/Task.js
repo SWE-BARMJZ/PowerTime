@@ -60,7 +60,7 @@ const Task = (props) => {
           </Pressable>
         </HStack>
 
-        {showCategory && data.category && <Tag>Category: {data.category}</Tag>}
+        {showCategory && data.category && <Tag>Category: {data.category.name}</Tag>}
       </VStack>
       <IconButton
         icon={<CloseIcon />}

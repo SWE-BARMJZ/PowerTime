@@ -21,8 +21,6 @@ public class TodoService {
 
     private final UserRepo userRepo;
 
-    private final CategoryRepo categoryRepo;
-
     private final OneTimeTaskRepo oneTimeTaskRepo;
 
     private final RepeatedTaskRepo repeatedTaskRepo;
@@ -30,12 +28,11 @@ public class TodoService {
 
     public List<Task> getTasks(long date){
         List<Task> tasks = new ArrayList<>();
-        List<RepeatedTask> repeatedTasks = getRepeatedTasks(date);
-        List<OneTimeTask> oneTimeTasks = getOnetimeTasks();
-        tasks.addAll(repeatedTasks);
-        tasks.addAll(oneTimeTasks);
+        tasks.addAll(getRepeatedTasks(date));
+        tasks.addAll(getOnetimeTasks());
         return tasks;
     }
+
     private List<OneTimeTask> getOnetimeTasks(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepo.getUserByEmail(auth.getName()).orElseThrow();
@@ -72,18 +69,14 @@ public class TodoService {
         return oneTimeTaskRepo.findById(id).get();
     }
 
-    public Task removeTaskFromTodo(long id, String taskType){
-        Task removedTask;
+    public void removeTaskFromTodo(long id, String taskType){
         if (taskType.equals("onetime"))
         {
             oneTimeTaskRepo.changeTodoFlag(id, false);
-            removedTask = oneTimeTaskRepo.findById(id).get();
         }
         else{
             repeatedTaskRepo.changeRemovalDate(id, new Date());
-            removedTask = repeatedTaskRepo.findById(id).get();
         }
-        return removedTask;
     }
 
 
