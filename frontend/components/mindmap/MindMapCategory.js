@@ -12,41 +12,42 @@ import {
   Modal,
   Button,
 } from "native-base";
-import FormInput from "../../UI/FormInput";
 import { MaterialIcons } from "@expo/vector-icons";
+import FormInput from "../../UI/FormInput";
 import Task from "../task/Task";
 import SingleLineText from "../../UI/SingleLineText";
-import AuthContext from "../../store/auth-context";
 import TaskContext from "../../store/task-context";
+
+import { useFetch } from "../../hooks/useAPI";
+import { TASK_API } from "../../api/task.api";
+import { TODO_API } from "../../api/todo.api";
+import { CATEGORY_API } from "../../api/category.api";
 
 const color = "black";
 
-const MindMapCategory = (props) => {
-  const {
-    data: { category, tasks },
-  } = props;
-
+const MindMapCategory = ({ data: { category, tasks } }) => {
+  const [callAPI] = useFetch();
   const cxt = useContext(TaskContext);
-  const auth = useContext(AuthContext);
 
-  const deleteTask = (taskId) => {
-    cxt.deleteTask(taskId, auth.token);
+  const addToTodo = (task) => {
+    callAPI(TODO_API.addToTodo, task.id);
+    cxt.setTaskAsTodo(task);
   };
 
-  const tickTask = (taskId) => {
-    cxt.tickTask(taskId, auth.token);
+  const deleteTask = (task) => {
+    callAPI(TASK_API.deleteTask, task.id);
+    cxt.deleteTask(task);
   };
 
   const [newCategoryName, setNewCategoryName] = useState("");
   const renameCategory = () => {
-    cxt.renameCategory(id, newCategoryName, auth.token);
-  };
-  const deleteCategoryHandler = () => {
-    cxt.deleteCategory(id, auth.token);
+    callAPI(CATEGORY_API.renameCategory, category.id, newCategoryName);
+    cxt.renameCategory(category.id, newCategoryName);
   };
 
-  const addToTodo = (taskId) => {
-    cxt.addToTodo(taskId, auth.token);
+  const deleteCategoryHandler = () => {
+    callAPI(CATEGORY_API.deleteCategory, category.id);
+    cxt.deleteCategory(category.id);
   };
 
   const [isTasksShowing, setIsTasksShowing] = useState(true);
@@ -146,10 +147,12 @@ const MindMapCategory = (props) => {
                 <Task
                   flex={1}
                   data={task}
-                  onTaskRemoval={deleteTask}
-                  onTaskCompletion={tickTask}
+                  onTaskRemoval={() => deleteTask(task)}
+                  onTaskCompletion={() => {}}
                 />
-                <Button onPress={() => addToTodo(task.id)}>Todo</Button>
+                <Button onPress={() => addToTodo(task)} isDisabled={task.todo}>
+                  Todo
+                </Button>
               </HStack>
             ))}
         </VStack>

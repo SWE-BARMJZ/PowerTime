@@ -13,26 +13,38 @@ import TodoCategoryGroup from "./TodoCategoryGroup";
 
 import { TODO_API } from "../../api/todo.api";
 import { TASK_API } from "../../api/task.api";
+import { useAPI, useFetch } from "../../hooks/useAPI";
+import { useFocusEffect } from "@react-navigation/native";
 
 const TodoList = (props) => {
-  const [data, setData] = useState(DUMMY_TODOS);
   const [isGrouped, setIsGrouped] = useState(false);
+  const [callAPI] = useFetch();
+  // const [callFetchData, { data }] = useAPI(TODO_API.fetchTodoList);
+  // const [callRemoveFromTodo] = useAPI(TODO_API.removeFromTodo);
+  // const [callTickTask] = useAPI(TASK_API.tickTask);
 
   const toggleGrouping = () => {
     setIsGrouped((current) => !current);
   };
 
-  const fetchTodoList = async () => {
-    const data = await TODO_API.fetchTodoList();
-    setData((current) => {
-      const isGrouped = !current.isGrouped;
-      return { isGrouped, data };
-    });
+  const fetchData = useCallback(() => {
+    callFetchData();
+  }, []);
+
+  useFocusEffect(fetchData);
+
+  const removeTask = (task) => {
+    // setData((data) => data.filter((task) => task.id !== taskId));
+    // TODO_API.removeFromTodo(taskId);
+    callRemoveFromTodo(task);
+    fetchData();
   };
 
-  useEffect(() => {
-    // fetchTodoList();
-  }, []);
+  const completeTask = (task) => {
+    // setData((data) => data.filter((task) => task.id !== taskId));
+    callTickTask(task);
+    fetchData();
+  };
 
   const groupedTasks = useCallback(() => {
     const none = [];
@@ -58,16 +70,6 @@ const TodoList = (props) => {
 
     return arr;
   }, [data]);
-
-  const removeTask = (taskId) => {
-    setData((data) => data.filter((task) => task.id !== taskId));
-    TODO_API.removeFromTodo(taskId);
-  };
-
-  const completeTask = (taskId) => {
-    // setData((data) => data.filter((task) => task.id !== taskId));
-    TASK_API.tickTask(taskId);
-  };
 
   return (
     <VStack w="full" flex={1} space={5} {...props}>

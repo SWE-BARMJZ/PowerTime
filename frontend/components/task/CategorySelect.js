@@ -2,23 +2,15 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import { FormControl, Input, AddIcon } from "native-base";
 import { Select, SelectItem } from "@ui-kitten/components";
 import TaskContext from "../../store/task-context";
-import AuthContext from "../../store/auth-context";
+import { useFetch } from "../../hooks/useAPI";
+import { CATEGORY_API } from "../../api/category.api";
 
 const CategorySelect = ({ onSelect }) => {
-  const fetchCategories = async () => {};
-
-  const auth = useContext(AuthContext);
   const cxt = useContext(TaskContext);
-  const categories = cxt.categories;
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+  const [callAPI, { hasError }] = useFetch();
 
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const selectedCategory = selectedIndex
-    ? categories[selectedIndex.row]["category_name"]
-    : null;
+  const selectedCategory = selectedIndex ? cxt.getAllCategories()[selectedIndex.row].name : null;
 
   const [isInputShowing, setIsInputShowing] = useState(false);
   const [NewCategoryName, setNewCategoryName] = useState("");
@@ -28,16 +20,25 @@ const CategorySelect = ({ onSelect }) => {
 
   const selectCategory = (index) => {
     setSelectedIndex(index);
-    onSelect(categories[index.row]);
+    onSelect(cxt.getAllCategories()[index.row]);
   };
 
-  const addCategory = () => {
-    const nonEmpty = NewCategoryName.trim().length > 0;
-    const alreadyExists = categories.find((item) => item === NewCategoryName);
+  const addCategoryHandler = async () => {
+    const isEmpty = NewCategoryName.trim().length === 0;
+    const alreadyExists = cxt.getAllCategories().find((item) => item === NewCategoryName);
 
-    if (nonEmpty && !alreadyExists) {
-      cxt.addCategory({ category_name: NewCategoryName, tasks: [] }, auth.token);
+    if (!isEmpty && !alreadyExists) {
+      const createdCategoryID = await callAPI(
+        CATEGORY_API.createCategory,
+        NewCategoryName
+      );
+
+      if (!hasError) {
+        const category = { id: createdCategoryID, name: NewCategoryName };
+        cxt.addCategory(category);
+      }
     }
+
     setIsInputShowing(false);
     setNewCategoryName("");
   };
@@ -51,14 +52,14 @@ const CategorySelect = ({ onSelect }) => {
         selectedIndex={selectedIndex}
         onSelect={selectCategory}
       >
-        {categories.map((category) => (
-          <SelectItem title={category["category_name"]} key={category.id} />
+        {cxt.getAllCategories().map((category) => (
+          <SelectItem title={category.name} key={category.id} />
         ))}
         {isInputShowing && (
           <Input
             value={NewCategoryName}
             onChangeText={(t) => setNewCategoryName(t)}
-            onBlur={addCategory}
+            onBlur={addCategoryHandler}
             autoFocus
           />
         )}

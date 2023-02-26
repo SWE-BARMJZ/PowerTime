@@ -20,11 +20,6 @@ const Task = (props) => {
     onTaskCompletion(data.id);
   };
 
-
-  const removeTaskHandler = () => {
-    onTaskRemoval(data.id);
-  };
-
   // TODO
   const viewTaskDetails = () => {};
 
@@ -52,11 +47,12 @@ const Task = (props) => {
         )}
 
         <HStack space={2} pl={1} alignItems="center" maxW="full">
-          <Checkbox
+          {/* <Checkbox
             size={"md"}
             onChange={completeTask}
-            accessibilityLabel={data.label}
-          />
+            accessibilityValue={data.label}
+            aria-label={data.label}
+          /> */}
           <Pressable onPress={viewTaskDetails} flex={1}>
             <SingleLineText fontSize="md" strikeThrough={isDone}>
               {data.taskName}
@@ -69,7 +65,7 @@ const Task = (props) => {
       <IconButton
         icon={<CloseIcon />}
         colorScheme="red"
-        onPress={removeTaskHandler}
+        onPress={onTaskRemoval}
       />
     </HStack>
   );

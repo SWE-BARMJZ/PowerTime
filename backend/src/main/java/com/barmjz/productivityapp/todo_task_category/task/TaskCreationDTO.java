@@ -1,6 +1,7 @@
 package com.barmjz.productivityapp.todo_task_category.task;
 
 import com.barmjz.productivityapp.todo_task_category.category.Category;
+import com.barmjz.productivityapp.todo_task_category.category.CategoryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.Date;
 public class TaskCreationDTO {
     private String taskName;
     private String taskDesc;
-    private Category category;
+    private CategoryDTO category;
 
     // one time
     private Date dueDate;

@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/todo")
+@RequestMapping("/api/todos")
 @AllArgsConstructor
+@CrossOrigin
 public class TodoController {
 
     private final TodoService todoService;
@@ -17,7 +18,7 @@ public class TodoController {
 
     @GetMapping("/{date}")
     public ResponseEntity<List<Task>> getTodo(@PathVariable long date) {
-        // tasks will be returned as sorted by due data ascendingly.
+        // tasks will be returned as sorted by due data in ascending order.
         // tasks having due date with null value will be returned first.
         try {
             return ResponseEntity.ok(todoService.getTasks(date));

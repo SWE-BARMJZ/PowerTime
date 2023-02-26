@@ -25,7 +25,7 @@ const Pomodoro = () => (
 
 export const Home = () => {
   const auth = useContext(AuthContext);
-  const name = `${auth.userInfo.firstName}`;
+  const name = auth.userInfo.firstName;
   console.log(auth);
 
   const [isSmallScreen] = useMediaQuery({

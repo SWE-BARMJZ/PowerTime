@@ -21,11 +21,11 @@ import DaysSelector from "./DaysSelector";
 import CategorySelect from "./CategorySelect";
 import Toast from "react-native-toast-message";
 
-import AuthContext from "../../store/auth-context";
 import { TASK_API } from "../../api/task.api";
+import { useFetch } from "../../hooks/useAPI";
 import TaskContext from "../../store/task-context";
 
-const AddTaskContent = ({ onAdd, onClose }) => {
+const AddTaskContent = ({ closeModalHandler }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState(null);
@@ -33,45 +33,8 @@ const AddTaskContent = ({ onAdd, onClose }) => {
   const [dueDate, setDueDate] = useState(null);
   const [repeatOn, setRepeatOn] = useState({});
 
-  const auth = useContext(AuthContext);
+  const [callAPI, { hasError }] = useFetch();
   const cxt = useContext(TaskContext);
-
-  const addTask = async () => {
-    if (!validateInput()) return;
-
-    let task = {
-      taskName: name,
-      taskDesc: description,
-      category,
-    };
-
-    if (selectedType === "One time") {
-      task.dueDate = dueDate;
-    } else {
-      task = { ...task, ...repeatOn };
-    }
-    // for comptability with backend
-    const taskType = selectedType.replaceAll(" ", "").toLowerCase();
-
-    try {
-      const id = await TASK_API.createTask(task, taskType, auth.token);
-      Toast.show({
-        type: "success",
-        text1: "Task added successfully.",
-      });
-      cxt.addTask({ id, ...task });
-      console.log(cxt.categories);
-
-      onClose();
-    } catch (error) {
-      Toast.show({
-        type: "error",
-        text1: "Error connecting with the server",
-        text2: error,
-      });
-      console.log(error);
-    }
-  };
 
   const validateInput = () => {
     if (name.trim().length === 0) {
@@ -93,6 +56,36 @@ const AddTaskContent = ({ onAdd, onClose }) => {
     return true;
   };
 
+  const createTaskObject = () => {
+    let task = {
+      taskName: name,
+      taskDesc: description,
+      category,
+    };
+
+    if (selectedType === "One time") {
+      task.dueDate = dueDate;
+    } else {
+      task = { ...task, ...repeatOn };
+    }
+
+    return task;
+  };
+
+  const addTask = async () => {
+    if (!validateInput()) return;
+
+    const task = createTaskObject();
+    const taskType = selectedType.replaceAll(" ", "").toLowerCase(); // for comptability with backend
+
+    const id = await callAPI(TASK_API.createTask, task, taskType);
+
+    if (!hasError) {
+      cxt.addTask({ ...task, id });
+      closeModalHandler();
+    }
+  };
+
   return (
     <VStack flex={1} w="full" space={4} bgColor="white" p={5} borderRadius="lg">
       <HStack justifyContent={"space-between"} alignItems="center">
@@ -100,7 +93,7 @@ const AddTaskContent = ({ onAdd, onClose }) => {
         <IconButton
           icon={<CloseIcon size="sm" />}
           _icon={{ color: "black" }}
-          onPress={onClose}
+          onPress={closeModalHandler}
         />
       </HStack>
       <ScrollView>

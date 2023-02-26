@@ -1,13 +1,14 @@
 import { BACKEND_URL } from "./const";
 
-const createCategory = async (category, token) => {
-  const url = `${BACKEND_URL}/api/category/`;
-
+const sendRequest = async (method, url, token, body) => {
+  console.log(body);
   const response = await fetch(url, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${token}`,
-    "Content-type": "application/json" },
-    body: JSON.stringify(category)
+    method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-type": "application/json",
+    },
+    body,
   });
 
   if (response.status !== 200) {
@@ -16,37 +17,28 @@ const createCategory = async (category, token) => {
   return response.text();
 };
 
-const renameCategory = async (categoryId, newName, token) => {
-    const url = `${BACKEND_URL}/api/category/${categoryId}`;
-  
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: { Authorization: `Bearer ${token}`,
-      "Content-type": "application/json" },
-      body: newName
-    });
-  
-    if (response.status !== 200) {
-      throw new Error(response.status);
-    }
-    return response.text();
+const endpoint = `${BACKEND_URL}/api/category`;
+
+const fetchCategories = async (token) => {
+  return sendRequest("GET", `${endpoint}/`, token);
 };
+
+const createCategory = async (categoryName, token) => {
+  const category = { category_name: categoryName };
+  return sendRequest("POST", `${endpoint}/`, token, JSON.stringify(category));
+};
+
+const renameCategory = async (categoryId, newName, token) => {
+  return sendRequest("PUT", `${endpoint}/${categoryId}`, token, newName);
+};
+
 const deleteCategory = async (categoryId, token) => {
-    const url = `${BACKEND_URL}/api/category/${categoryId}`;
-  
-    const response = await fetch(url, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-  
-    if (response.status !== 200) {
-      throw new Error(response.status);
-    }
-    return response.text();
+  return sendRequest("DELETE", `${endpoint}/${categoryId}`, token);
 };
 
 export const CATEGORY_API = {
-    createCategory,
-    renameCategory, 
-    deleteCategory
+  fetchCategories,
+  createCategory,
+  renameCategory,
+  deleteCategory,
 };

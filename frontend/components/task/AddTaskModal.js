@@ -2,15 +2,15 @@ import React from "react";
 import { Modal } from "@ui-kitten/components";
 import AddTaskContent from "./AddTaskContent";
 
-const AddTaskModal = ({ visible, onClose }) => {
+const AddTaskModal = ({ visible, closeModalHandler }) => {
   return (
     <Modal
       visible={visible}
       style={{ width: "100%", maxWidth: 600 }}
       backdropStyle={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-      onBackdropPress={onClose}
+      onBackdropPress={closeModalHandler}
     >
-      <AddTaskContent onClose={onClose}/>
+      <AddTaskContent closeModalHandler={closeModalHandler} />
     </Modal>
   );
 };

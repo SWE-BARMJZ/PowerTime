@@ -26,8 +26,8 @@ const AppNavigation = () => {
           screenOptions={{ headerShown: false }}
           drawerContent={CustomDrawerContent}
         >
-          <Drawer.Screen name="Home" component={Home} />
           <Drawer.Screen name="Mindmap" component={MindMapScreen} />
+          <Drawer.Screen name="Home" component={Home} />
           <Drawer.Screen name="Notes" component={NotesScreen} />
         </Drawer.Navigator>
       ) : (

@@ -1,10 +1,10 @@
 import { BACKEND_URL } from "./const";
 
-const endpoint = `${BACKEND_URL}/api/tasks/`;
+const endpoint = `${BACKEND_URL}/api/tasks`;
 
 
 const fetchTasks = async (token) => {
-  const response = await fetch(`${endpoint}`, {
+  const response = await fetch(`${endpoint}/`, {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -30,7 +30,9 @@ const fetchCompletedTasks = async (token) => {
 
 
 const createTask = async (task, taskType, token) => {
-  const response = await fetch(`${endpoint}/?taskType=${taskType}`, {
+  const url = `${endpoint}/?taskType=${taskType}`;
+
+  const response = await fetch(url, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -42,7 +44,6 @@ const createTask = async (task, taskType, token) => {
   if (response.status !== 200) {
     throw new Error(response.status);
   }
-
   return await response.text();
 };
 
@@ -90,9 +91,12 @@ const deleteTask = async (id, token) => {
 };
 
 
-const tickTask = async (id, date, taskType, token) => {
+const tickTask = async (task, token) => {
+  const taskType = "dueDate" in task ? "onetime" : "repeated";
+  const date = new Date();
+  
   const response = await fetch(
-    `${endpoint}/${id}/tick?date=${date}&taskType=${taskType}`,
+    `${endpoint}/${task.id}/tick?date=${date}&taskType=${taskType}`,
     {
       method: "PUT",
       headers: { Authorization: `Bearer ${token}` },

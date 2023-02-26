@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @AllArgsConstructor
 @RestController
@@ -13,6 +15,14 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
 
     private final CategoryService categoryService;
+
+    @GetMapping("/")
+    public List<CategoryDTO> getCategories() {
+        return categoryService.getAllUserCategories()
+                .stream()
+                .map(category -> new CategoryDTO(category.getId(), category.getCategory_name()))
+                .toList();
+    }
 
     @PostMapping("/")
     public ResponseEntity<Long> createCategory(@RequestBody Category category) {
@@ -40,5 +50,4 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
 }

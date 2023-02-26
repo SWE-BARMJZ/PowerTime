@@ -2,8 +2,10 @@ package com.barmjz.productivityapp.todo_task_category.task;
 
 import com.barmjz.productivityapp.todo_task_category.category.Category;
 import com.barmjz.productivityapp.todo_task_category.category.CategoryRepo;
+import com.barmjz.productivityapp.todo_task_category.category.CategoryService;
 import com.barmjz.productivityapp.user.User;
 import com.barmjz.productivityapp.user.UserRepo;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
+@AllArgsConstructor
 public class TaskService {
 
     private final UserRepo userRepo;
@@ -25,13 +28,8 @@ public class TaskService {
 
     private final RepeatedTaskRepo repeatedTaskRepo;
 
-    @Autowired
-    public TaskService(UserRepo userRepo, CategoryRepo categoryRepo, OneTimeTaskRepo oneTimeTaskRepo, RepeatedTaskRepo repeatedTaskRepo) {
-        this.userRepo = userRepo;
-        this.categoryRepo = categoryRepo;
-        this.oneTimeTaskRepo = oneTimeTaskRepo;
-        this.repeatedTaskRepo = repeatedTaskRepo;
-    }
+    private final CategoryService categoryService;
+
 
     public Task getTask(Long taskId) {
         if (oneTimeTaskRepo.existsById(taskId)) {
@@ -87,7 +85,7 @@ public class TaskService {
         task.setCreationDate(now);
 
         if (taskCreationDTO.getCategory() != null) {
-            String categoryName = taskCreationDTO.getCategory().getCategory_name();
+            String categoryName = taskCreationDTO.getCategory().getName();
             Category category = categoryRepo
                     .getCategoryByCategoryNameAndUser(categoryName, currentUser)
                     .orElseThrow();
@@ -146,7 +144,7 @@ public class TaskService {
         return new ArrayList<>(completedOneTimeTasks);
     }
 
-    private List<Task> getAllTasks() {
+    public List<Task> getAllTasks() {
         String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepo.getUserByEmail(userEmail).orElseThrow();
         Long userId = currentUser.getId();
@@ -162,26 +160,24 @@ public class TaskService {
     }
 
     public List<CategorisedTasks> getAllTasksCategorised() {
+        List<Category> categories = categoryService.getAllUserCategories();
         List<Task> tasks = getAllTasks();
-        Map<Category, CategorisedTasks> map = new HashMap<>();
+
+        Map<Category, CategorisedTasks> categoriesMap = new HashMap<>();
+        categories.forEach(category -> categoriesMap.put(category, new CategorisedTasks(category)));
+
         List<Task> nonCategorised = new ArrayList<>();
-
         tasks.forEach(task -> {
-            if (task.getCategory() == null) {
+            Category category = task.getCategory();
+            if (category == null) {
                 nonCategorised.add(task);
-                return;
+            } else {
+                categoriesMap.get(category).addTask(task);
             }
-
-            if (!map.containsKey(task.getCategory())) {
-                map.put(task.getCategory(), new CategorisedTasks(task.getCategory()));
-            }
-            map.get(task.getCategory()).addTask(task);
         });
 
-        List<CategorisedTasks> categorisedTasksList = new ArrayList<>(map.values());
-        if (!nonCategorised.isEmpty()) {
-            categorisedTasksList.add(new CategorisedTasks(null, nonCategorised));
-        }
+        List<CategorisedTasks> categorisedTasksList = new ArrayList<>(categoriesMap.values());
+        categorisedTasksList.add(new CategorisedTasks(null, nonCategorised));
 
         return categorisedTasksList;
     }
