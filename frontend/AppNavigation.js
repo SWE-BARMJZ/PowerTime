@@ -15,6 +15,7 @@ import { PasswordRecovery } from "./components/login/PasswordRecoveryScreen";
 import { SignUp } from "./components/login/SignUpScreen";
 import { NotesScreen } from "./components/notes/NotesScreen";
 import MindMapScreen from "./components/mindmap/MindMapScreen";
+import Header from "./UI/Header";
 
 const AppNavigation = () => {
   const auth = useContext(AuthContext);
@@ -23,7 +24,10 @@ const AppNavigation = () => {
     <NavigationContainer>
       {auth.isLoggedIn ? (
         <Drawer.Navigator
-          screenOptions={{ headerShown: false }}
+          screenOptions={{
+            header: (props) => <Header {...props} />,
+            drawerType: "slide",
+          }}
           drawerContent={CustomDrawerContent}
         >
           <Drawer.Screen name="Home" component={Home} />

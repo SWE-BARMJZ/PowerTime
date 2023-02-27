@@ -78,6 +78,7 @@ const AddTaskContent = ({ closeModalHandler }) => {
     const task = createTaskObject();
     const taskType = selectedType.replaceAll(" ", "").toLowerCase(); // for comptability with backend
 
+    console.log(task)
     const id = await callAPI(TASK_API.createTask, task, taskType);
 
     if (!hasError) {

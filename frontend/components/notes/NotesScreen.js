@@ -6,23 +6,15 @@ import AuthContext from "../../store/auth-context";
 import { getFolders } from "../../api/notes.api";
 import { createFolder } from "../../api/notes.api";
 import { renameFolder } from "../../api/notes.api";
-import { NavigationButton } from "../../UI/NavigationButton";
 
-import {
-  Heading,
-  HStack,
-  Box,
-  VStack,
-  Hidden,
-  useToast,
-} from "native-base";
+import { HStack, Box, VStack, Hidden, useToast } from "native-base";
 
 export const NotesScreen = () => {
   const auth = useContext(AuthContext);
   const toast = useToast();
   const [folders, setFolders] = useState([]);
 
-  const iconsColor = "#0c5ac7"
+  const iconsColor = "#0c5ac7";
 
   const FoldersCont = () => {
     return (
@@ -32,7 +24,7 @@ export const NotesScreen = () => {
         onEdit={editFolder}
         onAdd={addFolder}
         onSelect={selectFolder}
-        iconsColor = {iconsColor}
+        iconsColor={iconsColor}
       />
     );
   };
@@ -103,11 +95,7 @@ export const NotesScreen = () => {
   };
 
   return (
-    <Box safeArea flex={1} bg={"primary.bg"} >
-      <HStack ml="5" space={2} alignItems="center">
-        <NavigationButton />
-        <Heading size={"lg"}>Notes</Heading>
-      </HStack>
+    <Box flex={1} bg={"primary.bg"}>
       <HStack flex={1} justifyContent="center">
         {selectedFolder ? (
           <>
@@ -119,7 +107,7 @@ export const NotesScreen = () => {
               folders={folders}
               onDelete={deleteFolder}
               onBack={navigateToFolders}
-              iconsColor = {iconsColor}
+              iconsColor={iconsColor}
             />
           </>
         ) : (
