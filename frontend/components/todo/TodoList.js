@@ -6,7 +6,11 @@ import {
   VStack,
   Text,
   ScrollView,
+  CloseIcon,
+  IconButton,
   Center,
+  DeleteIcon,
+  CheckIcon,
 } from "native-base";
 import Task from "../task/Task";
 import TodoCategoryGroup from "./TodoCategoryGroup";
@@ -32,13 +36,17 @@ const TodoList = (props) => {
   useFocusEffect(fetchData);
 
   const removeTask = (task) => {
-    callAPI(TODO_API.removeFromTodo, task);
-    setTodos((data) => data.filter((curTask) => curTask.id !== task.id));
+    const res = callAPI(TODO_API.removeFromTodo, task);
+    if (res !== undefined) {
+      setTodos((data) => data.filter((curTask) => curTask.id !== task.id));
+    }
   };
 
-  const completeTask = (task) => {
-    setData((data) => data.filter((task) => task.id !== taskId));
-    callAPI(TASK_API.tickTask, task);
+  const completeTask = async (task) => {
+    const res = await callAPI(TASK_API.tickTask, task);
+    if (res !== undefined) {
+      setTodos((data) => data.filter((curTask) => curTask.id !== task.id));
+    }
   };
 
   const toggleGrouping = () => {
@@ -76,7 +84,26 @@ const TodoList = (props) => {
     [todos]
   );
 
-  console.log(groupByCategory(todos));
+  const renderTaskActions = (todo) => (
+    <HStack>
+      <IconButton
+        icon={<CheckIcon />}
+        colorScheme="blue"
+        size={"md"}
+        onPress={() => {
+          completeTask(todo);
+        }}
+      />
+      <IconButton
+        icon={<CloseIcon />}
+        colorScheme="red"
+        size={"sm"}
+        onPress={() => {
+          removeTask(todo);
+        }}
+      />
+    </HStack>
+  );
 
   return (
     <VStack w="full" flex={1} space={5} {...props}>
@@ -106,8 +133,6 @@ const TodoList = (props) => {
                   key={categoryName}
                   categoryName={categoryName}
                   categoryTasks={categoryTasks}
-                  onTaskRemoval={removeTask}
-                  onTaskCompletion={completeTask}
                 />
               ))}
             </VStack>
@@ -117,12 +142,7 @@ const TodoList = (props) => {
                 <Task
                   key={todo.id}
                   data={todo}
-                  onTaskRemoval={() => {
-                    removeTask(todo);
-                  }}
-                  onTaskCompletion={() => {
-                    completeTask(todo);
-                  }}
+                  rightComponent={renderTaskActions(todo)}
                   showCategory
                 />
               ))}

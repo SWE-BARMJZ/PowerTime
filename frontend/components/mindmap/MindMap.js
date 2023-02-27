@@ -1,28 +1,31 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext, useCallback } from "react";
 import { Box, HStack, ScrollView } from "native-base";
-import MindMapCategory from "./MindMapCategory";
-import { TASK_API } from "../../api/task.api";
-import { useFetch } from "../../hooks/useAPI";
-import TaskContext from "../../store/task-context";
 import { useFocusEffect } from "@react-navigation/native";
+import { useFetch } from "../../hooks/useAPI";
+import { TASK_API } from "../../api/task.api";
+import TaskContext from "../../store/task-context";
+import MindMapCategory from "./MindMapCategory";
 
 const MindMap = (props) => {
-  const [fetchData] = useFetch();
+  const [callAPI] = useFetch();
   const { data, setData } = useContext(TaskContext);
 
-  useEffect(() => {
-    const updateData = async () => {
-      setData(await fetchData(TASK_API.fetchTasks));
-    };
-    updateData();
-  }, []);
-  // useFocusEffect(useCallback(fetchData, []));
+  const fetchData = async () => {
+    const res = await callAPI(TASK_API.fetchTasks);
+    setData(res);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [])
+  );
 
   return (
     <Box flex={1} {...props}>
       <ScrollView>
         <HStack flexWrap="wrap">
-          {data.map((element, index) => (
+          {data.map((element) => (
             <MindMapCategory
               data={element}
               key={element.category ? element.category.id : -1}

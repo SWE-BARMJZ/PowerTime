@@ -31,7 +31,10 @@ export const TaskContextProvider = (props) => {
   const deleteTask = (task) => {
     setData((groups) =>
       groups.map((group) => {
-        if (group.category === task.category) {
+        if (
+          group.category === task.category ||
+          group.category?.id === task.category?.id
+        ) {
           return {
             ...group,
             tasks: group.tasks.filter((curTask) => curTask.id !== task.id),
@@ -45,7 +48,10 @@ export const TaskContextProvider = (props) => {
   const setTaskAsTodo = (task) => {
     setData((groups) =>
       groups.map((group) => {
-        if (group.category === task.category) {
+        if (
+          group.category === task.category ||
+          group.category?.id === task.category?.id
+        ) {
           return {
             ...group,
             tasks: group.tasks.map((curTask) => {

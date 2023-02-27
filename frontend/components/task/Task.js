@@ -1,26 +1,13 @@
-import {
-  Text,
-  HStack,
-  Checkbox,
-  VStack,
-  CloseIcon,
-  IconButton,
-  Pressable,
-} from "native-base";
-import React, { useState } from "react";
+import React from "react";
+import { Text, HStack, VStack, Pressable } from "native-base";
 import SingleLineText from "../../UI/SingleLineText";
 import Tag from "../../UI/Tag";
+import RemaingTimeLabel from "./RemaingTimeLabel";
 
 const Task = (props) => {
-  const { data, showCategory, onTaskRemoval, onTaskCompletion } = props;
+  const { data, showCategory, rightComponent } = props;
+  const isRepeatedTask = data.sunday !== undefined;
 
-  const [isDone, setIsDone] = useState(false);
-  const completeTask = () => {
-    setIsDone((current) => !current);
-    onTaskCompletion(data.id);
-  };
-
-  // TODO
   const viewTaskDetails = () => {};
 
   return (
@@ -33,40 +20,33 @@ const Task = (props) => {
       borderRadius={"sm"}
       {...props}
     >
-      <VStack space={3} flex={1} justifyContent="center">
-        {data.type === "repeated" ? (
-          <Text fontSize={"12"} ml={1} color="primary.accent">
-            REPEATED TASK
+      <VStack space={2} flex={1} pl={1} justifyContent="center">
+        {isRepeatedTask ? (
+          <Text fontWeight="semibold" color="primary.accent">
+            Repeated
           </Text>
         ) : (
-          data.dueDate && (
-            <Text fontSize={"12"} ml={1} color="primary.accent">
-              {data.dueDate}
-            </Text>
-          )
+          data.dueDate && <RemaingTimeLabel dueDate={data.dueDate} />
         )}
+        <HStack space={2} alignItems="center" maxW="full">
+          {showCategory && data.category && <Tag>{data.category.name}</Tag>}
 
-        <HStack space={2} pl={1} alignItems="center" maxW="full">
-          {/* <Checkbox
-            size={"md"}
-            onChange={completeTask}
-            accessibilityValue={data.label}
-            aria-label={data.label}
-          /> */}
           <Pressable onPress={viewTaskDetails} flex={1}>
-            <SingleLineText fontSize="md" strikeThrough={isDone}>
-              {data.taskName}
+            <SingleLineText fontSize="md" fontWeight="medium">
+              {data.name}
             </SingleLineText>
+            {data.description && data.description !== "" ? (
+              <SingleLineText fontSize="xs" color="black">
+                {data.description}
+              </SingleLineText>
+            ) : (
+              <></>
+            )}
           </Pressable>
         </HStack>
-
-        {showCategory && data.category && <Tag>Category: {data.category.name}</Tag>}
       </VStack>
-      <IconButton
-        icon={<CloseIcon />}
-        colorScheme="red"
-        onPress={onTaskRemoval}
-      />
+
+      {rightComponent}
     </HStack>
   );
 };

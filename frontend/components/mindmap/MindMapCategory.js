@@ -8,6 +8,7 @@ import {
   Icon,
   ChevronDownIcon,
   ChevronRightIcon,
+  DeleteIcon,
   VStack,
   Modal,
   Button,
@@ -147,12 +148,24 @@ const MindMapCategory = ({ data: { category, tasks } }) => {
                 <Task
                   flex={1}
                   data={task}
-                  onTaskRemoval={() => deleteTask(task)}
-                  onTaskCompletion={() => {}}
+                  rightComponent={
+                    <IconButton
+                      icon={<DeleteIcon color="gray.500" />}
+                      colorScheme="red"
+                      onPress={() => {
+                        deleteTask(task);
+                      }}
+                    />
+                  }
                 />
-                <Button onPress={() => addToTodo(task)} isDisabled={task.todo}>
-                  Todo
-                </Button>
+                {task.sunday === undefined && (
+                  <Button
+                    onPress={() => addToTodo(task)}
+                    isDisabled={task.todo}
+                  >
+                    Todo
+                  </Button>
+                )}
               </HStack>
             ))}
         </VStack>

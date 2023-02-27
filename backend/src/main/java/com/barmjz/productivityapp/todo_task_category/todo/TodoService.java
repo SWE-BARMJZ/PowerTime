@@ -36,7 +36,7 @@ public class TodoService {
     private List<OneTimeTask> getOnetimeTasks(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepo.getUserByEmail(auth.getName()).orElseThrow();
-        return oneTimeTaskRepo.getAllByUserIdAndTodoEqualsOrderByDueDate(user.getId(), true).orElseThrow();
+        return oneTimeTaskRepo.getAllByUserIdAndTodoEqualsAndCompletionDateIsNullOrderByDueDate(user.getId(), true).orElseThrow();
     }
 
     private List<RepeatedTask> getRepeatedTasks(long date){

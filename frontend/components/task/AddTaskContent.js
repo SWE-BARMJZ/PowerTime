@@ -58,8 +58,8 @@ const AddTaskContent = ({ closeModalHandler }) => {
 
   const createTaskObject = () => {
     let task = {
-      taskName: name,
-      taskDesc: description,
+      name,
+      description,
       category,
     };
 

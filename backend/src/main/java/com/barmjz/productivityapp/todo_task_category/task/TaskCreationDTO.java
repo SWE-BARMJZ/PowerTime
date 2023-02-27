@@ -14,8 +14,8 @@ import java.util.Date;
 @NoArgsConstructor
 @SuperBuilder
 public class TaskCreationDTO {
-    private String taskName;
-    private String taskDesc;
+    private String name;
+    private String description;
     private CategoryDTO category;
 
     // one time

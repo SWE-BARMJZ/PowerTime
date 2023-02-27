@@ -19,7 +19,7 @@ public interface OneTimeTaskRepo extends JpaRepository<OneTimeTask, Long> {
 
     Optional<List<OneTimeTask>> getAllByCategory(Category category);
 
-    Optional<List<OneTimeTask>> getAllByUserIdAndTodoEqualsOrderByDueDate(Long userId, boolean todo);
+    Optional<List<OneTimeTask>> getAllByUserIdAndTodoEqualsAndCompletionDateIsNullOrderByDueDate(Long userId, boolean todo);
 
     Optional<List<OneTimeTask>> getAllByUserIdAndCompletionDateIsNullOrderByDueDateAsc(Long userId);
 
