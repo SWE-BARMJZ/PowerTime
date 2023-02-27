@@ -1,5 +1,6 @@
 import "react-native-gesture-handler";
 import * as React from "react";
+import { Text } from "react-native";
 
 import Toast from "react-native-toast-message";
 
@@ -11,13 +12,17 @@ import { AuthContextProvider } from "./store/auth-context";
 import { TaskContextProvider } from "./store/task-context";
 import { theme } from "./UI/theme";
 import AppNavigation from "./AppNavigation";
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
 
 export default function App() {
   const [loaded] = useFonts({
-    Montserrat: require('./assets/fonts/Montserrat-VariableFont_wght.ttf'),
+    "Montserrat-Regular": require("./assets/fonts/Montserrat-Regular.otf"),
+    "Montserrat-Bold": require("./assets/fonts/Montserrat-Bold.otf"),
+    "Montserrat-Black": require("./assets/fonts/Montserrat-Black.otf"),
+    "Montserrat-Medium": require("./assets/fonts/Montserrat-Medium.otf"),
+    "Montserrat-Italic": require("./assets/fonts/Montserrat-Italic.otf"),
   });
-  
+
   if (!loaded) {
     return null;
   }

@@ -22,7 +22,7 @@ const Task = (props) => {
     >
       <VStack space={2} flex={1} pl={1} justifyContent="center">
         {isRepeatedTask ? (
-          <Text fontWeight="semibold" color="primary.accent">
+          <Text fontFamily="bold" color="primary.accent">
             Repeated
           </Text>
         ) : (
@@ -32,13 +32,11 @@ const Task = (props) => {
           {showCategory && data.category && <Tag>{data.category.name}</Tag>}
 
           <Pressable onPress={viewTaskDetails} flex={1}>
-            <SingleLineText fontSize="md" fontWeight="medium">
+            <SingleLineText fontSize="md" fontFamily="md">
               {data.name}
             </SingleLineText>
             {data.description && data.description !== "" ? (
-              <SingleLineText fontSize="xs" color="black">
-                {data.description}
-              </SingleLineText>
+              <SingleLineText fontSize="xs">{data.description}</SingleLineText>
             ) : (
               <></>
             )}

@@ -13,7 +13,7 @@ const Tag = (props) => {
       px={2}
       py={1}
     >
-      <SingleLineText color="white" fontSize={"12"} bold>
+      <SingleLineText color="white" fontSize={"12"} fontFamily="bold">
         {props.children}
       </SingleLineText>
     </Box>

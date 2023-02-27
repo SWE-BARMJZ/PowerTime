@@ -12,14 +12,14 @@ const RemaingTimeLabel = ({ dueDate }) => {
   return (
     <HStack space={2.5}>
       {isOverdue ? (
-        <Text color="red.500" bold>
+        <Text color="red.500" fontFamily="bold">
           Overdue
         </Text>
       ) : (
         <>
           {remainingTime.days > 0 && (
             <HStack flexWrap="nowrap">
-              <Text bold color="primary.accent">
+              <Text fontFamily="bold" color="primary.accent">
                 {remainingTime.days}
               </Text>
               <Text color="primary.accent">{" D"}</Text>
@@ -31,7 +31,7 @@ const RemaingTimeLabel = ({ dueDate }) => {
               justifyContent="center"
               flexWrap="nowrap"
             >
-              <Text bold color="primary.accent">
+              <Text fontFamily="bold" color="primary.accent">
                 {remainingTime.hours}
               </Text>
               <Text color="primary.accent">{" H"}</Text>
@@ -39,7 +39,7 @@ const RemaingTimeLabel = ({ dueDate }) => {
           )}
           {remainingTime.minutes > 0 && (
             <HStack alignItems="center" flexWrap="nowrap">
-              <Text bold color="primary.accent">
+              <Text fontFamily="bold" color="primary.accent">
                 {remainingTime.minutes}
               </Text>
 
@@ -56,7 +56,7 @@ export default RemaingTimeLabel;
 
 // {remainingTime.days > 0 && (
 //   <VStack alignItems="center">
-//     <Text bold color="primary.accent">
+//     <Text fontFamily="bold" color="primary.accent">
 //       {remainingTime.days}
 //     </Text>
 //     <Text color="primary.accent">
@@ -66,17 +66,17 @@ export default RemaingTimeLabel;
 // )}
 // {remainingTime.hours > 0 && (
 //   <VStack alignItems="center" justifyContent='center'>
-//     <Text bold color="primary.accent">
+//     <Text fontFamily="bold" color="primary.accent">
 //       {remainingTime.hours}
 //     </Text>
-//     <Text bold color="primary.accent">
+//     <Text fontFamily="bold" color="primary.accent">
 //       {remainingTime.hours > 1 ? " hours" : " hour"}
 //     </Text>
 //   </VStack>
 // )}
 // {remainingTime.minutes > 0 && (
 //   <VStack alignItems="center">
-//     <Text bold color="primary.accent">
+//     <Text fontFamily="bold" color="primary.accent">
 //       {remainingTime.minutes}
 //     </Text>
 

@@ -81,7 +81,7 @@ const MindMapCategory = ({ data: { category, tasks } }) => {
                     ) : (
                       <ChevronRightIcon color={color} size={4} />
                     )}
-                    <SingleLineText color={color} fontSize={18} bold flex={1}>
+                    <SingleLineText color={color} fontSize={18} fontFamily="bold" flex={1}>
                       {category.name}
                     </SingleLineText>
                   </HStack>

@@ -1,10 +1,6 @@
 import { extendTheme } from "native-base";
 
-
 const theme = extendTheme({
-
-  
-
   breakpoints: {
     base: 0,
     sm: 480,
@@ -14,9 +10,11 @@ const theme = extendTheme({
   },
 
   fonts: {
-    heading: "Montserrat",
-    body: "Montserrat",
-    mono: "Montserrat",
+    heading: "Montserrat-Bold",
+    body: "Montserrat-Regular",
+    mono: "Montserrat-Regular",
+    bold: "Montserrat-Bold",
+    md: "Montserrat-Medium",
   },
 
   colors: {
@@ -29,21 +27,20 @@ const theme = extendTheme({
       darkBlue: "#2C406E",
       accentDark: "#312e81",
       loginBg: "#DFFAEF",
-      
     },
     secondary: "#5BBA59",
   },
   components: {
     Heading: {
-      baseStyle: {_text: {fontFamily: "Montserrat"}},
+      baseStyle: { _text: { fontFamily: "Montserrat-Bold" } },
       defaultProps: {
-        fontFamily: "Montserrat"
+        fontFamily: "Montserrat-Bold",
       },
     },
     Text: {
-      baseStyle: {_text: {fontFamily: "Montserrat"}},
+      baseStyle: { _text: { fontFamily: "Montserrat-Regular" } },
       defaultProps: {
-        fontFamily: "Montserrat"
+        fontFamily: "Montserrat-Regular",
       },
     },
     Link: {
@@ -54,10 +51,10 @@ const theme = extendTheme({
       },
     },
     Button: {
-      baseStyle: { _text: { fontFamily: "Montserrat" } },
+      baseStyle: { _text: { fontFamily: "Montserrat-Bold" } },
       defaultProps: {
         bgColor: "primary.main",
-        fontFamily: "Montserrat",
+        fontFamily: "Montserrat-Bold",
       },
     },
     Input: {
@@ -72,11 +69,11 @@ const theme = extendTheme({
             borderColor: "primary.main",
           },
         },
-        _text: { fontFamily: "Montserrat" }
+        _text: { fontFamily: "Montserrat-Regular" },
       },
       defaultProps: {
         size: "lg",
-        fontFamily: "Montserrat",
+        fontFamily: "Montserrat-Regular",
       },
     },
     FormControlLabel: {
@@ -98,8 +95,7 @@ const theme = extendTheme({
         },
         _focus: {
           borderColor: "primary.accentDark",
-
-        }
+        },
       },
     },
     Switch: {
