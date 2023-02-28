@@ -7,10 +7,33 @@ import { CATEGORY_API } from "../../api/category.api";
 
 const CategorySelect = ({ onSelect }) => {
   const cxt = useContext(TaskContext);
-  const [callAPI, { hasError }] = useFetch();
+  const [callAPI] = useFetch();
+
+  const addCategoryHandler = () => {
+    const isEmpty = NewCategoryName.trim().length === 0;
+    const alreadyExists = cxt
+      .getAllCategories()
+      .find((item) => item === NewCategoryName);
+    const isValidName = !isEmpty && !alreadyExists;
+
+    if (isValidName) {
+      callAPI(CATEGORY_API.createCategory, {
+        args: [NewCategoryName],
+        callback: (createdCategoryID) => {
+          const category = { id: createdCategoryID, name: NewCategoryName };
+          cxt.addCategory(category);
+        },
+      });
+    }
+
+    setIsInputShowing(false);
+    setNewCategoryName("");
+  };
 
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const selectedCategory = selectedIndex ? cxt.getAllCategories()[selectedIndex.row].name : null;
+  const selectedCategory = selectedIndex
+    ? cxt.getAllCategories()[selectedIndex.row].name
+    : null;
 
   const [isInputShowing, setIsInputShowing] = useState(false);
   const [NewCategoryName, setNewCategoryName] = useState("");
@@ -21,26 +44,6 @@ const CategorySelect = ({ onSelect }) => {
   const selectCategory = (index) => {
     setSelectedIndex(index);
     onSelect(cxt.getAllCategories()[index.row]);
-  };
-
-  const addCategoryHandler = async () => {
-    const isEmpty = NewCategoryName.trim().length === 0;
-    const alreadyExists = cxt.getAllCategories().find((item) => item === NewCategoryName);
-
-    if (!isEmpty && !alreadyExists) {
-      const createdCategoryID = await callAPI(
-        CATEGORY_API.createCategory,
-        NewCategoryName
-      );
-
-      if (!hasError) {
-        const category = { id: createdCategoryID, name: NewCategoryName };
-        cxt.addCategory(category);
-      }
-    }
-
-    setIsInputShowing(false);
-    setNewCategoryName("");
   };
 
   return (

@@ -31,24 +31,40 @@ const MindMapCategory = ({ data: { category, tasks } }) => {
   const cxt = useContext(TaskContext);
 
   const addToTodo = (task) => {
-    callAPI(TODO_API.addToTodo, task.id);
-    cxt.setTaskAsTodo(task);
+    callAPI(TODO_API.addToTodo, {
+      args: [task.id],
+      callback: () => {
+        cxt.setTaskAsTodo(task);
+      },
+    });
   };
 
   const deleteTask = (task) => {
-    callAPI(TASK_API.deleteTask, task.id);
-    cxt.deleteTask(task);
+    callAPI(TASK_API.deleteTask, {
+      args: [task.id],
+      callback: () => {
+        cxt.deleteTask(task);
+      },
+    });
   };
 
   const [newCategoryName, setNewCategoryName] = useState("");
   const renameCategory = () => {
-    callAPI(CATEGORY_API.renameCategory, category.id, newCategoryName);
-    cxt.renameCategory(category.id, newCategoryName);
+    callAPI(CATEGORY_API.renameCategory, {
+      args: [category.id, newCategoryName],
+      callback: () => {
+        cxt.renameCategory(category.id, newCategoryName);
+      },
+    });
   };
 
   const deleteCategoryHandler = () => {
-    callAPI(CATEGORY_API.deleteCategory, category.id);
-    cxt.deleteCategory(category.id);
+    callAPI(CATEGORY_API.deleteCategory, {
+      args: [category.id],
+      callback: () => {
+        cxt.deleteCategory(category.id);
+      },
+    });
   };
 
   const [isTasksShowing, setIsTasksShowing] = useState(true);
@@ -62,7 +78,11 @@ const MindMapCategory = ({ data: { category, tasks } }) => {
     setNewCategoryName("");
   };
 
-  return (
+  const isNonCategorisedAndEmpty = !category && tasks.length == 0;
+
+  return isNonCategorisedAndEmpty ? (
+    <></>
+  ) : (
     <>
       <Box w={["full", "full", "1/2", "1/3", "1/4", "1/5"]} p={2}>
         <VStack
@@ -81,7 +101,12 @@ const MindMapCategory = ({ data: { category, tasks } }) => {
                     ) : (
                       <ChevronRightIcon color={color} size={4} />
                     )}
-                    <SingleLineText color={color} fontSize={18} fontFamily="bold" flex={1}>
+                    <SingleLineText
+                      color={color}
+                      fontSize={18}
+                      fontFamily="bold"
+                      flex={1}
+                    >
                       {category.name}
                     </SingleLineText>
                   </HStack>

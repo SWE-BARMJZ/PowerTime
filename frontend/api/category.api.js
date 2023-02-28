@@ -24,7 +24,7 @@ const fetchCategories = async (token) => {
 };
 
 const createCategory = async (categoryName, token) => {
-  const category = { category_name: categoryName };
+  const category = { name: categoryName };
   return sendRequest("POST", `${endpoint}/`, token, JSON.stringify(category));
 };
 

@@ -106,7 +106,7 @@ public class TaskService {
                     .taskName(repeatedTask.getTaskName())
                     .creationDate(repeatedTask.getCreationDate())
                     .user(user)
-                    .taskDesc(repeatedTask.getTaskDesc())
+                    .description(repeatedTask.getDescription())
                     .todo(false)
                     .completionDate(currentDate)
                     .build();

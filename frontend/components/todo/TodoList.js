@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Heading,
   HStack,
@@ -9,7 +9,6 @@ import {
   CloseIcon,
   IconButton,
   Center,
-  DeleteIcon,
   CheckIcon,
 } from "native-base";
 import Task from "../task/Task";
@@ -25,28 +24,32 @@ const TodoList = (props) => {
   const [callAPI] = useFetch();
   const [todos, setTodos] = useState([]);
 
-  const updateTodos = async (promise) => {
-    setTodos(await promise);
-  };
-
   const fetchData = useCallback(() => {
-    updateTodos(callAPI(TODO_API.fetchTodoList));
+    callAPI(TODO_API.fetchTodoList, {
+      callback: (data) => {
+        setTodos(data);
+      },
+    });
   }, []);
 
   useFocusEffect(fetchData);
 
   const removeTask = (task) => {
-    const res = callAPI(TODO_API.removeFromTodo, task);
-    if (res !== undefined) {
-      setTodos((data) => data.filter((curTask) => curTask.id !== task.id));
-    }
+    callAPI(TODO_API.removeFromTodo, {
+      args: [task],
+      callback: () => {
+        setTodos((data) => data.filter((curTask) => curTask.id !== task.id));
+      },
+    });
   };
 
-  const completeTask = async (task) => {
-    const res = await callAPI(TASK_API.tickTask, task);
-    if (res !== undefined) {
-      setTodos((data) => data.filter((curTask) => curTask.id !== task.id));
-    }
+  const completeTask = (task) => {
+    callAPI(TASK_API.tickTask, {
+      args: [task],
+      callback: () => {
+        setTodos((data) => data.filter((curTask) => curTask.id !== task.id));
+      },
+    });
   };
 
   const toggleGrouping = () => {

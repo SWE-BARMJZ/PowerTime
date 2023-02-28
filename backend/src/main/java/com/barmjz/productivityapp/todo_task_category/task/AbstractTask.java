@@ -20,6 +20,5 @@ public abstract class AbstractTask {
     @JsonProperty("name")
     private String taskName;
 
-    @JsonProperty("description")
-    private String taskDesc;
+    private String description;
 }

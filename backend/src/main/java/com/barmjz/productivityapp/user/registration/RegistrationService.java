@@ -27,7 +27,7 @@ public class RegistrationService {
     public String register(RegistrationRequest registrationRequest) {
         validate(registrationRequest);
 
-        return userService.saveUser(
+        userService.saveUser(
                 new User(
                     registrationRequest.email(),
                     registrationRequest.password(),
@@ -36,6 +36,8 @@ public class RegistrationService {
                 ),
                 bCryptPasswordEncoder
         );
+
+        return "User is created successfully.";
     }
 
     private void validate(RegistrationRequest request) {

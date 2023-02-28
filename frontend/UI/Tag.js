@@ -7,7 +7,6 @@ const Tag = (props) => {
     <Box
       bgColor="primary.accent"
       justifyContent="center"
-      alignSelf="start"
       borderRadius="md"
       maxW="full"
       px={2}

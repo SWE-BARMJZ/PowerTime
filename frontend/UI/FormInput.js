@@ -24,6 +24,7 @@ const FormInput = ({
     <FormControl isInvalid={!isValid}>
       <FormControl.Label >{label}</FormControl.Label>
       <Input
+      
         placeholder={placeholder}
         value={inputValue}
         onChangeText={onChange}

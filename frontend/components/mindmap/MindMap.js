@@ -11,8 +11,7 @@ const MindMap = (props) => {
   const { data, setData } = useContext(TaskContext);
 
   const fetchData = async () => {
-    const res = await callAPI(TASK_API.fetchTasks);
-    setData(res);
+    callAPI(TASK_API.fetchTasks, { callback: setData });
   };
 
   useFocusEffect(

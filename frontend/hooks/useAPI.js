@@ -5,32 +5,32 @@ import Toast from "react-native-toast-message";
 
 export const useFetch = (useToken = true) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [hasError, setHasError] = useState(false);
   const authContext = useContext(AuthContext);
 
-  const trigger = async (func, ...args) => {
+  const trigger = async (
+    func,
+    { args = [], callback = () => {} } = undefined
+  ) => {
     if (useToken) {
       args = [...args, authContext.token];
     }
 
-    let data = undefined;
     setIsLoading(true);
-
     try {
-      data = await func.apply(null, args);
-      setHasError(false);
+      const data = await func.apply(null, args);
+      if (callback) {
+        callback(data);
+      }
     } catch (error) {
       Toast.show({
         type: "error",
         text1: "An error has occurred!",
       });
       console.error(error);
-      setHasError(true);
     }
-    
+
     setIsLoading(false);
-    return data;
   };
 
-  return [trigger, { isLoading, hasError }];
+  return [trigger];
 };

@@ -33,7 +33,7 @@ const AddTaskContent = ({ closeModalHandler }) => {
   const [dueDate, setDueDate] = useState(null);
   const [repeatOn, setRepeatOn] = useState({});
 
-  const [callAPI, { hasError }] = useFetch();
+  const [callAPI] = useFetch();
   const cxt = useContext(TaskContext);
 
   const validateInput = () => {
@@ -78,13 +78,13 @@ const AddTaskContent = ({ closeModalHandler }) => {
     const task = createTaskObject();
     const taskType = selectedType.replaceAll(" ", "").toLowerCase(); // for comptability with backend
 
-    console.log(task)
-    const id = await callAPI(TASK_API.createTask, task, taskType);
-
-    if (!hasError) {
-      cxt.addTask({ ...task, id });
-      closeModalHandler();
-    }
+    callAPI(TASK_API.createTask, {
+      args: [task, taskType],
+      callback: (id) => {
+        cxt.addTask({ ...task, id });
+        closeModalHandler();
+      },
+    });
   };
 
   return (
