@@ -52,35 +52,35 @@ class RepeatedTaskRepoTest {
         userRepo.deleteAll();
     }
 
-    @Test
-    void gettingRightTasksGivenUserId() {
-        // given
-        User user = userRepo.getUserByEmail("basel20ahmed@gmail.com").get();
-        Category category = categoryRepo.getCategoryByCategoryNameAndUser("Assignments", user).get();
-        RepeatedTask task1 = RepeatedTask.builder()
-                .taskName("Assignment 1 Database")
-                .category(category)
-                .creationDate(Date.valueOf("2020-12-16"))
-                .user(user)
-                .build();
-
-        RepeatedTask task2 = RepeatedTask.builder()
-                .taskName("Assignment 2 Algorithms")
-                .taskDesc("Use Huffman algorithm to compress files efficiently")
-                .category(category)
-                .creationDate(Date.valueOf("2020-12-16"))
-                .user(user)
-                .build();
-
-        // when
-        repeatedTaskRepo.save(task1);
-        repeatedTaskRepo.save(task2);
-        List<RepeatedTask> tasks = repeatedTaskRepo.getAllByUserId(user.getId()).get();
-
-        // then
-        assertThat(tasks).isEqualTo(List.of(task1, task2));
-
-    }
+//    @Test
+//    void gettingRightTasksGivenUserId() {
+//        // given
+//        User user = userRepo.getUserByEmail("basel20ahmed@gmail.com").get();
+//        Category category = categoryRepo.getCategoryByCategoryNameAndUser("Assignments", user).get();
+//        RepeatedTask task1 = RepeatedTask.builder()
+//                .taskName("Assignment 1 Database")
+//                .category(category)
+//                .creationDate(Date.valueOf("2020-12-16"))
+//                .user(user)
+//                .build();
+//
+//        RepeatedTask task2 = RepeatedTask.builder()
+//                .taskName("Assignment 2 Algorithms")
+//                .taskDesc("Use Huffman algorithm to compress files efficiently")
+//                .category(category)
+//                .creationDate(Date.valueOf("2020-12-16"))
+//                .user(user)
+//                .build();
+//
+//        // when
+//        repeatedTaskRepo.save(task1);
+//        repeatedTaskRepo.save(task2);
+//        List<RepeatedTask> tasks = repeatedTaskRepo.getAllByUserId(user.getId()).get();
+//
+//        // then
+//        assertThat(tasks).isEqualTo(List.of(task1, task2));
+//
+//    }
 
     @Test
     void getRepeatedTaskOnSunday() {

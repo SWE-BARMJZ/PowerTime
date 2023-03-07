@@ -63,7 +63,7 @@ class OneTimeTaskRepoTest {
 
         OneTimeTask oneTimeTask2 = OneTimeTask.builder()
                 .taskName("Assignment 2 Algorithms")
-                .taskDesc("Use Huffman algorithm to compress files efficiently")
+                .description("Use Huffman algorithm to compress files efficiently")
                 .category(category)
                 .creationDate(Date.valueOf("2020-12-16"))
                 .dueDate(Date.valueOf("2022-12-30"))
@@ -96,7 +96,7 @@ class OneTimeTaskRepoTest {
 
         OneTimeTask oneTimeTask2 = OneTimeTask.builder()
                 .taskName("Assignment 2 Algorithms")
-                .taskDesc("Use Huffman algorithm to compress files efficiently")
+                .description("Use Huffman algorithm to compress files efficiently")
                 .category(category1)
                 .creationDate(Date.valueOf("2020-12-16"))
                 .dueDate(Date.valueOf("2022-12-19"))
@@ -120,7 +120,7 @@ class OneTimeTaskRepoTest {
                 .build();
         OneTimeTask oneTimeTask5 = OneTimeTask.builder()
                 .taskName("Assignment 3 AI")
-                .taskDesc("Implement value iteration")
+                .description("Implement value iteration")
                 .category(category1)
                 .creationDate(Date.valueOf("2020-12-16"))
                 .dueDate(Date.valueOf("2022-12-29"))
@@ -129,7 +129,7 @@ class OneTimeTaskRepoTest {
 
         // when
         oneTimeTaskRepo.saveAll(List.of(oneTimeTask1, oneTimeTask2, oneTimeTask3, oneTimeTask4, oneTimeTask5));
-        List<OneTimeTask> oneTimeTasks = oneTimeTaskRepo.getAllByUserIdAndTodoEqualsOrderByDueDate(user.getId(), true).get();
+        List<OneTimeTask> oneTimeTasks = oneTimeTaskRepo.getAllByUserIdAndTodoEqualsAndCompletionDateIsNullOrderByDueDate(user.getId(), true).get();
 
         // then
         assertThat(oneTimeTasks.get(2)).isEqualTo(oneTimeTask2);
