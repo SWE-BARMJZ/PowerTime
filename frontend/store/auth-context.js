@@ -23,7 +23,7 @@ export const AuthContextProvider = (props) => {
   async function fetchUserData(token) {
     const response = await getUser(token)
     const user = await response.json()
-    console.log(user)
+
     setUserInfo({
       firstName: user.firstName,
       lastName: user.lastName,

@@ -15,7 +15,7 @@ import {
   useToast,
 } from "native-base";
 
-const logoPath = require("../../assets/images/LOGO.png");
+const logoPath = require("../../assets/images/LOGO-g.png");
 
 export const Login = ({ navigation }) => {
   const toast = useToast();
@@ -48,7 +48,7 @@ export const Login = ({ navigation }) => {
   };
 
   return (
-    <Box flex="1" safeArea bgColor={"primary.loginBg"}>
+    <Box flex="1" safeArea bgColor={"primary.bg"}>
       <HStack justifyContent="center" flex="1" w="full">
         <VStack
           flex={1}
@@ -61,7 +61,9 @@ export const Login = ({ navigation }) => {
             <Image source={logoPath} resizeMode="contain" h="full" alt="logo" />
           </Box>
           <VStack w="85%" maxW={400} space={3}>
-            <Heading alignSelf="center">Login</Heading>
+            <Heading alignSelf="center" color="black">
+              Login
+            </Heading>
 
             <FormInput label="Email" onChange={emailChangeHandler} />
             <FormInput
@@ -96,7 +98,6 @@ export const Login = ({ navigation }) => {
         </VStack>
 
         <Hidden from="base" till="lg">
-
           <Box flex="1" h="full" mx={4}>
             <Image
               source={require("../../assets/images/themeImage.png")}
@@ -110,4 +111,3 @@ export const Login = ({ navigation }) => {
     </Box>
   );
 };
-

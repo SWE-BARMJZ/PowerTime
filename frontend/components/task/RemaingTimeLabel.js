@@ -2,7 +2,7 @@ import { HStack, Text, VStack } from "native-base";
 import React from "react";
 import getRemainingTime from "../../utils/RemainingTime";
 
-const RemaingTimeLabel = ({ dueDate }) => {
+const RemaingTimeLabel = ({ dueDate, color="black" }) => {
   const remainingTime = getRemainingTime(dueDate);
 
   const cur = new Date();
@@ -19,10 +19,10 @@ const RemaingTimeLabel = ({ dueDate }) => {
         <>
           {remainingTime.days > 0 && (
             <HStack flexWrap="nowrap">
-              <Text fontFamily="bold" color="primary.accent">
+              <Text fontFamily="bold" color={color}>
                 {remainingTime.days}
               </Text>
-              <Text color="primary.accent">{" D"}</Text>
+              <Text color={color}>{" D"}</Text>
             </HStack>
           )}
           {remainingTime.hours > 0 && (
@@ -31,19 +31,19 @@ const RemaingTimeLabel = ({ dueDate }) => {
               justifyContent="center"
               flexWrap="nowrap"
             >
-              <Text fontFamily="bold" color="primary.accent">
+              <Text fontFamily="bold" color={color}>
                 {remainingTime.hours}
               </Text>
-              <Text color="primary.accent">{" H"}</Text>
+              <Text color={color}>{" H"}</Text>
             </HStack>
           )}
           {remainingTime.minutes > 0 && (
             <HStack alignItems="center" flexWrap="nowrap">
-              <Text fontFamily="bold" color="primary.accent">
+              <Text fontFamily="bold" color={color}>
                 {remainingTime.minutes}
               </Text>
 
-              <Text color="primary.accent">{" M"}</Text>
+              <Text color={color}>{" M"}</Text>
             </HStack>
           )}
         </>

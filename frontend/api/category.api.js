@@ -1,7 +1,6 @@
 import { BACKEND_URL } from "./const";
 
 const sendRequest = async (method, url, token, body) => {
-  console.log(body);
   const response = await fetch(url, {
     method,
     headers: {

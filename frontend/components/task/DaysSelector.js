@@ -35,7 +35,7 @@ const DaysSelector = ({ onStateChange }) => {
     <HStack space={"0.5"} my={2}>
       {days.map((day) => {
         const isSelected = selectedDays.has(day);
-        const bgColor = isSelected ? "#3185F9" : "#F8F9FC";
+        const bgColor = isSelected ? "primary.accent" : "#F8F9FC";
 
         return (
           <Box flex={1} key={day} bgColor={bgColor}>

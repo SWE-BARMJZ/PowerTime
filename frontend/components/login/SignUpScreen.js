@@ -18,7 +18,7 @@ import {
 import FormInput from "../../UI/FormInput";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const logoPath = require("../../assets/images/LOGO.png");
+const logoPath = require("../../assets/images/LOGO-g.png");
 
 export const SignUp = ({ navigation }) => {
   const toast = useToast();
@@ -67,7 +67,7 @@ export const SignUp = ({ navigation }) => {
   };
 
   return (
-    <Box flex="1" safeArea bgColor={"primary.loginBg"}>
+    <Box flex="1" safeArea bgColor={"primary.bg"}>
       <HStack justifyContent="center" flex="1" w="full">
         <VStack
           flex={1}

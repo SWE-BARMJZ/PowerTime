@@ -19,14 +19,13 @@ const theme = extendTheme({
 
   colors: {
     primary: {
-      main: "#0c5ac7",
+      main: "#43BF99",
       bg: "#F2F2F2",
       darkerBg: "#E1E1E1",
       evenDarkerBg: "#D6D6D6",
-      accent: "#031264",
-      darkBlue: "#2C406E",
-      accentDark: "#312e81",
-      loginBg: "#DFFAEF",
+      accent: "#43BF99",
+      accentDark: "#20604c",
+      loginBg: "#F2F2F2",
     },
     secondary: "#5BBA59",
   },

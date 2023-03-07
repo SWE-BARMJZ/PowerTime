@@ -136,6 +136,7 @@ const TodoList = (props) => {
                   key={categoryName}
                   categoryName={categoryName}
                   categoryTasks={categoryTasks}
+                  taskRightComponent={renderTaskActions}
                 />
               ))}
             </VStack>

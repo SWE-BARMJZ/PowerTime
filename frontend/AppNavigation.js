@@ -27,6 +27,10 @@ const AppNavigation = () => {
           screenOptions={{
             header: (props) => <Header {...props} />,
             drawerType: "slide",
+            drawerActiveBackgroundColor: "#43BF99",
+            drawerActiveTintColor: "#FFF",
+            drawerInactiveTintColor: "black",
+            drawerLabelStyle: { fontFamily: "Montserrat-Bold" },
           }}
           drawerContent={CustomDrawerContent}
         >
@@ -63,8 +67,12 @@ function CustomDrawerContent(props) {
 
       <DrawerItem
         label={"Sign out"}
-        icon={() => <Ionicons name={"exit-outline"} size={22} />}
-        labelStyle={{ marginLeft: -25 }}
+        icon={() => <Ionicons name={"exit"} size={22} />}
+        labelStyle={{
+          marginLeft: -25,
+          fontFamily: "Montserrat-Bold",
+          color: "black",
+        }}
         onPress={() => auth.logout()}
       />
     </VStack>

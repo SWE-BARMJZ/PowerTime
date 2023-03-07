@@ -19,7 +19,6 @@ const Pomodoro = () => (
 export const Home = () => {
   const auth = useContext(AuthContext);
   const name = auth.userInfo.firstName;
-  console.log(auth);
 
   const dimensions = useWindowDimensions();
   const isSmallScreen = dimensions.width <= 768;

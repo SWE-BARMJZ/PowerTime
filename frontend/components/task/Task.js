@@ -21,17 +21,18 @@ const Task = (props) => {
       borderRadius={"sm"}
       {...props}
     >
-      {showCategory && data.category && <Tag>{data.category.name}</Tag>}
-
       <VStack space={2} flex={1} pl={1} justifyContent="center">
         {isRepeatedTask ? (
-          <Text fontFamily="bold" color="primary.accent">
+          <Text fontFamily="md" color="gray.600">
             Repeated
           </Text>
         ) : (
-          data.dueDate && <RemaingTimeLabel dueDate={data.dueDate} />
+          data.dueDate && (
+            <RemaingTimeLabel dueDate={data.dueDate} color="gray.600" />
+          )
         )}
         <HStack space={2} alignItems="center" maxW="full">
+          {showCategory && data.category && <Tag>{data.category.name}</Tag>}
           <Pressable onPress={viewTaskDetails} flex={1}>
             <SingleLineText fontSize="md" fontFamily="md">
               {data.name}
